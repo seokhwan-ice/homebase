@@ -111,7 +111,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny' #IsAuthenticated#  디폴트 로그인한 사용자만 접근 가능
+    ],
+}
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 

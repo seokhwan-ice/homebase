@@ -9,4 +9,3 @@ class User(AbstractUser):
     bio = models.TextField(null=True, blank=True)
     profile_image = models.ImageField(upload_to="user/image/%Y/%m/%d/", null=True, blank=True)
     phone_number = models.CharField(max_length=13, blank=True, validators=[RegexValidator(r"010-?[1-9]\d{3}-\d{4}")])
-
