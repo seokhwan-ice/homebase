@@ -5,10 +5,11 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .vaildators import validate_user_data
-from .serializers import UserSerializer, UserProfileSerializer
+from .serializers import UserSerializer, UserProfileSerializer, UpdateProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
+
 
 class UserCreateView(APIView):
     def post(self, request):
@@ -66,8 +67,39 @@ class UserProfileView(APIView):
         if request.user != user:
             raise PermissionDenied("수정 권한이 없습니다")
 
-        serializer = UserProfileSerializer(user, data=request.data, partial=True)
+        serializer = UpdateProfileSerializer(user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
+
+
+class UserPasswordChangeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+
+        if not old_password or not new_password:
+            return Response({"message": " 비밀번호 똑디 입력해주세요"}, status=400)
+
+        if not request.user.check_password(old_password):
+            return Response({"message": "이전 비밀번호가 틀렸습니다."}, status=400)
+
+        request.user.set_password(new_password)
+        request.user.save()
+
+        # 새로운 토큰 발급
+        refresh = RefreshToken.for_user(request.user)
+        access_token = refresh.access_token
+
+        return Response(
+            {
+                "message": "비밀번호 변경 성공!",
+                "access": str(access_token),
+                "refresh": str(refresh),
+            },
+            status=200,
+        )
