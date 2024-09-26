@@ -103,3 +103,15 @@ class UserPasswordChangeView(APIView):
             },
             status=200,
         )
+
+class UserDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        password = request.data.get("password")
+        if not request.user.check_password(password):
+            return Response({"message":"비밀번호가 틀렸습니다."}, status=400)
+        
+        request.user.is_active=False
+        request.user.save()
+        return Response({"message":"회원 탈퇴 성공하셨습니다."}, status=200)
