@@ -39,7 +39,7 @@ class FreeDetailSerializer(serializers.ModelSerializer):
             "free_image",
             "created_at",
             "updated_at",
-        ]
+        ]  # all 로 바꿔도 될거같긴한데 일단 다 넣어볼게요
 
 
 # Live
@@ -73,4 +73,4 @@ class LiveDetailSerializer(serializers.ModelSerializer):
             "team",
             "created_at",
             "updated_at",
-        ]
+        ]  # all 로 바꿔도 될거같긴한데 일단 다 넣어볼게요

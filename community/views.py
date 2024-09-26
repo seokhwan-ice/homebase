@@ -1,67 +1,47 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied  # 403_FORBIDDEN
 from .models import Free, Live
-from .serializers import (
-    FreeCreateUpdateSerializer,
-    FreeListSerializer,
-    FreeDetailSerializer,
-    LiveCreateUpdateSerializer,
-    LiveListSerializer,
-    LiveDetailSerializer,
-)
+from . import serializers
 
 
-class FreeViewSet(viewsets.ModelViewSet):
+# Free, Live 에서 공통된 로직
+class CommunityViewSet(viewsets.ModelViewSet):
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)  # 작성자=현재유저
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.author != request.user:
+            raise PermissionDenied("본인의 글만 수정할 수 있습니다!")
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        if instance.author != self.request.user:
+            raise PermissionDenied("본인의 글만 삭제할 수 있습니다!")
+        instance.delete()
+
+
+class FreeViewSet(CommunityViewSet):
     queryset = Free.objects.all()
 
-    # CRUD에 따른 시리얼라이저 반환
     def get_serializer_class(self):
         if self.action in ["create", "update"]:
-            return FreeCreateUpdateSerializer  # Create, Update
+            return serializers.FreeCreateUpdateSerializer  # Create, Update
         elif self.action == "list":
-            return FreeListSerializer  # Read:list
+            return serializers.FreeListSerializer  # Read:list
         elif self.action in ["retrieve", "destroy"]:
-            return FreeDetailSerializer  # Read:detail, Delete
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)  # 작성자=현재유저
-
-    def update(self, request, *args, **kwargs):
-        free = self.get_object()
-        if free.author != request.user:
-            raise PermissionDenied("본인의 글만 수정할 수 있습니다!")
-        kwargs["partial"] = True
-        return super().update(request, *args, **kwargs)
-
-    def perform_destroy(self, instance):
-        if instance.author != self.request.user:
-            raise PermissionDenied("본인의 글만 삭제할 수 있습니다!")
-        instance.delete()
+            return serializers.FreeDetailSerializer  # Read:detail, Delete
 
 
-class LiveViewSet(viewsets.ModelViewSet):
+class LiveViewSet(CommunityViewSet):
     queryset = Live.objects.all()
 
-    # CRUD에 따른 시리얼라이저 반환
     def get_serializer_class(self):
         if self.action in ["create", "update"]:
-            return LiveCreateUpdateSerializer  # Create, Update
+            return serializers.LiveCreateUpdateSerializer  # Create, Update
         elif self.action == "list":
-            return LiveListSerializer  # Read:list
+            return serializers.LiveListSerializer  # Read:list
         elif self.action in ["retrieve", "destroy"]:
-            return LiveDetailSerializer  # Read:detail, Delete
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)  # 작성자=현재유저
-
-    def update(self, request, *args, **kwargs):
-        live = self.get_object()
-        if live.author != request.user:
-            raise PermissionDenied("본인의 글만 수정할 수 있습니다!")
-        kwargs["partial"] = True
-        return super().update(request, *args, **kwargs)
-
-    def perform_destroy(self, instance):
-        if instance.author != self.request.user:
-            raise PermissionDenied("본인의 글만 삭제할 수 있습니다!")
-        instance.delete()
+            return serializers.LiveDetailSerializer  # Read:detail, Delete
