@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.exceptions import PermissionDenied  # 403_FORBIDDEN
 from .models import Free, Live
 from .serializers import (
     FreeCreateUpdateSerializer,
@@ -26,8 +27,16 @@ class FreeViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)  # 작성자=현재유저
 
     def update(self, request, *args, **kwargs):
-        kwargs["partial"] = True  # 일부만 수정하기 허용
+        free = self.get_object()
+        if free.author != request.user:
+            raise PermissionDenied("본인의 글만 수정할 수 있습니다!")
+        kwargs["partial"] = True
         return super().update(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        if instance.author != self.request.user:
+            raise PermissionDenied("본인의 글만 삭제할 수 있습니다!")
+        instance.delete()
 
 
 class LiveViewSet(viewsets.ModelViewSet):
@@ -46,5 +55,13 @@ class LiveViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)  # 작성자=현재유저
 
     def update(self, request, *args, **kwargs):
-        kwargs["partial"] = True  # 일부만 수정하기 허용
+        live = self.get_object()
+        if live.author != request.user:
+            raise PermissionDenied("본인의 글만 수정할 수 있습니다!")
+        kwargs["partial"] = True
         return super().update(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        if instance.author != self.request.user:
+            raise PermissionDenied("본인의 글만 삭제할 수 있습니다!")
+        instance.delete()
