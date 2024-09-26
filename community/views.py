@@ -1,14 +1,17 @@
 from rest_framework import viewsets
-from .models import Free
+from .models import Free, Live
 from .serializers import (
     FreeCreateUpdateSerializer,
     FreeListSerializer,
     FreeDetailSerializer,
+    LiveCreateUpdateSerializer,
+    LiveListSerializer,
+    LiveDetailSerializer,
 )
 
 
 class FreeViewSet(viewsets.ModelViewSet):
-    queryset = Free.objects.all()  # 기본 쿼리셋
+    queryset = Free.objects.all()
 
     # CRUD에 따른 시리얼라이저 반환
     def get_serializer_class(self):
@@ -20,7 +23,27 @@ class FreeViewSet(viewsets.ModelViewSet):
             return FreeDetailSerializer  # Read:detail, Delete
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)  # 작성자==현재유저
+        serializer.save(author=self.request.user)  # 작성자=현재유저
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True  # 일부만 수정하기 허용
+        return super().update(request, *args, **kwargs)
+
+
+class LiveViewSet(viewsets.ModelViewSet):
+    queryset = Live.objects.all()
+
+    # CRUD에 따른 시리얼라이저 반환
+    def get_serializer_class(self):
+        if self.action in ["create", "update"]:
+            return LiveCreateUpdateSerializer  # Create, Update
+        elif self.action == "list":
+            return LiveListSerializer  # Read:list
+        elif self.action in ["retrieve", "destroy"]:
+            return LiveDetailSerializer  # Read:detail, Delete
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)  # 작성자=현재유저
 
     def update(self, request, *args, **kwargs):
         kwargs["partial"] = True  # 일부만 수정하기 허용
