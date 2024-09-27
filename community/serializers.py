@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from user.models import User
-from .models import Free, Live
+from .models import Free, Live, Comment
 
 
 # Author
@@ -11,6 +11,21 @@ class AuthorSerializer(serializers.ModelSerializer):
         # 작성자에서 가져올 필드(나중에 더 추가될거같아서 만든거에요 삭제가능)
 
 
+# Comment
+class CommentSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+    replies = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = ["id", "author", "content", "created_at", "replies"]
+
+    def get_replies(self, obj):
+        if obj.replies.exists():
+            return CommentSerializer(obj.replies.all(), many=True).data
+        return None
+
+
 # Free
 class FreeCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,7 +34,7 @@ class FreeCreateUpdateSerializer(serializers.ModelSerializer):
 
 
 class FreeListSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
+    author = AuthorSerializer(read_only=True)
 
     class Meta:
         model = Free
@@ -27,7 +42,8 @@ class FreeListSerializer(serializers.ModelSerializer):
 
 
 class FreeDetailSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
+    author = AuthorSerializer(read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Free
@@ -39,7 +55,8 @@ class FreeDetailSerializer(serializers.ModelSerializer):
             "free_image",
             "created_at",
             "updated_at",
-        ]  # all 로 바꿔도 될거같긴한데 일단 다 넣어볼게요
+            "comments",
+        ]
 
 
 # Live
@@ -50,7 +67,7 @@ class LiveCreateUpdateSerializer(serializers.ModelSerializer):
 
 
 class LiveListSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
+    author = AuthorSerializer(read_only=True)
 
     class Meta:
         model = Live
@@ -58,7 +75,8 @@ class LiveListSerializer(serializers.ModelSerializer):
 
 
 class LiveDetailSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
+    author = AuthorSerializer(read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Live
@@ -73,4 +91,5 @@ class LiveDetailSerializer(serializers.ModelSerializer):
             "team",
             "created_at",
             "updated_at",
-        ]  # all 로 바꿔도 될거같긴한데 일단 다 넣어볼게요
+            "comments",
+        ]
