@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .vaildators import validate_user_data
-from .serializers import UserSerializer, UserProfileSerializer, UpdateProfileSerializer
+from .serializers import UserSerializer, UserProfileSerializer, UpdateProfileSerializer, UserProfileTitleSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
@@ -131,4 +131,10 @@ class UserSignoutView(APIView):
         token.blacklist()  # 블랙리스트에 추가
         return Response({"message": "로그아웃 성공!"}, status=205)
 
+class UserProfileTitleView(APIView):
+    permission_classes = [IsAuthenticated] # 인증된 사용자만 접근
 
+    def get(self, request, username): 
+        user = get_object_or_404(User, username=username) # username db에서 찾기, 없으면 404 반환
+        serializer = UserProfileTitleSerializer(user)
+        return Response(serializer.data)
