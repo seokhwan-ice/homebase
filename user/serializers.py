@@ -9,7 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "nickname",
             "name",
-            "password",
         ]
 
 

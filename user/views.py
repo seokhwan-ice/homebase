@@ -9,7 +9,7 @@ from .serializers import UserSerializer, UserProfileSerializer, UpdateProfileSer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
-
+from rest_framework.generics import CreateAPIView
 
 class UserCreateView(APIView):
     def post(self, request):
@@ -78,7 +78,7 @@ class UserPasswordChangeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request):
-        
+
         old_password = request.data.get("old_password")
         new_password = request.data.get("new_password")
 
@@ -104,14 +104,26 @@ class UserPasswordChangeView(APIView):
             status=200,
         )
 
+
 class UserDeleteView(APIView):
     permission_classes = [IsAuthenticated]
-    
+
     def post(self, request):
         password = request.data.get("password")
         if not request.user.check_password(password):
-            return Response({"message":"비밀번호가 틀렸습니다."}, status=400)
-        
-        request.user.is_active=False
+            return Response({"message": "비밀번호가 틀렸습니다."}, status=400)
+
+        request.user.is_active = False
         request.user.save()
-        return Response({"message":"회원 탈퇴 성공하셨습니다."}, status=200)
+        return Response({"message": "회원 탈퇴 성공!!"}, status=200)
+
+class UserSignoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        refresh_token = request.data.get('refresh')
+
+        if not refresh_token:
+            return Response({"message": '로그아웃 실패!'}, status=400)
+        token = RefreshToken(refresh_token) # RefreshToken 객체 생성
+        token.blacklist() # 블랙리스트에 추가
+        return Response({"message":"로그아웃 성공!"}, status=205)
