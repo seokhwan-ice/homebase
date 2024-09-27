@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 from user.models import User
 from .models import Free, Live, Comment
@@ -43,7 +44,7 @@ class FreeListSerializer(serializers.ModelSerializer):
 
 class FreeDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
-    comments = CommentSerializer(many=True, read_only=True)
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Free
@@ -57,6 +58,13 @@ class FreeDetailSerializer(serializers.ModelSerializer):
             "updated_at",
             "comments",
         ]
+
+    def get_comments(self, obj):
+        content_type = ContentType.objects.get_for_model(Free)
+        comments = Comment.objects.filter(
+            content_type=content_type, object_id=obj.id, parent__isnull=True
+        )
+        return CommentSerializer(comments, many=True).data
 
 
 # Live
@@ -76,7 +84,7 @@ class LiveListSerializer(serializers.ModelSerializer):
 
 class LiveDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
-    comments = CommentSerializer(many=True, read_only=True)
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Live
@@ -93,3 +101,10 @@ class LiveDetailSerializer(serializers.ModelSerializer):
             "updated_at",
             "comments",
         ]
+
+    def get_comments(self, obj):
+        content_type = ContentType.objects.get_for_model(Live)
+        comments = Comment.objects.filter(
+            content_type=content_type, object_id=obj.id, parent__isnull=True
+        )
+        return CommentSerializer(comments, many=True).data
