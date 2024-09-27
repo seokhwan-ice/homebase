@@ -56,75 +56,36 @@ class CrawlingAPIView(APIView):
 
 
 class HeadlineAPIView(APIView):
-    # 데이터 조회 (GET)
-    def get(self, request, *args, **kwargs):
-        headlines = Headline.objects.all()  # 모든 헤드라인 가져오기
-        serializer = HeadlineSerializer(headlines, many=True)  # 여러 개의 데이터를 직렬화
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def fetch_titles_from_url(self, url):
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        }
+        response = requests.get(url, headers=headers)
 
-    def post(self, request, *args, **kwargs):
-        # URL만 입력받음
-        url = request.data.get('url')
+        if response.status_code != 200:
+            raise Exception(f"Failed to fetch content from {url}, status code: {response.status_code}")
 
+        soup = BeautifulSoup(response.content, 'html.parser')
+        title_tags = soup.find_all('p', class_='title')  # 모든 기사 제목을 찾는 로직
+        titles = []
 
-        if not url:
-            return Response({"error": "URL is required."}, status=status.HTTP_400_BAD_REQUEST)
+        for title_tag in title_tags:
+            title = title_tag.get_text(strip=True)  # 텍스트 가져오기
+            if title:
+                titles.append(title)
+            else:
+                titles.append("제목을 찾을 수 없습니다")
+
+        return titles
+
+    def get(self, request):
+        url = 'https://www.mydaily.co.kr/baseball/general'
 
         try:
-            #title 가져와라 쌍노마
-            title = self.fetch_title_from_url(url)
-
-            # URL에서 콘텐츠 가져오기
-            content = self.fetch_content_from_url(url)
-
-            # 가져온 콘텐츠 요약
-            summary = self.generate_summary(content)
-
-            # 저장 및 응답
-            # URL은 'url' 필드에 저장하고, 요약은 'summery' 필드에 저장
-            headline = Headline.objects.create(title=title, url=url, summery=summary)
-            serializer = HeadlineSerializer(headline)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+            titles = self.fetch_titles_from_url(url)
+            return Response(titles, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-    def fetch_title_from_url(self, url):
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-        }
-        response = requests.get(url, headers=headers)
-
-        if response.status_code != 200:
-            raise Exception(f"Failed to fetch content from {url}, status code: {response.status_code}")
-
-        # BeautifulSoup을 사용해 HTML에서 제목 추출
-        soup = BeautifulSoup(response.content, 'html.parser')
-
-        # 기사 제목을 찾는 로직 (HTML 구조에 맞춰 수정)
-        title_tag = soup.find('p', class_='title')  # 예를 들어, h1 태그에서 제목을 가져오는 경우
-        if title_tag:
-            title = title_tag.get_text(strip=True)  # 텍스트 가져오기
-        else:
-            title = "제목을 찾을 수 없습니다"
-
-        return title
-
-
-    def fetch_content_from_url(self, url):
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-        }
-        response = requests.get(url, headers=headers)
-
-        if response.status_code != 200:
-            raise Exception(f"Failed to fetch content from {url}, status code: {response.status_code}")
-
-        # BeautifulSoup을 사용해 HTML에서 텍스트 추출
-        soup = BeautifulSoup(response.content, 'html.parser')
-        paragraphs = soup.find_all('p')
-        text = " ".join([para.get_text() for para in paragraphs])
-        return text
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
     def generate_summary(self, text):
