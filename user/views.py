@@ -11,6 +11,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 
+
 class UserCreateView(APIView):
     def post(self, request):
         rlt_message = validate_user_data(request.data)
@@ -117,13 +118,15 @@ class UserDeleteView(APIView):
         request.user.save()
         return Response({"message": "회원 탈퇴 성공!!"}, status=200)
 
+
 class UserSignoutView(APIView):
     permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        refresh_token = request.data.get('refresh')
+        refresh_token = request.data.get("refresh")
 
         if not refresh_token:
-            return Response({"message": '로그아웃 실패!'}, status=400)
-        token = RefreshToken(refresh_token) # RefreshToken 객체 생성
-        token.blacklist() # 블랙리스트에 추가
-        return Response({"message":"로그아웃 성공!"}, status=205)
+            return Response({"message": "로그아웃 실패!"}, status=400)
+        token = RefreshToken(refresh_token)  # RefreshToken 객체 생성
+        token.blacklist()  # 블랙리스트에 추가
+        return Response({"message": "로그아웃 성공!"}, status=205)
