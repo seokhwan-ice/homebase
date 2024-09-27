@@ -42,6 +42,7 @@ class FreeListSerializer(serializers.ModelSerializer):
         fields = ["id", "author", "title"]
 
 
+# TODO: 댓글 카운트 기능 까먹지말고 넣어야함ㅠㅠ
 class FreeDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments = serializers.SerializerMethodField()

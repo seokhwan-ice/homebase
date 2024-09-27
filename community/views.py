@@ -1,4 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
@@ -91,6 +92,15 @@ class BaseViewSet(viewsets.ModelViewSet):
 
 class FreeViewSet(BaseViewSet):
     queryset = Free.objects.all()
+
+    def get_queryset(self):
+        queryset = Free.objects.all()
+        search = self.request.query_params.get("q")
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) | Q(content__icontains=search)
+            )  # TODO: 쿼리호출결과 확인해보고 감당안되면 제목만 검색하자요
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ["create", "update"]:
