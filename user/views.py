@@ -130,3 +130,5 @@ class UserSignoutView(APIView):
         token = RefreshToken(refresh_token)  # RefreshToken 객체 생성
         token.blacklist()  # 블랙리스트에 추가
         return Response({"message": "로그아웃 성공!"}, status=205)
+
+
