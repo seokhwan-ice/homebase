@@ -13,7 +13,7 @@ class UrlContent(models.Model):
 
 class Headline(models.Model):
     url = models.URLField()
-    title = models.TextField()
+    title = models.CharField(max_length=255)
     summery = models.TextField()
 
     def __str__(self):
