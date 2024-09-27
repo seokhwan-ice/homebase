@@ -17,6 +17,7 @@ class Free(TimeStamp):
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="free_title",
+
     )
     free_image = models.ImageField(
         upload_to="free/image/%Y/%m/%d/",

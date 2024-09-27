@@ -35,13 +35,13 @@ class UserProfileTitleSerializer(serializers.ModelSerializer):
     community_free_title = serializers.SerializerMethodField()
 
     def get_community_free_title(self, obj):
-        user_free = obj.free_title.all()
+        user_free_article = obj.free_title.all()
         title = []
 
-        for free in user_free:
-            if free.free_title:
-                title.append(free.free_title)
+        for free in user_free_article:
+            if free.title:
+                title.append(free.title)
         return title
     class Meta:
         model = User
-        fields = ["title","nickname","created_at"]
+        fields = ["community_free_title","nickname","created_at"]
