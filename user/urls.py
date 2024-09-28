@@ -5,7 +5,6 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    
     path("signup/", views.UserCreateView.as_view()),
     path("signin/", views.UserLoginView.as_view()),
     path("signout/", views.UserSignoutView.as_view()),
@@ -13,7 +12,7 @@ urlpatterns = [
     path("withdraw/", views.UserDeleteView.as_view()),
     path("<str:username>/", views.UserProfileView.as_view()),
     path("<str:username>/free/", views.UserProfileTitleView.as_view()),
-    
+    path("<str:username>/follow/", views.FollowAPIView.as_view()),
 ]
 
 
