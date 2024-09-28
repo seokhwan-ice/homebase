@@ -14,9 +14,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
+    follower_count = serializers.SerializerMethodField()
 
     def get_following_count(self, obj):
         return obj.followings.count()
+
+    def get_follower_count(self, obj):
+        return obj.followers.count()
 
     class Meta:
         model = User
@@ -26,6 +30,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "bio",
             "created_at",
             "following_count",
+            "follower_count",
         ]
 
 
