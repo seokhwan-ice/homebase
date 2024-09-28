@@ -2,7 +2,6 @@ from .models import User
 from rest_framework import serializers
 
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -14,9 +13,20 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    following_count = serializers.SerializerMethodField()
+
+    def get_following_count(self, obj):
+        return obj.followings.count()
+
     class Meta:
         model = User
-        fields = ["profile_image", "nickname", "bio", "created_at"]
+        fields = [
+            "profile_image",
+            "nickname",
+            "bio",
+            "created_at",
+            "following_count",
+        ]
 
 
 # 추가적인 커뮤니티, 코멘트, 좋아요 구현 후 필드추가.
@@ -42,6 +52,7 @@ class UserProfileTitleSerializer(serializers.ModelSerializer):
             if free.title:
                 title.append(free.title)
         return title
+
     class Meta:
         model = User
-        fields = ["community_free_title","nickname","created_at"]
+        fields = ["community_free_title", "nickname", "created_at"]

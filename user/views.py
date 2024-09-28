@@ -146,6 +146,8 @@ class UserProfileTitleView(APIView):
         )  # username db에서 찾기, 없으면 404 반환
         serializer = UserProfileTitleSerializer(user)
         return Response(serializer.data)
+
+
 class FollowAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
