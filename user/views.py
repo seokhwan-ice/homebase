@@ -146,3 +146,14 @@ class UserProfileTitleView(APIView):
         )  # username db에서 찾기, 없으면 404 반환
         serializer = UserProfileTitleSerializer(user)
         return Response(serializer.data)
+class FollowAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, username):
+        user = get_object_or_404(User, username=username)
+        if request.user in user.followers.all():
+            user.followers.remove(request.user)
+            return Response("unfollow", status=status.HTTP_200_OK)
+        else:
+            user.followers.add(request.user)
+            return Response("follow success", status=status.HTTP_200_OK)
