@@ -22,13 +22,13 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ["id", "author", "content", "created_at", "likes_count", "replies"]
 
-    def get_replies(self, obj):
-        if obj.replies.exists():
-            return CommentSerializer(obj.replies.all(), many=True).data
+    def get_replies(self, instance):
+        if instance.replies.exists():
+            return CommentSerializer(instance.replies.all(), many=True).data
         return None
 
-    def get_likes_count(self, obj):
-        return obj.likes_count
+    def get_likes_count(self, instance):
+        return instance.likes_count
 
 
 # Free
@@ -40,16 +40,23 @@ class FreeCreateUpdateSerializer(serializers.ModelSerializer):
 
 class FreeListSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Free
-        fields = ["id", "author", "title"]
+        fields = ["id", "author", "title", "comments_count"]
+
+    def get_comments_count(self, instance):
+        content_type = ContentType.objects.get_for_model(Free)
+        return Comment.objects.filter(
+            content_type=content_type, object_id=instance.id
+        ).count()
 
 
-# TODO: 댓글 카운트 기능 까먹지말고 넣어야함ㅠㅠ
 class FreeDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Free
@@ -61,15 +68,22 @@ class FreeDetailSerializer(serializers.ModelSerializer):
             "free_image",
             "created_at",
             "updated_at",
+            "comments_count",
             "comments",
         ]
 
-    def get_comments(self, obj):
+    def get_comments(self, instance):
         content_type = ContentType.objects.get_for_model(Free)
         comments = Comment.objects.filter(
-            content_type=content_type, object_id=obj.id, parent__isnull=True
+            content_type=content_type, object_id=instance.id, parent__isnull=True
         )
         return CommentSerializer(comments, many=True).data
+
+    def get_comments_count(self, instance):
+        content_type = ContentType.objects.get_for_model(Free)
+        return Comment.objects.filter(
+            content_type=content_type, object_id=instance.id
+        ).count()
 
 
 # Live
@@ -82,19 +96,34 @@ class LiveCreateUpdateSerializer(serializers.ModelSerializer):
 class LiveListSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     likes_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Live
-        fields = ["id", "author", "title", "live_image", "likes_count"]
+        fields = [
+            "id",
+            "author",
+            "title",
+            "live_image",
+            "likes_count",
+            "comments_count",
+        ]
 
-    def get_likes_count(self, obj):
-        return obj.likes_count
+    def get_likes_count(self, instance):
+        return instance.likes_count
+
+    def get_comments_count(self, instance):
+        content_type = ContentType.objects.get_for_model(Live)
+        return Comment.objects.filter(
+            content_type=content_type, object_id=instance.id
+        ).count()
 
 
 class LiveDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Live
@@ -110,15 +139,22 @@ class LiveDetailSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "likes_count",
+            "comments_count",
             "comments",
         ]
 
-    def get_comments(self, obj):
+    def get_comments(self, instance):
         content_type = ContentType.objects.get_for_model(Live)
         comments = Comment.objects.filter(
-            content_type=content_type, object_id=obj.id, parent__isnull=True
+            content_type=content_type, object_id=instance.id, parent__isnull=True
         )
         return CommentSerializer(comments, many=True).data
 
-    def get_likes_count(self, obj):
-        return obj.likes_count
+    def get_likes_count(self, instance):
+        return instance.likes_count
+
+    def get_comments_count(self, instance):
+        content_type = ContentType.objects.get_for_model(Live)
+        return Comment.objects.filter(
+            content_type=content_type, object_id=instance.id
+        ).count()
