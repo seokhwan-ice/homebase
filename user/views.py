@@ -10,6 +10,7 @@ from .serializers import (
     UserProfileSerializer,
     UpdateProfileSerializer,
     UserProfileTitleSerializer,
+    FollowingListSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -159,3 +160,12 @@ class FollowAPIView(APIView):
         else:
             user.followers.add(request.user)
             return Response("follow success", status=status.HTTP_200_OK)
+
+
+class FollowingListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        serializer = FollowingListSerializer(user)
+        return Response(serializer.data)

@@ -13,14 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    following_count = serializers.SerializerMethodField()
-    follower_count = serializers.SerializerMethodField()
-
-    def get_following_count(self, obj):
-        return obj.followings.count()
-
-    def get_follower_count(self, obj):
-        return obj.followers.count()
 
     class Meta:
         model = User
@@ -29,8 +21,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "nickname",
             "bio",
             "created_at",
-            "following_count",
-            "follower_count",
         ]
 
 
@@ -61,3 +51,36 @@ class UserProfileTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["community_free_title", "nickname", "created_at"]
+
+
+class FollowingListSerializer(serializers.ModelSerializer):
+    following_count = serializers.SerializerMethodField()
+    follower_count = serializers.SerializerMethodField()
+    following_list = serializers.SerializerMethodField()
+
+    def get_following_list(self, obj):
+        following = obj.followings.all()
+        nicknames = []
+
+        for following_users in following:
+            nicknames.append(following_users.nickname)
+        return nicknames
+
+    def get_following_count(self, obj):
+        return obj.followings.count()
+
+    def get_follower_count(self, obj):
+        return obj.followers.count()
+
+    class Meta:
+        model = User
+        fields = [
+            "nickname",
+            "profile_image",
+            "nickname",
+            "bio",
+            "created_at",
+            "following_count",
+            "follower_count",
+            "following_list",
+        ]

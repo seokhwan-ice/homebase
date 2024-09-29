@@ -13,6 +13,7 @@ urlpatterns = [
     path("<str:username>/", views.UserProfileView.as_view()),
     path("<str:username>/free/", views.UserProfileTitleView.as_view()),
     path("<str:username>/follow/", views.FollowAPIView.as_view()),
+    path("<str:username>/followinglist/", views.FollowingListAPIView.as_view()),
 ]
 
 
