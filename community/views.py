@@ -9,8 +9,105 @@ from .models import Free, Live, Comment, Like
 from . import serializers
 
 
+# 댓글관련기능(아래서 상속받아서 쓸거에요)
+class CommentMixin:
+
+    def get_comment(self, request, instance):  # 댓글 수정/삭제 공통로직
+        comment_id = request.data.get("comment_id")
+        try:
+            comment = Comment.objects.get(
+                id=comment_id,
+                content_type=ContentType.objects.get_for_model(self.get_model()),
+                object_id=instance.id,
+            )
+        except Comment.DoesNotExist:
+            raise NotFound("해당 댓글을 찾을 수 없음")
+        if comment.author != request.user:
+            raise PermissionDenied("본인의 댓글만 수정/삭제할 수 있음")
+        return comment
+
+    @action(detail=True, methods=["post"])
+    def create_comment(self, request, pk=None):
+        instance = self.get_object()
+        parent_id = request.data.get("parent_id")
+        parent_comment = None
+        if parent_id:
+            try:
+                parent_comment = Comment.objects.get(id=parent_id)
+            except Comment.DoesNotExist:
+                return Response(
+                    data={"error": "해당 부모 댓글을 찾을 수 없음"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        serializer = serializers.CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(
+                author=request.user,
+                content_type=ContentType.objects.get_for_model(self.get_model()),
+                object_id=instance.id,
+                parent=parent_comment,
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=["put"])
+    def update_comment(self, request, pk=None):
+        instance = self.get_object()
+        comment = self.get_comment(request, instance)
+        serializer = serializers.CommentSerializer(comment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=["delete"])
+    def delete_comment(self, request, pk=None):
+        instance = self.get_object()
+        comment = self.get_comment(request, instance)
+        comment.delete()
+        return Response(data={"detail": "삭제완료!"}, status=status.HTTP_204_NO_CONTENT)
+
+
+# 좋아요관련기능(아래서 상속받아서 쓸거에요)
+class LikeMixin:
+
+    def toggle_like(self, request, instance):  # 글/댓글 좋아요 공통로직
+        like, created = Like.objects.get_or_create(
+            user=request.user,
+            content_type=ContentType.objects.get_for_model(instance),
+            object_id=instance.id,
+        )
+        if not created:
+            like.delete()
+            return Response(
+                data={"detail": "좋아요 취소됨"}, status=status.HTTP_204_NO_CONTENT
+            )
+        return Response(data={"detail": "좋아요!"}, status=status.HTTP_201_CREATED)
+
+    # 글 좋아요
+    @action(detail=True, methods=["post"])
+    def toggle_like_article(self, request, pk=None):
+        instance = self.get_object()
+        return self.toggle_like(request, instance)
+
+    # 댓글 좋아요
+    @action(detail=True, methods=["post"])
+    def toggle_like_comment(self, request, pk=None):
+        instance = self.get_object()
+        comment_id = request.data.get("comment_id")
+        try:
+            comment = Comment.objects.get(
+                id=comment_id,
+                content_type=ContentType.objects.get_for_model(self.get_model()),
+                object_id=instance.id,
+            )
+        except Comment.DoesNotExist:
+            raise NotFound("해당 댓글을 찾을 수 없음")
+        return self.toggle_like(request, comment)
+
+
 # Free, Live 공통 로직
-class BaseViewSet(viewsets.ModelViewSet):
+class BaseViewSet(viewsets.ModelViewSet, CommentMixin):
     permission_classes = [IsAuthenticatedOrReadOnly]  # TODO: 권한 논의 후 수정
 
     def perform_create(self, serializer):
@@ -27,94 +124,6 @@ class BaseViewSet(viewsets.ModelViewSet):
         if instance.author != self.request.user:
             raise PermissionDenied("본인의 글만 삭제할 수 있습니다!")
         instance.delete()
-
-    # 댓글 수정/삭제 공통로직 # TODO: 댓글기능 오류 있는지 이것저것 실험해줘..
-    def get_comment(self, request, instance):
-        comment_id = request.data.get("comment_id")
-        try:
-            comment = Comment.objects.get(
-                id=comment_id,
-                object_id=instance.id,
-                content_type=ContentType.objects.get_for_model(self.get_model()),
-            )
-        except Comment.DoesNotExist:
-            raise NotFound("해당 댓글을 찾을 수 없음")
-        if comment.author != request.user:
-            raise PermissionDenied("본인의 댓글만 수정/삭제할 수 있음")
-        return comment
-
-    # 대/댓글 등록
-    @action(detail=True, methods=["post"])
-    def create_comment(self, request, pk=None):
-        instance = self.get_object()
-        parent_id = request.data.get("parent")
-
-        parent_comment = None
-        if parent_id:
-            try:
-                parent_comment = Comment.objects.get(id=parent_id)
-            except Comment.DoesNotExist:
-                return Response(
-                    data={"error": "해당 부모 댓글을 찾을 수 없음"},
-                    status=status.HTTP_404_NOT_FOUND,
-                )
-
-        serializer = serializers.CommentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(
-                author=request.user,
-                content_type=ContentType.objects.get_for_model(self.get_model()),
-                object_id=instance.id,
-                parent=parent_comment,
-            )
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # 댓글 수정
-    @action(detail=True, methods=["put"])
-    def update_comment(self, request, pk=None):
-        instance = self.get_object()
-        comment = self.get_comment(request, instance)
-        serializer = serializers.CommentSerializer(comment, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # 댓글 삭제
-    @action(detail=True, methods=["delete"])
-    def delete_comment(self, request, pk=None):
-        instance = self.get_object()
-        comment = self.get_comment(request, instance)
-        comment.delete()
-        return Response(data={"detail": "삭제완료!"}, status=status.HTTP_204_NO_CONTENT)
-
-    # 댓글 좋아요
-    @action(detail=True, methods=["post"])
-    def toggle_like_comment(self, request, pk=None):
-        instance = self.get_object()
-        comment_id = request.data.get("comment_id")
-        try:
-            comment = Comment.objects.get(
-                id=comment_id,
-                object_id=instance.id,
-                content_type=ContentType.objects.get_for_model(self.get_model()),
-            )
-        except Comment.DoesNotExist:
-            raise NotFound("해당 댓글을 찾을 수 없음")
-        user = request.user
-
-        like, created = Like.objects.get_or_create(
-            content_type=ContentType.objects.get_for_model(Comment),
-            object_id=comment.id,
-            user=user,
-        )
-        if not created:
-            like.delete()
-            return Response(
-                data={"detail": "댓글 좋아요 취소됨"}, status=status.HTTP_204_NO_CONTENT
-            )
-        return Response(data={"detail": "댓글 좋아요!"}, status=status.HTTP_201_CREATED)
 
 
 class FreeViewSet(BaseViewSet):
@@ -141,7 +150,7 @@ class FreeViewSet(BaseViewSet):
         return Free
 
 
-class LiveViewSet(BaseViewSet):
+class LiveViewSet(BaseViewSet, LikeMixin):
     queryset = Live.objects.all()
 
     def get_serializer_class(self):
@@ -154,20 +163,3 @@ class LiveViewSet(BaseViewSet):
 
     def get_model(self):
         return Live
-
-    @action(detail=True, methods=["post"])
-    def toggle_like(self, request, pk=None):
-        instance = self.get_object()
-        user = request.user
-
-        like, created = Like.objects.get_or_create(
-            content_type=ContentType.objects.get_for_model(Live),
-            object_id=instance.id,
-            user=user,
-        )
-        if not created:
-            like.delete()
-            return Response(
-                data={"detail": "좋아요 취소됨"}, status=status.HTTP_204_NO_CONTENT
-            )
-        return Response(data={"detail": "좋아요!"}, status=status.HTTP_201_CREATED)
