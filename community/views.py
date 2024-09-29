@@ -2,10 +2,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.exceptions import PermissionDenied, NotFound
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Free, Live, Comment
+from .models import Free, Live, Comment, Like
 from . import serializers
 
 
@@ -44,7 +44,7 @@ class BaseViewSet(viewsets.ModelViewSet):
         return comment
 
     # 대/댓글 등록
-    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=["post"])
     def create_comment(self, request, pk=None):
         instance = self.get_object()
         parent_id = request.data.get("parent")
@@ -71,7 +71,7 @@ class BaseViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # 댓글 수정
-    @action(detail=True, methods=["put"], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=["put"])
     def update_comment(self, request, pk=None):
         instance = self.get_object()
         comment = self.get_comment(request, instance)
@@ -82,12 +82,39 @@ class BaseViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # 댓글 삭제
-    @action(detail=True, methods=["delete"], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=["delete"])
     def delete_comment(self, request, pk=None):
         instance = self.get_object()
         comment = self.get_comment(request, instance)
         comment.delete()
         return Response(data={"detail": "삭제완료!"}, status=status.HTTP_204_NO_CONTENT)
+
+    # 댓글 좋아요
+    @action(detail=True, methods=["post"])
+    def toggle_like_comment(self, request, pk=None):
+        instance = self.get_object()
+        comment_id = request.data.get("comment_id")
+        try:
+            comment = Comment.objects.get(
+                id=comment_id,
+                object_id=instance.id,
+                content_type=ContentType.objects.get_for_model(self.get_model()),
+            )
+        except Comment.DoesNotExist:
+            raise NotFound("해당 댓글을 찾을 수 없음")
+        user = request.user
+
+        like, created = Like.objects.get_or_create(
+            content_type=ContentType.objects.get_for_model(Comment),
+            object_id=comment.id,
+            user=user,
+        )
+        if not created:
+            like.delete()
+            return Response(
+                data={"detail": "댓글 좋아요 취소됨"}, status=status.HTTP_204_NO_CONTENT
+            )
+        return Response(data={"detail": "댓글 좋아요!"}, status=status.HTTP_201_CREATED)
 
 
 class FreeViewSet(BaseViewSet):
@@ -127,3 +154,20 @@ class LiveViewSet(BaseViewSet):
 
     def get_model(self):
         return Live
+
+    @action(detail=True, methods=["post"])
+    def toggle_like(self, request, pk=None):
+        instance = self.get_object()
+        user = request.user
+
+        like, created = Like.objects.get_or_create(
+            content_type=ContentType.objects.get_for_model(Live),
+            object_id=instance.id,
+            user=user,
+        )
+        if not created:
+            like.delete()
+            return Response(
+                data={"detail": "좋아요 취소됨"}, status=status.HTTP_204_NO_CONTENT
+            )
+        return Response(data={"detail": "좋아요!"}, status=status.HTTP_201_CREATED)

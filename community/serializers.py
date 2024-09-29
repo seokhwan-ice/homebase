@@ -16,15 +16,19 @@ class AuthorSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     replies = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        fields = ["id", "author", "content", "created_at", "replies"]
+        fields = ["id", "author", "content", "created_at", "likes_count", "replies"]
 
     def get_replies(self, obj):
         if obj.replies.exists():
             return CommentSerializer(obj.replies.all(), many=True).data
         return None
+
+    def get_likes_count(self, obj):
+        return obj.likes_count
 
 
 # Free
@@ -77,15 +81,20 @@ class LiveCreateUpdateSerializer(serializers.ModelSerializer):
 
 class LiveListSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
+    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Live
-        fields = ["id", "author", "title", "live_image"]
+        fields = ["id", "author", "title", "live_image", "likes_count"]
+
+    def get_likes_count(self, obj):
+        return obj.likes_count
 
 
 class LiveDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Live
@@ -100,6 +109,7 @@ class LiveDetailSerializer(serializers.ModelSerializer):
             "team",
             "created_at",
             "updated_at",
+            "likes_count",
             "comments",
         ]
 
@@ -109,3 +119,6 @@ class LiveDetailSerializer(serializers.ModelSerializer):
             content_type=content_type, object_id=obj.id, parent__isnull=True
         )
         return CommentSerializer(comments, many=True).data
+
+    def get_likes_count(self, obj):
+        return obj.likes_count
