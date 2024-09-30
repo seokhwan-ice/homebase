@@ -20,7 +20,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
     followers_count = serializers.SerializerMethodField()
     article_count = serializers.SerializerMethodField()
     comment_count = serializers.SerializerMethodField()
+    bookmark_count = serializers.SerializerMethodField()
 
+    def get_bookmark_count(self, obj):
+        return Bookmark.objects.filter(user=obj).count()
 
     def get_comment_count(self, obj):
         return Comment.objects.filter(author=obj).count()
@@ -47,6 +50,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "followers_count",
             "article_count",
             "comment_count",
+            "bookmark_count"
         ]
 
 
