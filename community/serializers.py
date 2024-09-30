@@ -30,6 +30,13 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_likes_count(self, instance):
         return instance.likes_count
 
+    # TODO: 프론트가서 확인해보고 free에도 좋아요 기능할거면 이 함수 삭제
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if instance.content_type.model == "free":
+            ret.pop("likes_count", None)
+        return ret
+
 
 # Free
 class FreeCreateUpdateSerializer(serializers.ModelSerializer):

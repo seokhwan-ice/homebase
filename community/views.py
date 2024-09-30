@@ -33,12 +33,14 @@ class CommentMixin:
         parent_comment = None
         if parent_id:
             try:
-                parent_comment = Comment.objects.get(id=parent_id)
-            except Comment.DoesNotExist:
-                return Response(
-                    data={"error": "해당 부모 댓글을 찾을 수 없음"},
-                    status=status.HTTP_404_NOT_FOUND,
+                parent_comment = Comment.objects.get(
+                    id=parent_id,
+                    content_type=ContentType.objects.get_for_model(instance),
+                    object_id=instance.id,
                 )
+            except Comment.DoesNotExist:
+                return NotFound("해당 부모 댓글을 찾을 수 없음")
+
         serializer = serializers.CommentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(
