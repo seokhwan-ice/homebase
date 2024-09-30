@@ -1,5 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
 from rest_framework import viewsets, status
 from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -212,8 +214,34 @@ class FreeViewSet(BaseViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class LiveFilter(filters.FilterSet):
+    """
+    URL경로 - /api/community/live/?game_date=2024-10-01 (GET)
+    URL경로 - /api/community/live/?team=kia_tigers (GET)
+    URL경로 - /api/community/live/?stadium=잠실 (GET)
+
+    Params {Key : Value} 여러 조건 동시에 필터링 가능해요
+    날짜 - {game_date : 2024-10-01}
+    팀 - {team : kia_tigers}
+    경기장 - {stadium : 잠실}
+    """
+
+    game_date = filters.DateFilter(field_name="game_date", lookup_expr="date")
+    stadium = filters.CharFilter(field_name="stadium")
+    team = filters.CharFilter(method="filter_team")
+
+    class Meta:
+        model = Live
+        fields = ["game_date", "stadium"]
+
+    def filter_team(self, queryset, name, value):
+        return queryset.filter(Q(home_team=value) | Q(away_team=value))
+
+
 class LiveViewSet(BaseViewSet, LikeMixin):
     queryset = Live.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = LiveFilter
 
     def get_serializer_class(self):
         if self.action in ["create", "update"]:

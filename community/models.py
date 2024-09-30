@@ -35,8 +35,29 @@ class Free(TimeStamp):
 
 
 class Live(TimeStamp):
-    title = models.CharField(max_length=20)
-    content = models.TextField()
+    TEAM_CHOICES = [
+        ("lg_twins", "LG 트윈스"),
+        ("kt_wiz", "KT 위즈"),
+        ("ssg_landers", "SSG 랜더스"),
+        ("nc_dinos", "NC 다이노스"),
+        ("doosan_bears", "두산 베어스"),
+        ("kia_tigers", "KIA 타이거즈"),
+        ("lotte_giants", "롯데 자이언츠"),
+        ("samsung_lions", "삼성 라이온즈"),
+        ("hanwha_eagles", "한화 이글스"),
+        ("kiwoom_heroes", "키움 히어로즈"),
+    ]
+    STADIUM_CHOICES = [
+        ("잠실", "잠실 야구장"),
+        ("수원", "수원 KT 위즈파크"),
+        ("문학", "인천 SSG 랜더스필드"),
+        ("창원", "창원 NC 파크"),
+        ("광주", "광주 기아 챔피언스필드"),
+        ("사직", "사직 야구장"),
+        ("대구", "대구 삼성 라이온즈파크"),
+        ("대전", "대전 한밭 야구장"),
+        ("고척", "고척 스카이돔"),
+    ]
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -46,13 +67,17 @@ class Live(TimeStamp):
         upload_to="live/image/%Y/%m/%d/",
         blank=True,
         null=True,
-    )  # TODO: 이미지 필수여부 논의 + 영상필드추가/seat,team필드수정
+    )  # TODO: 이미지 필수 + 영상필드추가/seat,team필드수정
+
+    review = models.TextField()
     game_date = models.DateTimeField()
-    seat = models.CharField(max_length=20)
-    team = models.CharField(max_length=20)
+    home_team = models.CharField(max_length=20, choices=TEAM_CHOICES)
+    away_team = models.CharField(max_length=20, choices=TEAM_CHOICES)
+    stadium = models.CharField(max_length=20, choices=STADIUM_CHOICES)
+    seat = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return f"Live[{self.id}]{self.title}"
+        return f"Live[{self.id}]"
 
     @property  # 좋아요 수
     def likes_count(self):

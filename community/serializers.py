@@ -100,7 +100,15 @@ class FreeDetailSerializer(serializers.ModelSerializer):
 class LiveCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Live
-        fields = ["title", "content", "live_image", "game_date", "seat", "team"]
+        fields = [
+            "live_image",
+            "review",
+            "game_date",
+            "home_team",
+            "away_team",
+            "stadium",
+            "seat",
+        ]
 
 
 class LiveListSerializer(serializers.ModelSerializer):
@@ -113,7 +121,8 @@ class LiveListSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "author",
-            "title",
+            "stadium",
+            "created_at",
             "live_image",
             "likes_count",
             "comments_count",
@@ -140,14 +149,14 @@ class LiveDetailSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "author",
-            "title",
-            "content",
+            "stadium",
+            "seat",
             "live_image",
             "game_date",
-            "seat",
-            "team",
+            "home_team",
+            "away_team",
+            "review",
             "created_at",
-            "updated_at",
             "likes_count",
             "comments_count",
             "comments",
