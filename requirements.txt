@@ -22,3 +22,7 @@ tomli==2.0.1
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.2.3
+
+openai~=0.27.2
+config~=0.5.1
+selenium~=4.25.0
