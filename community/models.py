@@ -18,8 +18,7 @@ class Free(TimeStamp):
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="free_title",
-
+        related_name="author_free",
     )
     free_image = models.ImageField(
         upload_to="free/image/%Y/%m/%d/",
@@ -40,6 +39,7 @@ class Live(TimeStamp):
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name="author_live"
     )
     live_image = models.ImageField(
         upload_to="live/image/%Y/%m/%d/",
@@ -52,6 +52,13 @@ class Live(TimeStamp):
 
     def __str__(self):
         return f"Live[{self.id}]{self.title}"
+
+    @property  # 좋아요 수
+    def likes_count(self):
+        return Like.objects.filter(
+            content_type=ContentType.objects.get_for_model(self),
+            object_id=self.id,
+        ).count()
 
     class Meta:
         ordering = ["-id"]
@@ -83,5 +90,52 @@ class Comment(TimeStamp):  # TODO: 데이터베이스 인덱스 추가 / 대.댓
     def __str__(self):
         return f"Comment[{self.id}] - by:{self.author} on:{self.content_object}"
 
+    @property  # 좋아요 수
+    def likes_count(self):
+        return Like.objects.filter(
+            content_type=ContentType.objects.get_for_model(self),
+            object_id=self.id,
+        ).count()
+
     class Meta:
         ordering = ["-id"]
+
+
+class Like(TimeStamp):
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    content_type = models.ForeignKey(
+        to=ContentType,
+        on_delete=models.CASCADE,
+        related_name="likes",
+    )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+
+    def __str__(self):
+        return f"Like - by:{self.user} on:{self.content_object}"
+
+    class Meta:  # 한 유저는 같은 글에 한번만 좋아요 가능
+        unique_together = ("user", "content_type", "object_id")
+
+
+class Bookmark(TimeStamp):
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    content_type = models.ForeignKey(
+        to=ContentType,
+        on_delete=models.CASCADE,
+        related_name="bookmarks",
+    )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+
+    def __str__(self):
+        return f"Bookmark - by:{self.user} on:{self.content_object}"
+
+    class Meta:  # 한 유저는 같은 글에 한번만 북마크 가능
+        unique_together = ("user", "content_type", "object_id")

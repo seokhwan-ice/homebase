@@ -18,3 +18,9 @@ class User(AbstractUser):
         validators=[RegexValidator(r"010-?[1-9]\d{3}-\d{4}")],
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    followings = models.ManyToManyField(
+        "self", symmetrical=False, related_name="followers", blank=True
+    )
+    def __str__(self):
+        return self.username
