@@ -118,3 +118,23 @@ class Like(TimeStamp):
 
     class Meta:  # 한 유저는 같은 글에 한번만 좋아요 가능
         unique_together = ("user", "content_type", "object_id")
+
+
+class Bookmark(TimeStamp):
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    content_type = models.ForeignKey(
+        to=ContentType,
+        on_delete=models.CASCADE,
+        related_name="bookmarks",
+    )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+
+    def __str__(self):
+        return f"Bookmark - by:{self.user} on:{self.content_object}"
+
+    class Meta:  # 한 유저는 같은 글에 한번만 북마크 가능
+        unique_together = ("user", "content_type", "object_id")

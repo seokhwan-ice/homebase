@@ -5,12 +5,29 @@ from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Free, Live, Comment, Like
+from .models import Free, Live, Comment, Like, Bookmark
 from . import serializers
 
 
-# 댓글관련기능(아래서 상속받아서 쓸거에요)
 class CommentMixin:
+    """
+    1) 댓글 생성
+
+        URL경로 -  /<글 모델>/<pk>/create_comment/ (POST)
+        필수입력 - "content" : "생성할 댓글 내용"
+        선택입력 - "parent_id" : 대댓글을 달고싶다면 부모댓글의 id
+
+    2) 댓글 수정
+
+        URL경로 -  /<글 모델>/<pk>/update_comment/ (PUT)
+        필수입력 - "comment_id" : 수정할 대.댓글의 id
+        선택입력 - "content" : "수정된 대.댓글 내용"
+
+    3) 댓글 삭제
+
+        URL경로 -  /<글 모델>/<pk>/delete_comment/ (DELETE)
+        필수입력 - "comment_id" : 삭제할 대.댓글의 id
+    """
 
     def get_comment(self, request, instance):  # 댓글 수정/삭제 공통로직
         comment_id = request.data.get("comment_id")
@@ -52,7 +69,7 @@ class CommentMixin:
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=["put"])
+    @action(detail=True, methods=["put"])  # TODO: PATCH로 수정할지 물어보기
     def update_comment(self, request, pk=None):
         instance = self.get_object()
         comment = self.get_comment(request, instance)
@@ -70,8 +87,17 @@ class CommentMixin:
         return Response(data={"detail": "삭제완료!"}, status=status.HTTP_204_NO_CONTENT)
 
 
-# 좋아요관련기능(아래서 상속받아서 쓸거에요)
 class LikeMixin:
+    """
+    1) 글 좋아요 & 좋아요 취소
+
+        URL경로 -  /<글 모델>/<pk>/toggle_like_article/ (POST)
+
+    2) 댓글 좋아요 & 좋아요 취소
+
+        URL경로 -  /<글 모델>/<pk>/toggle_like_comment/ (POST)
+        필수입력 - "comment_id" : 좋아요 및 취소할 대.댓글의 id
+    """
 
     def toggle_like(self, request, instance):  # 글/댓글 좋아요 공통로직
         like, created = Like.objects.get_or_create(
@@ -86,13 +112,11 @@ class LikeMixin:
             )
         return Response(data={"detail": "좋아요!"}, status=status.HTTP_201_CREATED)
 
-    # 글 좋아요
     @action(detail=True, methods=["post"])
     def toggle_like_article(self, request, pk=None):
         instance = self.get_object()
         return self.toggle_like(request, instance)
 
-    # 댓글 좋아요
     @action(detail=True, methods=["post"])
     def toggle_like_comment(self, request, pk=None):
         instance = self.get_object()
@@ -108,8 +132,31 @@ class LikeMixin:
         return self.toggle_like(request, comment)
 
 
+class BookmarkMixin:
+    """
+    1) 글 북마크 & 북마크 취소
+
+        URL경로 -  /<글 모델>/<pk>/toggle_bookmark/ (POST)
+    """
+
+    @action(detail=True, methods=["post"])
+    def toggle_bookmark(self, request, pk=None):
+        instance = self.get_object()
+        bookmark, created = Bookmark.objects.get_or_create(
+            user=request.user,
+            content_type=ContentType.objects.get_for_model(instance),
+            object_id=instance.id,
+        )
+        if not created:
+            bookmark.delete()
+            return Response(
+                data={"detail": "북마크 취소됨"}, status=status.HTTP_204_NO_CONTENT
+            )
+        return Response(data={"detail": "북마크!"}, status=status.HTTP_201_CREATED)
+
+
 # Free, Live 공통 로직
-class BaseViewSet(viewsets.ModelViewSet, CommentMixin):
+class BaseViewSet(viewsets.ModelViewSet, CommentMixin, BookmarkMixin):
     permission_classes = [IsAuthenticatedOrReadOnly]  # TODO: 권한 논의 후 수정
 
     def perform_create(self, serializer):
