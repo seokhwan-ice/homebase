@@ -40,6 +40,7 @@ class Live(TimeStamp):
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name="author_live"
     )
     live_image = models.ImageField(
         upload_to="live/image/%Y/%m/%d/",
