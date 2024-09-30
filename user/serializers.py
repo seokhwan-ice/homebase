@@ -53,6 +53,23 @@ class UserProfileTitleSerializer(serializers.ModelSerializer):
         fields = ["community_free_title", "nickname", "created_at"]
 
 
+class UserProfileliveViewSerializer(serializers.ModelSerializer):
+    community_live_image = serializers.SerializerMethodField()
+
+    def get_community_live_image(self, obj):
+        user_live_image = obj.author_live.all()
+        images = []
+
+        for live_image in user_live_image:
+            if live_image.live_image:
+                live_image.append(live_image.title)
+        return images
+
+    class Meta:
+        model = User
+        fields = ["community_live_image", "nickname", "created_at"]
+
+
 class FollowingListSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
     follower_count = serializers.SerializerMethodField()
