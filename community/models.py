@@ -18,7 +18,7 @@ class Free(TimeStamp):
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="free_title",
+        related_name="author_free",
 
     )
     free_image = models.ImageField(

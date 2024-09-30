@@ -2,6 +2,8 @@ from .models import User
 from rest_framework import serializers
 from community.models import Comment
 
+# TODO 모두 구현 간소화진행할게요! 코멘트도 하나의 시리얼라이져만들어서 사용하는거 고민!!
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -12,7 +14,26 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+# TODO 좋아요 구현 후 카운트추가
 class UserProfileSerializer(serializers.ModelSerializer):
+    following_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
+    article_count = serializers.SerializerMethodField()
+    comment_count = serializers.SerializerMethodField()
+
+    def get_comment_count(self, obj):
+        return Comment.objects.filter(author=obj).count()
+
+    def get_article_count(self, obj):
+        free_article = obj.author_free.count()
+        live_article = obj.author_live.count()
+        return free_article + live_article
+
+    def get_following_count(self, obj):
+        return obj.followings.count()
+
+    def get_followers_count(self, obj):
+        return obj.followers.count()
 
     class Meta:
         model = User
@@ -21,10 +42,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "nickname",
             "bio",
             "created_at",
+            "following_count",
+            "followers_count",
+            "article_count",
+            "comment_count",
         ]
-
-
-# 추가적인 커뮤니티, 코멘트, 좋아요 구현 후 필드추가.
 
 
 class UpdateProfileSerializer(serializers.ModelSerializer):
@@ -33,14 +55,11 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
         fields = ["email", "phone_number", "nickname", "bio"]
 
 
-# account- 내 계정(개인정보) 수정 페이지 추후 비번필드도 보여줌?
-
-
 class UserProfileTitleSerializer(serializers.ModelSerializer):
     community_free_title = serializers.SerializerMethodField()
 
     def get_community_free_title(self, obj):
-        user_free_article = obj.free_title.all()
+        user_free_article = obj.author_free.all()
         title = []
 
         for free in user_free_article:
@@ -117,7 +136,7 @@ class FollowerslistSerializer(serializers.ModelSerializer):
         return nicknames
 
     def get_following_count(self, obj):
-        return obj.following.count()
+        return obj.followings.count()
 
     def get_followers_count(self, obj):
         return obj.followers.count()
