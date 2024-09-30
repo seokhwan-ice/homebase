@@ -25,6 +25,7 @@ class Free(TimeStamp):
         blank=True,
         null=True,
     )
+    views = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"Free[{self.id}]{self.title}"
@@ -39,7 +40,7 @@ class Live(TimeStamp):
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="author_live"
+        related_name="author_live",
     )
     live_image = models.ImageField(
         upload_to="live/image/%Y/%m/%d/",

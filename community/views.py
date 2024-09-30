@@ -178,15 +178,6 @@ class BaseViewSet(viewsets.ModelViewSet, CommentMixin, BookmarkMixin):
 class FreeViewSet(BaseViewSet):
     queryset = Free.objects.all()
 
-    def get_queryset(self):
-        queryset = Free.objects.all()
-        search = self.request.query_params.get("q")
-        if search:
-            queryset = queryset.filter(
-                Q(title__icontains=search) | Q(content__icontains=search)
-            )  # TODO: 쿼리호출결과 확인해보고 감당안되면 제목만 검색하자요
-        return queryset
-
     def get_serializer_class(self):
         if self.action in ["create", "update"]:
             return serializers.FreeCreateUpdateSerializer  # Create, Update
@@ -197,6 +188,28 @@ class FreeViewSet(BaseViewSet):
 
     def get_model(self):
         return Free
+
+    # 키워드 검색
+    def get_queryset(self):
+        """
+        URL경로 - /api/community/free/?q=keyword (GET)
+        Params - {Key : Value} = {q : keyword}
+        """
+        queryset = Free.objects.all()
+        search = self.request.query_params.get("q")
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) | Q(content__icontains=search)
+            )  # TODO: 쿼리호출결과 확인해보고 감당안되면 제목만 검색하자요
+        return queryset
+
+    # 조회수 카운트
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.views += 1
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LiveViewSet(BaseViewSet, LikeMixin):

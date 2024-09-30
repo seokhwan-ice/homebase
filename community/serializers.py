@@ -48,10 +48,11 @@ class FreeCreateUpdateSerializer(serializers.ModelSerializer):
 class FreeListSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments_count = serializers.SerializerMethodField()
+    views = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Free
-        fields = ["id", "author", "title", "comments_count"]
+        fields = ["id", "author", "title", "views", "comments_count"]
 
     def get_comments_count(self, instance):
         content_type = ContentType.objects.get_for_model(Free)
@@ -64,6 +65,7 @@ class FreeDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
+    views = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Free
@@ -75,6 +77,7 @@ class FreeDetailSerializer(serializers.ModelSerializer):
             "free_image",
             "created_at",
             "updated_at",
+            "views",
             "comments_count",
             "comments",
         ]
