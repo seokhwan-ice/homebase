@@ -1,6 +1,6 @@
 from .models import User
 from rest_framework import serializers
-
+from community.models import Comment
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -133,3 +133,37 @@ class FollowerslistSerializer(serializers.ModelSerializer):
             "followers_count",
             "followers_list",
         ]
+
+
+# TODO 뉴스 댓글 추가해야해요.
+class CommentsListSerializer(serializers.ModelSerializer):
+    comments = serializers.SerializerMethodField()
+
+    def get_comments(self, obj):
+        comments = Comment.objects.filter(author=obj)
+        comments_list = []
+
+        for comment in comments:
+            comments_data = {
+                "content": comment.content,
+                "article_type": self.get_article_type(comment),
+                "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:"),
+                "updated_at": comment.updated_at.strftime(
+                    "%Y-%m-%d %H:%M:"
+                ),  # strftime 데이트타입 포맷터(출력date지정)
+            }
+            comments_list.append(comments_data)
+
+        return comments_list
+
+    def get_article_type(self, comment):
+
+        # 댓글이 작성된 게시물이 Free인지 Live인지 반환
+        if comment.content_type.model == "free":
+            return "Free"
+        elif comment.content_type.model == "live":
+            return "Live"
+
+    class Meta:
+        model = User
+        fields = ["profile_image", "nickname", "comments"]
