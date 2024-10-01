@@ -15,6 +15,8 @@ from .serializers import (
     FollowerslistSerializer,
     CommentsListSerializer,
     BookMarkListSerializer,
+    MyProfileSerializer,
+    UpdateMyProfileSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -70,8 +72,12 @@ class UserProfileView(APIView):
 
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
-        serializer = UserProfileSerializer(user)
-        return Response(serializer.data)
+        if request.user == user:
+            serializer = MyProfileSerializer(user)
+            return Response(serializer.data)
+        else:
+            serializer = UserProfileSerializer(user)
+            return Response(serializer.data)
 
     def put(self, request, username):
         user = get_object_or_404(User, username=username)
@@ -83,6 +89,18 @@ class UserProfileView(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
+
+    def patch(self, request, username):
+        user = get_object_or_404(User, username=username)
+        if request.user == user:
+
+            serializer = UpdateMyProfileSerializer(
+                user, data=request.data, partial=True
+            )
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=200)
+            return Response(serializer.errors, status=400)
 
 
 class UserPasswordChangeView(APIView):

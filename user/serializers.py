@@ -53,11 +53,30 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "bookmark_count",
         ]
 
+# 나만 보이는 페이지
+class MyProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "email",
+            "phone_number",
+        ]
+
 
 class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email", "phone_number", "nickname", "bio"]
+
+
+# 나만 보이는 페이지 부분 수정?
+class UpdateMyProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "email",
+            "phone_number",
+        ]
 
 
 class UserProfileTitleSerializer(serializers.ModelSerializer):
