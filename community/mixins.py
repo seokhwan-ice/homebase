@@ -54,7 +54,7 @@ class CommentMixin:
                     object_id=instance.id,
                 )
             except Comment.DoesNotExist:
-                return NotFound("해당 부모 댓글을 찾을 수 없음")
+                raise NotFound("해당 부모 댓글을 찾을 수 없음")
 
         serializer = serializers.CommentSerializer(data=request.data)
         if serializer.is_valid():
@@ -71,7 +71,9 @@ class CommentMixin:
     def update_comment(self, request, pk=None):
         instance = self.get_object()
         comment = self.get_comment(request, instance)
-        serializer = serializers.CommentSerializer(comment, data=request.data)
+        serializer = serializers.CommentSerializer(
+            comment, data=request.data, partial=True
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
