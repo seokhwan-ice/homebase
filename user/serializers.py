@@ -4,6 +4,7 @@ from community.models import Comment, Bookmark
 
 # TODO 모두 구현 간소화진행할게요! 코멘트도 하나의 시리얼라이져만들어서 사용하는거 고민!!
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -14,7 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
-# TODO 좋아요 구현 후 카운트추가
 class UserProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
@@ -50,7 +50,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "followers_count",
             "article_count",
             "comment_count",
-            "bookmark_count"
+            "bookmark_count",
         ]
 
 
@@ -195,7 +195,6 @@ class CommentsListSerializer(serializers.ModelSerializer):
 
 class BookMarkListSerializer(serializers.ModelSerializer):
     bookmark = serializers.SerializerMethodField()
-    
 
     def get_bookmark(self, obj):
         bookmarks = Bookmark.objects.filter(user=obj)
@@ -213,9 +212,9 @@ class BookMarkListSerializer(serializers.ModelSerializer):
             bookmark_list.append(bookmarks_data)
 
         return bookmark_list
-    
+
     def get_article_title(self, bookmark):
-    # 기사 제목 가져오기
+        # 기사 제목 가져오기
         if bookmark.content_object:  # content_object가 존재하는지 확인
             return bookmark.content_object.title  # 제목 반환
         else:
@@ -232,4 +231,3 @@ class BookMarkListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["profile_image", "nickname", "bookmark"]
-
