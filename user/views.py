@@ -39,58 +39,27 @@ class UserViewSet(viewsets.ViewSet):
         serializer = UserSerializer(user)
         return Response(serializer.data)
     
-    # @action(detail=False, methods=["POST"])
-    # def signin(self, request):
-    #     username = request.data.get("username")
-    #     password = request.data.get("password")
+    @action(detail=False, methods=["POST"])
+    def signin(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
 
-    #     user = authenticate(username=username, password=password)
-    #     if not user:
-    #         return Response(
-    #             {"message": "아이디 또는 비밀번호가 틀렸습니다"}, status=400
-    #         )
+        user = authenticate(username=username, password=password)
+        if not user:
+            return Response(
+                {"message": "아이디 또는 비밀번호가 틀렸습니다"}, status=400
+            )
 
-    #     refresh = RefreshToken.for_user(user)
+        refresh = RefreshToken.for_user(user)
 
-    #     return Response(
-    #         {
-    #             "refresh": str(refresh),
-    #             "access": str(refresh.access_token),
-    #         }
-    #     )
-
-
-# class UserCreateView(APIView):
-#     def post(self, request):
-#         rlt_message = validate_user_data(request.data)
-#         if rlt_message is not None:
-#             return Response({"message": rlt_message}, status=400)
-
-#         user = User.objects.create_user(**request.data)  # 코드 간소화
-
-#         serializer = UserSerializer(user)
-#         return Response(serializer.data)
+        return Response(
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            }
+        )
 
 
-# class UserLoginView(APIView):
-#     def post(self, request):
-#         username = request.data.get("username")
-#         password = request.data.get("password")
-
-#         user = authenticate(username=username, password=password)
-#         if not user:
-#             return Response(
-#                 {"message": "아이디 또는 비밀번호가 틀렸습니다"}, status=400
-#             )
-
-#         refresh = RefreshToken.for_user(user)
-
-#         return Response(
-#             {
-#                 "refresh": str(refresh),
-#                 "access": str(refresh.access_token),
-#             }
-#         )
 
 
 # class UserProfileView(APIView):
