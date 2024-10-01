@@ -1,3 +1,5 @@
+from email.policy import default
+
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -26,9 +28,17 @@ class Free(TimeStamp):
         null=True,
     )
     views = models.PositiveIntegerField(default=0)
+    comments_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"Free[{self.id}]{self.title}"
+
+    def update_comments_count(self):
+        self.comments_count = Comment.objects.filter(
+            content_type=ContentType.objects.get_for_model(self),
+            object_id=self.id,
+        ).count()
+        self.save()
 
     class Meta:
         ordering = ["-id"]
@@ -75,16 +85,25 @@ class Live(TimeStamp):
     away_team = models.CharField(max_length=20, choices=TEAM_CHOICES)
     stadium = models.CharField(max_length=20, choices=STADIUM_CHOICES)
     seat = models.CharField(max_length=20, blank=True, null=True)
+    likes_count = models.PositiveIntegerField(default=0)
+    comments_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"Live[{self.id}]"
 
-    @property  # 좋아요 수
-    def likes_count(self):
-        return Like.objects.filter(
+    def update_likes_count(self):
+        self.likes_count = Like.objects.filter(
             content_type=ContentType.objects.get_for_model(self),
             object_id=self.id,
         ).count()
+        self.save()
+
+    def update_comments_count(self):
+        self.comments_count = Comment.objects.filter(
+            content_type=ContentType.objects.get_for_model(self),
+            object_id=self.id,
+        ).count()
+        self.save()
 
     class Meta:
         ordering = ["-id"]
@@ -112,16 +131,17 @@ class Comment(TimeStamp):  # TODO: 데이터베이스 인덱스 추가 / 대.댓
         null=True,
         blank=True,
     )
+    likes_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"Comment[{self.id}] - by:{self.author} on:{self.content_object}"
 
-    @property  # 좋아요 수
-    def likes_count(self):
-        return Like.objects.filter(
+    def update_likes_count(self):
+        self.likes_count = Like.objects.filter(
             content_type=ContentType.objects.get_for_model(self),
             object_id=self.id,
         ).count()
+        self.save()
 
     class Meta:
         ordering = ["-id"]

@@ -64,10 +64,11 @@ class CommentMixin:
                 object_id=instance.id,
                 parent=parent_comment,
             )
+            instance.update_comments_count()  # 댓글수 업데이트
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=["put"])  # TODO: PATCH로 수정할지 물어보기
+    @action(detail=True, methods=["put"])
     def update_comment(self, request, pk=None):
         instance = self.get_object()
         comment = self.get_comment(request, instance)
@@ -84,6 +85,7 @@ class CommentMixin:
         instance = self.get_object()
         comment = self.get_comment(request, instance)
         comment.delete()
+        instance.update_comments_count()  # 댓글수 업데이트
         return Response(data={"detail": "삭제완료!"}, status=status.HTTP_204_NO_CONTENT)
 
 
@@ -107,9 +109,11 @@ class LikeMixin:
         )
         if not created:
             like.delete()
+            instance.update_likes_count()  # 좋아요수 업데이트
             return Response(
                 data={"detail": "좋아요 취소됨"}, status=status.HTTP_204_NO_CONTENT
             )
+        instance.update_likes_count()  # 좋아요수 업데이트
         return Response(data={"detail": "좋아요!"}, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=["post"])
