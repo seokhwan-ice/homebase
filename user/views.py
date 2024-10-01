@@ -7,11 +7,11 @@ from .models import User
 from .vaildators import validate_user_data
 from .serializers import (
     UserSerializer,
-#    UserProfileSerializer,
-#    FollowingListSerializer,
-#    FollowerslistSerializer,
-#    CommentsListSerializer,
-#    BookMarkListSerializer,
+    #    UserProfileSerializer,
+    #    FollowingListSerializer,
+    #    FollowerslistSerializer,
+    #    CommentsListSerializer,
+    #    BookMarkListSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -23,9 +23,9 @@ from rest_framework.decorators import action
 
 class UserViewSet(viewsets.ViewSet):
     def get_serializer_class(self):
-        if self.action == 'signup':
+        if self.action == "signup":
             return UserSerializer
-    
+
     @action(detail=False, methods=["post"])
     def signup(self, request):
         rlt_message = validate_user_data(request.data)
@@ -34,6 +34,25 @@ class UserViewSet(viewsets.ViewSet):
         user = User.objects.create_user(**request.data)  # 코드 간소화
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+    @action(detail=False, methods=["post"])
+    def signin(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        user = authenticate(username=username, password=password)
+        if not user:
+            return Response(
+                {"message": "아이디 또는 비밀번호가 틀렸습니다"}, status=400
+            )
+        refresh = RefreshToken.for_user(user)
+        return Response(
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            }
+        )
+    
 
 
 
@@ -182,69 +201,69 @@ class UserViewSet(viewsets.ViewSet):
 
 #         fields = request.query_params.get("fields")
 #         if fields:
-#             fields = fields.split(",")  
+#             fields = fields.split(",")
 #         else:
-#             fields = None  
+#             fields = None
 
 #         serializer = UserProfileSerializer(user, fields=fields)
 #         return Response(serializer.data)
 
-    # def put(self, request, username):
-    #     user = get_object_or_404(User, username=username)
+# def put(self, request, username):
+#     user = get_object_or_404(User, username=username)
 
-    #     if request.user != user:
-    #         raise PermissionDenied("수정 권한이 없습니다")
+#     if request.user != user:
+#         raise PermissionDenied("수정 권한이 없습니다")
 
-    #     # 허용된 필드 목록 정의
-    #     allowed_fields = {"nickname", "bio", "profile_image"}
+#     # 허용된 필드 목록 정의
+#     allowed_fields = {"nickname", "bio", "profile_image"}
 
-    #     # 요청된 데이터에서 허용된 필드만 남기기
-    #     data = {}
-    #     for key, value in request.data.items():
-    #         if key in allowed_fields:
-    #             data[key] = value
+#     # 요청된 데이터에서 허용된 필드만 남기기
+#     data = {}
+#     for key, value in request.data.items():
+#         if key in allowed_fields:
+#             data[key] = value
 
-    #     # 필터링된 데이터로 시리얼라이저 호출
-    #     serializer = UserProfileSerializer(user, data=data, partial=True)
+#     # 필터링된 데이터로 시리얼라이저 호출
+#     serializer = UserProfileSerializer(user, data=data, partial=True)
 
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save()
 
-    #         # 수정된 필드만 반환하기 위해 데이터 필터링
-    #         updated_fields = {}
-    #         for key, value in serializer.validated_data.items():
-    #             updated_fields[key] = value
+#         # 수정된 필드만 반환하기 위해 데이터 필터링
+#         updated_fields = {}
+#         for key, value in serializer.validated_data.items():
+#             updated_fields[key] = value
 
-    #         return Response(updated_fields, status=200)
+#         return Response(updated_fields, status=200)
 
-    #     return Response(serializer.errors, status=400)
+#     return Response(serializer.errors, status=400)
 
-    # def patch(self, request, username):
-    #     user = get_object_or_404(User, username=username)
+# def patch(self, request, username):
+#     user = get_object_or_404(User, username=username)
 
-    #     if request.user != user:
-    #         raise PermissionDenied("수정 권한이 없습니다")
+#     if request.user != user:
+#         raise PermissionDenied("수정 권한이 없습니다")
 
-    #     # 허용된 필드 목록 정의
-    #     allowed_fields = {"email", "phone_number"}
+#     # 허용된 필드 목록 정의
+#     allowed_fields = {"email", "phone_number"}
 
-    #     # 요청된 데이터에서 허용된 필드만 남기기
-    #     data = {}
-    #     for key, value in request.data.items():
-    #         if key in allowed_fields:
-    #             data[key] = value
+#     # 요청된 데이터에서 허용된 필드만 남기기
+#     data = {}
+#     for key, value in request.data.items():
+#         if key in allowed_fields:
+#             data[key] = value
 
-    #     # 필터링된 데이터로 시리얼라이저 호출
-    #     serializer = UserProfileSerializer(user, data=data, partial=True)
+#     # 필터링된 데이터로 시리얼라이저 호출
+#     serializer = UserProfileSerializer(user, data=data, partial=True)
 
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save()
 
-    #         # 수정된 필드만 반환하기 위해 데이터 필터링
-    #         updated_fields = {}
-    #         for key, value in serializer.validated_data.items():
-    #             updated_fields[key] = value
+#         # 수정된 필드만 반환하기 위해 데이터 필터링
+#         updated_fields = {}
+#         for key, value in serializer.validated_data.items():
+#             updated_fields[key] = value
 
-    #         return Response(updated_fields, status=200)
+#         return Response(updated_fields, status=200)
 
-    #     return Response(serializer.errors, status=400)
+#     return Response(serializer.errors, status=400)

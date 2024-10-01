@@ -91,6 +91,7 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+
 # class FollowingListSerializer(serializers.ModelSerializer):
 #     following_count = serializers.SerializerMethodField()
 #     follower_count = serializers.SerializerMethodField()
