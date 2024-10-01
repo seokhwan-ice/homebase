@@ -16,7 +16,8 @@ urlpatterns = [
     path("<str:username>/follow/", views.FollowAPIView.as_view()),
     path("<str:username>/followinglist/", views.FollowingListAPIView.as_view()),
     path("<str:username>/followerslist/", views.FollowerslistAPIView.as_view()), 
-    path("<str:username>/commentlist/", views.CommentsListAPIView.as_view()),   
+    path("<str:username>/commentlist/", views.CommentsListAPIView.as_view()),
+    path("<str:username>/bookmark/", views.BookMarkListAPIView.as_view()),
 ]
 
 

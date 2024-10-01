@@ -1,8 +1,9 @@
 from .models import User
 from rest_framework import serializers
-from community.models import Comment
+from community.models import Comment, Bookmark
 
 # TODO 모두 구현 간소화진행할게요! 코멘트도 하나의 시리얼라이져만들어서 사용하는거 고민!!
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,12 +15,15 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
-# TODO 좋아요 구현 후 카운트추가
 class UserProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     article_count = serializers.SerializerMethodField()
     comment_count = serializers.SerializerMethodField()
+    bookmark_count = serializers.SerializerMethodField()
+
+    def get_bookmark_count(self, obj):
+        return Bookmark.objects.filter(user=obj).count()
 
     def get_comment_count(self, obj):
         return Comment.objects.filter(author=obj).count()
@@ -46,6 +50,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "followers_count",
             "article_count",
             "comment_count",
+            "bookmark_count",
         ]
 
 
@@ -186,3 +191,43 @@ class CommentsListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["profile_image", "nickname", "comments"]
+
+
+class BookMarkListSerializer(serializers.ModelSerializer):
+    bookmark = serializers.SerializerMethodField()
+
+    def get_bookmark(self, obj):
+        bookmarks = Bookmark.objects.filter(user=obj)
+        bookmark_list = []
+
+        for bookmark in bookmarks:
+            bookmarks_data = {
+                "article_type": self.get_article_type(bookmark),
+                "title": self.get_article_title(bookmark),
+                "created_at": bookmark.created_at.strftime("%Y-%m-%d %H:%M:"),
+                "updated_at": bookmark.updated_at.strftime(
+                    "%Y-%m-%d %H:%M:"
+                ),  # strftime 데이트타입 포맷터(출력date지정)
+            }
+            bookmark_list.append(bookmarks_data)
+
+        return bookmark_list
+
+    def get_article_title(self, bookmark):
+        # 기사 제목 가져오기
+        if bookmark.content_object:  # content_object가 존재하는지 확인
+            return bookmark.content_object.title  # 제목 반환
+        else:
+            return None  # 존재하지 않으면 None 반환
+
+    def get_article_type(self, bookmark):
+
+        # 댓글이 작성된 게시물이 Free인지 Live인지 반환
+        if bookmark.content_type.model == "free":
+            return "Free"
+        elif bookmark.content_type.model == "live":
+            return "Live"
+
+    class Meta:
+        model = User
+        fields = ["profile_image", "nickname", "bookmark"]

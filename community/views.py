@@ -213,5 +213,3 @@ class LiveViewSet(BaseViewSet, LikeMixin):
     def get_model(self):
         return Live
 
-
-# 팔로우

@@ -13,7 +13,8 @@ from .serializers import (
     FollowingListSerializer,
     UserProfileliveViewSerializer,
     FollowerslistSerializer,
-    CommentsListSerializer
+    CommentsListSerializer,
+    BookMarkListSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -159,7 +160,7 @@ class UserProfileliveView(APIView):
         user = get_object_or_404(User, username=username)
         serializer = UserProfileliveViewSerializer(user)
         return Response(serializer.data)
-    
+
 
 class FollowAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -181,7 +182,7 @@ class FollowingListAPIView(APIView):
         user = get_object_or_404(User, username=username)
         serializer = FollowingListSerializer(user)
         return Response(serializer.data)
-    
+
 
 class FollowerslistAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -192,11 +193,19 @@ class FollowerslistAPIView(APIView):
         return Response(serializer.data)
 
 
-
 class CommentsListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
         serializer = CommentsListSerializer(user)
+        return Response(serializer.data)
+
+
+class BookMarkListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        serializer = BookMarkListSerializer(user)
         return Response(serializer.data)
