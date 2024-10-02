@@ -58,6 +58,8 @@ class UserViewSet(viewsets.ViewSet):
                 "access": str(refresh.access_token),
             }
         )
+    
+    @action(detail=False, methods=["GET"])
 
 
 
