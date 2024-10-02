@@ -1,10 +1,10 @@
-from django.db.models import Q
+from django.db.models import Q, F
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, views
 from .mixins import CommentMixin, BookmarkMixin, LikeMixin
 from .models import Free, Live
 from . import serializers
@@ -106,3 +106,12 @@ class LiveViewSet(BaseViewSet, LikeMixin):
 
     def get_model(self):
         return Live
+
+    def get_queryset(self):  # TODO: 인기기준에 대해서는 더 생각해보자 + 날짜고려
+        queryset = super().get_queryset()
+        sort = self.request.query_params.get("sort")
+        if sort == "hot":
+            queryset = queryset.annotate(
+                hot=F("comments_count") * 3 + F("likes_count")
+            ).order_by("-hot")
+        return queryset
