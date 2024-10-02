@@ -115,3 +115,29 @@ class LiveViewSet(BaseViewSet, LikeMixin):
                 hot=F("comments_count") * 3 + F("likes_count")
             ).order_by("-hot")
         return queryset
+
+
+class MainView(views.APIView):
+    def get(self, request):
+        top_viewed_free = Free.objects.order_by("-views")[:3]
+        top_commented_free = Free.objects.order_by("-comments_count")[:3]
+        top_liked_live = Live.objects.order_by("-likes_count")[:3]
+        top_commented_live = Live.objects.order_by("-comments_count")[:3]
+        top_data = {
+            "top_viewed_free": serializers.FreeListSerializer(
+                top_viewed_free, many=True
+            ).data,
+            "top_commented_free": serializers.FreeListSerializer(
+                top_commented_free, many=True
+            ).data,
+            "top_liked_live": serializers.LiveListSerializer(
+                top_liked_live, many=True
+            ).data,
+            "top_commented_live": serializers.LiveListSerializer(
+                top_commented_live, many=True
+            ).data,
+        }
+        return Response(top_data, status=status.HTTP_200_OK)
+
+
+# TODO: 여기에 data 앱 내용 추가해서 전체 메인페이지로 써도 좋을거 같애!
