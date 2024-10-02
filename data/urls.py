@@ -1,7 +1,8 @@
 from django.urls import path
-from . import views
+from .views import SportsNewsAPIView, CrawlAndSavePlayersView
 
 app_name = "data"
 urlpatterns = [
-    path("sports_news/", views.SportsNewsAPIView.as_view(), name='sports_news'),
+    path("sports_news/", SportsNewsAPIView.as_view(), name="sports_news"),
+    path("crawl_players/", CrawlAndSavePlayersView.as_view(), name="crawl_players"),
 ]

@@ -26,3 +26,4 @@ urllib3==2.2.3
 openai~=0.27.2
 config~=0.5.1
 selenium~=4.25.0
+pandas~=2.2.3
