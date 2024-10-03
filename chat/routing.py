@@ -1,8 +1,8 @@
 from django.urls import re_path
-from . import consumers
+from .consumers import ChatConsumer
 
 websocket_urlpatterns = [
-    re_path(r"ws/chat/(?P<room_name>\w+)/$", consumers.ChatConsumer.as_asgi()),
+    re_path(r"ws/chat/(?P<room_name>\w+)/$", ChatConsumer.as_asgi()),
 ]
 
 # 요약
@@ -20,5 +20,5 @@ websocket_urlpatterns = [
 # room_name 을 URL에서 추출해서 채팅방 이름으로 전달함
 # ex) ws/chat/homebase/ -> homebase 채팅방
 
-# consumers.ChatConsumer.as_asgi()
+# ChatConsumer.as_asgi()
 # consumers.py 에서 정의한 소비자(ChatConsumer)가 ASGI 형식으로 요청을 처리하도록 설정
