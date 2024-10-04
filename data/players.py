@@ -29,11 +29,23 @@ def crawl_player_data():
         f"{base_url}/team/?m=seasonBacknumber&t_code=11001&year=2024",  # NC다이노스
         f"{base_url}/team/?m=seasonBacknumber&t_code=10001&year=2024",  # 키움히어로즈
         f"{base_url}/team/?m=seasonBacknumber&t_code=1001&year=2024",  # 삼성라이온즈
-        f"{base_url}/team/?m=seasonBacknumber&t_code=5002&year=2024",  # LG트윈스
         f"{base_url}/team/?m=seasonBacknumber&t_code=7002&year=2024",  # 한화이글스
         f"{base_url}/team/?m=seasonBacknumber&t_code=12001&year=2024",  # KT위즈
         f"{base_url}/team/?m=seasonBacknumber&t_code=9002&year=2024",  # SSG랜더스
     ]
+
+    # 각 팀에 대한 로고 URL을 저장
+    team_logos = {
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=2002&year=2024": "https://statiz.sporki.com/data/team/ci/2024/2002.svg",  # 기아타이거즈
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=6002&year=2024": "https://statiz.sporki.com/data/team/ci/2024/6002.svg",  # 두산베어스
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=3001&year=2024": "https://statiz.sporki.com/data/team/ci/2024/3001.svg",  # 롯데자이언츠
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=11001&year=2024": "https://statiz.sporki.com/data/team/ci/2024/11001.svg",  # NC다이노스
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=10001&year=2024": "https://statiz.sporki.com/data/team/ci/2024/10001.svg",  # 키움히어로즈
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=1001&year=2024": "https://statiz.sporki.com/data/team/ci/2024/1001.svg",  # 삼성라이온즈
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=7002&year=2024": "https://statiz.sporki.com/data/team/ci/2024/7002.svg",  # 한화이글스
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=12001&year=2024": "https://statiz.sporki.com/data/team/ci/2024/12001.svg",  # KT위즈
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=9002&year=2024": "https://statiz.sporki.com/data/team/ci/2024/9002.svg",  # SSG랜더스
+    }
 
     for url in team_urls:
         response = requests.get(url)
@@ -59,6 +71,9 @@ def crawl_player_data():
                 # 'table' 클래스를 가진 테이블을 선택
                 table = player_soup.find("table")
 
+                # 팀 URL에 해당하는 로고 URL 가져오기
+                team_logo = team_logos.get(url, "")
+
                 # 테이블의 내용을 리스트로 저장
                 if table:
                     rows = table.find_all("tr")
@@ -68,9 +83,10 @@ def crawl_player_data():
 
                         # 데이터베이스에 저장 (중복 확인)
                         player_record, created = PlayerRecord.objects.get_or_create(
-                            name=a.text,  # 선수 이름
+                            name=f"{team_logo} {a.text}",  # 팀 로고와 선수 이름 결합
                             opponent=cols[0] if len(cols) > 0 else "",  # 상대 이름
                             defaults={
+                                "team_logo_url": team_logo,  # 팀 로고 URL
                                 "pa": (
                                     safe_convert_to_int(cols[1]) if len(cols) > 1 else 0
                                 ),  # PA
@@ -180,6 +196,16 @@ def crawl_player_data():
                                 ),  # WPA
                             },
                         )
+
+                        # 새로 생성된 경우에만 로그 출력
+                        if created:
+                            print(
+                                f"Created record for {player_record.name} against {player_record.opponent}."
+                            )
+                        else:
+                            print(
+                                f"Record already exists for {player_record.name} against {player_record.opponent}."
+                            )
 
     # 결과 출력
     return PlayerRecord.objects.count()

@@ -4,7 +4,9 @@ from config import API_KEY
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import threading
+from data.schedule import crawl_game_data
+
+# from .schedule import crawl_game_data
 
 api_key = API_KEY
 
@@ -40,4 +42,34 @@ class CrawlAndSavePlayersView(APIView):
         # 저장된 선수 기록 개수를 반환
         return Response(
             {"message": f"총 {total_records}개의 선수 기록이 저장되었습니다."}
+        )
+
+
+class CrawlGameDataView(APIView):
+    def post(self, request):
+        start_game_number = request.data.get("start_game_number", 20240001)  # 시작 번호
+        end_game_number = request.data.get("end_game_number", 20250000)  # 끝 번호
+
+        # 유효성 검사
+        if start_game_number is None or end_game_number is None:
+            return Response(
+                {"error": "start_game_number and end_game_number are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            start_game_number = int(start_game_number)
+            end_game_number = int(end_game_number)
+        except ValueError:
+            return Response(
+                {"error": "start_game_number and end_game_number must be integers."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # 크롤링 수행
+        total_records = crawl_game_data(start_game_number, end_game_number)
+
+        return Response(
+            {"message": f"Crawled {total_records} game records."},
+            status=status.HTTP_201_CREATED,
         )
