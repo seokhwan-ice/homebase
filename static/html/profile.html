@@ -12,13 +12,16 @@
         <p><strong>소개글:</strong> <span id="bio"></span></p>
         <p><strong>가입일:</strong> <span id="created_at"></span></p>
         <p><strong>작성된 게시글:</strong> <span id="article_count"></span></p>
+        <p><strong>작성 댓글:</strong> <span id="comment_count"></span></p>
         <p><strong>팔로워 수:</strong> <span id="follower_count"></span></p>
         <p><strong>팔로잉 수:</strong> <span id="following_count"></span></p>
         <p><strong>북마크</strong> <span id="bookmark_count"></span></p>
+
+    // 좋아요 추가?
     </div>
 
-    <button onclick="update_Profile()">프로필 수정으로 이동하기</button>
-    // 프로필 수정 주소 수정하기
+    <button onclick="location.href='update_profile.html'">프로필 수정으로 이동하기</button>
+    <!--프로필 수정 페이지 연결 어떤 식으로 해야 되는지...-->
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
     <script src="../js/common.js"></script>

@@ -11,7 +11,7 @@ form.addEventListener('submit', async function(event) {
     const password = document.getElementById('password').value;
 
     try {
-        const response = await axios.post('user/signin/', {
+        const response = await axios.post('user/signin/', { // API 요청
             username: username,
             password: password
         });
@@ -21,6 +21,9 @@ form.addEventListener('submit', async function(event) {
         alert('로그인 성공!');
 
         location.href = 'profile.html' // 내 프로필 페이지로 이동
+        
+        // 로그인한 사람의 프로필 페이지가 보여야 되는데 그냥 메인 프로필 페이지만 보임 ㅜㅜ
+
 
     } catch (error) {
         console.error("Error:", error);
