@@ -33,6 +33,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # channels
+    "daphne",  # django.contrib.staticfiles랑 충돌 -> 위에 있어야함
+    "channels",
     # django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -45,14 +48,18 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",  # CORS
     # local
     "user",
     "data",
     "community",
+    "chat",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # CORS
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     # "django.middleware.csrf.CsrfViewMiddleware",
@@ -89,6 +96,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+        # "TEST": {
+        #     "NAME": BASE_DIR / "test_db.sqlite3",
+        # }, # 테스트 코드 실행할 때 사용할 데이터베이스
     }
 }
 
@@ -143,9 +153,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Channels
+ASGI_APPLICATION = "homebase.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],  # Redis 서버 위치
+        },
+    },
+}
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>free_detail</title>
+</head>
+
+<body>
+    <h1>Free 게시판 상세 페이지</h1>
+
+    <div id="free-detail">
+        <h2 id="free-title"></h2>
+        <p>작성자: <span id="free-author"></span></p>
+        <p>프사: <span id="free-profile-image"></span></p>
+        <p>내용: <span id="free-content"></span></p>
+        <p>이미지: <span id="free-image"></span></p>
+        <p>작성일: <span id="free-created-at"></span></p>
+        <p>수정일: <span id="free-updated-at"></span></p>
+        <p>조회수: <span id="free-views"></span></p>
+        <p>댓글수: <span id="free-comments-count"></span></p>
+        <!-- 댓글 보여주기 추가해야함 -->
+    </div>
+
+    <button onclick="location.href='free_list.html'">목록으로 돌아가기</button>
+    <button id="update-button">수정하기</button>
+    <button id="delete-button">삭제하기</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/free_detail.js"></script>
+</body>
+</html>

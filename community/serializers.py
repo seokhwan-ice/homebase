@@ -9,14 +9,12 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["nickname", "profile_image"]
-        # 작성자에서 가져올 필드(나중에 더 추가될거같아서 만든거에요 삭제가능)
 
 
 # Comment
 class CommentSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     replies = serializers.SerializerMethodField()
-    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -26,9 +24,6 @@ class CommentSerializer(serializers.ModelSerializer):
         if instance.replies.exists():
             return CommentSerializer(instance.replies.all(), many=True).data
         return None
-
-    def get_likes_count(self, instance):
-        return instance.likes_count
 
     # TODO: 프론트가서 확인해보고 free에도 좋아요 기능할거면 이 함수 삭제
     def to_representation(self, instance):
@@ -42,29 +37,21 @@ class CommentSerializer(serializers.ModelSerializer):
 class FreeCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Free
-        fields = ["title", "content", "free_image"]
+        fields = ["id", "title", "content", "free_image"]
 
 
 class FreeListSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
-    comments_count = serializers.SerializerMethodField()
     views = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Free
         fields = ["id", "author", "title", "views", "comments_count"]
 
-    def get_comments_count(self, instance):
-        content_type = ContentType.objects.get_for_model(Free)
-        return Comment.objects.filter(
-            content_type=content_type, object_id=instance.id
-        ).count()
-
 
 class FreeDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
-    comments_count = serializers.SerializerMethodField()
     views = serializers.IntegerField(read_only=True)
 
     class Meta:
@@ -89,12 +76,6 @@ class FreeDetailSerializer(serializers.ModelSerializer):
         )
         return CommentSerializer(comments, many=True).data
 
-    def get_comments_count(self, instance):
-        content_type = ContentType.objects.get_for_model(Free)
-        return Comment.objects.filter(
-            content_type=content_type, object_id=instance.id
-        ).count()
-
 
 # Live
 class LiveCreateUpdateSerializer(serializers.ModelSerializer):
@@ -113,8 +94,6 @@ class LiveCreateUpdateSerializer(serializers.ModelSerializer):
 
 class LiveListSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
-    likes_count = serializers.SerializerMethodField()
-    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Live
@@ -128,21 +107,10 @@ class LiveListSerializer(serializers.ModelSerializer):
             "comments_count",
         ]
 
-    def get_likes_count(self, instance):
-        return instance.likes_count
-
-    def get_comments_count(self, instance):
-        content_type = ContentType.objects.get_for_model(Live)
-        return Comment.objects.filter(
-            content_type=content_type, object_id=instance.id
-        ).count()
-
 
 class LiveDetailSerializer(serializers.ModelSerializer):
     author = AuthorSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
-    likes_count = serializers.SerializerMethodField()
-    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Live
@@ -168,12 +136,3 @@ class LiveDetailSerializer(serializers.ModelSerializer):
             content_type=content_type, object_id=instance.id, parent__isnull=True
         )
         return CommentSerializer(comments, many=True).data
-
-    def get_likes_count(self, instance):
-        return instance.likes_count
-
-    def get_comments_count(self, instance):
-        content_type = ContentType.objects.get_for_model(Live)
-        return Comment.objects.filter(
-            content_type=content_type, object_id=instance.id
-        ).count()

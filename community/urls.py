@@ -8,4 +8,5 @@ router.register(r"live", views.LiveViewSet, basename="live")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("main/", views.MainView.as_view(), name="main_view"),
 ]
