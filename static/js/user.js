@@ -12,7 +12,7 @@ form.addEventListener('submit', async function(event) {
     const password = document.getElementById('password').value;
 
     try {
-        const response = await axios.post('user/signin/', {
+        const response = await axios.post('http://localhost:8000/api/user/signin/', {
             username: username,
             password: password
         });

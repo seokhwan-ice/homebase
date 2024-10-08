@@ -10,7 +10,13 @@
 <body>
     <h1>Free 게시판 목록 페이지</h1>
 
+    <!-- 검색 -->
+    <input type="text" id="search-input" placeholder="검색어를 입력하세요">
+    <button id="search-button">검색</button>
+
+    <!-- 등록 -->
     <button onclick="location.href='free_create.html'">등록하기</button>
+
     <ul id="free-list"></ul>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
