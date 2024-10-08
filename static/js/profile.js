@@ -3,7 +3,7 @@
 const params = new URLSearchParams(location.search); // URL 파라미터 찾는 객체 만들어서
 const userId = params.get('id'); 
 
-const myProfile= async () => {
+const getProfile= async () => {
     try {
         const token = response.data.access;  // 서버에서 Access Token 받아서
         localStorage.setItem('token', token);  // 로컬 스토리지에 저장하기
@@ -12,7 +12,8 @@ const myProfile= async () => {
 
         // html 파일에서 만든 form 에 데이터 채우기
         document.getElementById('nickname').textContent = data.nickname;
-        doucument.getElementById('article_count').textContent = data.article_count;
+        doucument.getElementById('free_count').textContent = data.free_count;
+        doucument.getElementById('live_count').textContent = data.live_count;
         document.getElementById('comment_count').textContent = data.comment_count;
         document.getElementById('created_at').textContent = new Date(data.created_at).toLocaleString();
         docuument.getElementById('following_count').textContent = data.following_count;
