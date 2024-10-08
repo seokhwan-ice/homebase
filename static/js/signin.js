@@ -20,7 +20,7 @@ form.addEventListener('submit', async function(event) {
         localStorage.setItem('token', token);  // 로컬 스토리지에 저장하기
         alert('로그인 성공!');
 
-        location.href = 'free_list.html' // 목록페이지로 이동
+        location.href = 'profile.html' // 내 프로필 페이지로 이동
 
     } catch (error) {
         console.error("Error:", error);
