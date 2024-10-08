@@ -72,19 +72,18 @@ getFreeDetail();
 
 // 글 수정
 document.getElementById('update-button').addEventListener('click', function() {
-    if (!localStorage.getItem('token')) {
-        alert('로그인이 필요합니다!');
-        location.href = 'user.html';
+
+    if (!checkSignin()) {
         return;
     }
+
     location.href = `free_update.html?id=${freeId}`;  // 수정 페이지로 이동
 });
 
 // 글 삭제
 document.getElementById('delete-button').addEventListener('click', async function() {
-    if (!localStorage.getItem('token')) {
-        alert('로그인이 필요합니다!');
-        location.href = 'user.html';
+
+    if (!checkSignin()) {
         return;
     }
 
@@ -106,9 +105,7 @@ const commentForm = document.getElementById('comment-form');
 commentForm.addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    if (!localStorage.getItem('token')) {
-        alert('로그인이 필요합니다!');
-        location.href = 'user.html';
+    if (!checkSignin()) {
         return;
     }
 
@@ -138,9 +135,8 @@ commentForm.addEventListener('submit', async function(event) {
 
 // 북마트 토글
 document.getElementById('bookmark-button').addEventListener('click', async function() {
-    if (!localStorage.getItem('token')) {
-        alert('로그인이 필요합니다!');
-        location.href = 'user.html';
+
+    if (!checkSignin()) {
         return;
     }
 

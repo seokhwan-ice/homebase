@@ -8,9 +8,7 @@ const form = document.getElementById('create-form');
 form.addEventListener('submit', async function(event) {
     event.preventDefault();  // 기본 form 제출 방지 (페이지 새로고침 방지)
 
-    if (!localStorage.getItem('token')) {
-        alert('로그인이 필요합니다');
-        location.href = 'user.html';  // 로그인창으로 이동
+    if (!checkSignin()) {
         return;
     }
 
