@@ -57,3 +57,25 @@ class GameRecord(models.Model):
 
     def __str__(self):
         return f"{self.date}: {self.team_1} vs {self.team_2}"
+
+
+class TeamRank(models.Model):
+    rank = models.IntegerField()  # 순위
+    team_name = models.CharField(max_length=100)  # 팀 이름
+    games_played = models.IntegerField()  # 경기 수
+    wins = models.IntegerField()  # 승리 수
+    draws = models.IntegerField()  # 무승부 수
+    losses = models.IntegerField()  # 패배 수
+    games_behind = models.FloatField()  # 게임차 (소수점 가능)
+    win_rate = models.FloatField()  # 승률 (소수점 가능)
+    streak = models.CharField(max_length=10)  # 연속 (e.g., "W3", "L2" 등)
+    last_10_games = models.CharField(max_length=20)  # 최근 10경기 성적 (e.g., "7-3")
+
+    def __str__(self):
+        return f"{self.rank} - {self.team_name}"
+
+    class Meta:
+        verbose_name = "Team Record"
+        verbose_name_plural = "Team Records"
+        ordering = ["rank"]  # 순위 기준으로 정렬
+        db_table = "data_teamrank"  # 테이블 이름을 명시적으로 설정
