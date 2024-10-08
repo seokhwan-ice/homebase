@@ -37,7 +37,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class FreeCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Free
-        fields = ["title", "content", "free_image"]
+        fields = ["id", "title", "content", "free_image"]
 
 
 class FreeListSerializer(serializers.ModelSerializer):
