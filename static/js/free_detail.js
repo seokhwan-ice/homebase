@@ -52,7 +52,7 @@ const getFreeDetail = async () => {
         document.getElementById('free-profile-image').innerHTML = profileImage;
 
         // 게시글 이미지 : null인 경우 처리작업 추가해야할거같다.. 일단 텍스트로
-        const freeImage = free.free_image ? `<img src="${free.free_image}" alt="게시글 이미지" width="100">` : "이미지 없음";
+        const freeImage = free.free_image ? `<img src="${free.free_image}" alt="게시글 이미지" width="200">` : "이미지 없음";
         document.getElementById('free-image').innerHTML = freeImage;
 
         // 댓글 목록 불러오기

@@ -311,3 +311,5 @@ chromedriver.exe
 #config
 config.py
 
+# image
+media/

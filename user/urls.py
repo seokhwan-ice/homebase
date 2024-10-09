@@ -1,7 +1,5 @@
 from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -15,11 +13,7 @@ urlpatterns = [
     path("<str:username>/live/", views.UserProfileliveView.as_view()),
     path("<str:username>/follow/", views.FollowAPIView.as_view()),
     path("<str:username>/followinglist/", views.FollowingListAPIView.as_view()),
-    path("<str:username>/followerslist/", views.FollowerslistAPIView.as_view()), 
+    path("<str:username>/followerslist/", views.FollowerslistAPIView.as_view()),
     path("<str:username>/commentlist/", views.CommentsListAPIView.as_view()),
     path("<str:username>/bookmark/", views.BookMarkListAPIView.as_view()),
 ]
-
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

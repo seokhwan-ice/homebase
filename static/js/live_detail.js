@@ -41,7 +41,7 @@ const getLiveDetail = async () => {
         const profileImage = live.author.profile_image ? `<img src="${live.author.profile_image}" alt="프로필 이미지" width="50">` : "이미지 없음";
         document.getElementById('live-profile-image').innerHTML = profileImage;
 
-        const liveImage = live.live_image ? `<img src="${live.live_image}" alt="게시글 이미지" width="100">` : "이미지 없음";
+        const liveImage = live.live_image ? `<img src="${live.live_image}" alt="게시글 이미지" width="200">` : "이미지 없음";
         document.getElementById('live-image').innerHTML = liveImage;
 
         // 댓글 목록 불러오기
