@@ -1,5 +1,4 @@
 // 내가 쓴 글 조회 - 자유 게시판
-// 내가 쓴 글이 맞는 지 확인하는 구문?
 
 const getMyFreeArticles = async () => {
     try {

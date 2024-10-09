@@ -20,7 +20,7 @@ form.addEventListener('submit', async function(event) {
         localStorage.setItem('token', token);  // 로컬 스토리지에 저장하기
         alert('로그인 성공!');
 
-        location.href = 'profile.html' // 내 프로필 페이지로 이동
+        location.href = 'profile.html?id' // 내 프로필 페이지로 이동
         
         // 로그인한 사람의 프로필 페이지가 보여야 되는데 그냥 메인 프로필 페이지만 보임 ㅜㅜ
 

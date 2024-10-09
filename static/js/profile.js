@@ -10,7 +10,7 @@ const getProfile= async () => {
         const response = await axios.get(`user/${userId}/`);  // API 요청
         const data = response.data;
 
-        // html 파일에서 만든 form 에 데이터 채우기
+        // 생각해보니까 회원가입된 정보를 받아서 입력 받아야 됨 다시 찾아보기......
         document.getElementById('nickname').textContent = data.nickname;
         doucument.getElementById('free_count').textContent = data.free_count;
         doucument.getElementById('live_count').textContent = data.live_count;
