@@ -2,6 +2,12 @@ from rest_framework import serializers
 from .models import PlayerRecord, GameRecord, TeamRank, Players
 
 
+class PlayersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Players
+        fields = "__all__"  # 모든 필드를 포함
+
+
 # 선수 기록 시리얼라이저
 class PlayerRecordSerializer(serializers.ModelSerializer):
     class Meta:

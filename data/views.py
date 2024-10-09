@@ -11,6 +11,7 @@ from .serializers import (
     PlayerRecordSerializer,
     GameRecordSerializer,
     TeamRankSerializer,
+    PlayersSerializer,
 )
 
 api_key = API_KEY
@@ -148,3 +149,11 @@ class TeamRankListView(APIView):
         teams = TeamRank.objects.all()
         serializer = TeamRankSerializer(teams, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# 전체 선수 정보 조회 뷰 (GET)
+class PlayersListAPIView(APIView):
+    def get(self, request):
+        players = Players.objects.all()  # 모든 선수 정보 조회
+        serializer = PlayersSerializer(players, many=True)  # 직렬화
+        return Response(serializer.data, status=status.HTTP_200_OK)  # 성공 응답
