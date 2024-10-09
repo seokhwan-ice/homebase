@@ -45,6 +45,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "profile_image",
             "nickname",
             "bio",
+            "email",
+            "phone_number",
             "created_at",
             "following_count",
             "followers_count",
@@ -53,13 +55,35 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "bookmark_count",
         ]
 
-# 나만 보이는 페이지
+# 타인의 프로필을 볼때 페이지
 class MyProfileSerializer(serializers.ModelSerializer):
+    following_count = serializers.SerializerMethodField()
+    follower_count = serializers.SerializerMethodField()
+    community_live_image = serializers.SerializerMethodField()
+
+    def get_following_count(self, obj):
+        return obj.followings.count()
+
+    def get_follower_count(self, obj):
+        return obj.followers.count()
+    
+    def get_community_live_image(self, obj):
+        user_live_image = obj.author_live.all()
+        images = []
+
+        for live_image in user_live_image:
+            if live_image.live_image:
+                live_image.append(live_image.title)
+        return images    
+    
     class Meta:
         model = User
         fields = [
-            "email",
-            "phone_number",
+            "profile_image", 
+            "nickname",
+            "following_count",
+            "follower_count",
+            "community_live_image",
         ]
 
 
