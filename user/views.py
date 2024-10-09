@@ -73,17 +73,16 @@ class UserProfileView(APIView):
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
         if request.user == user:
-            serializer = MyProfileSerializer(user)
+            serializer = UserProfileSerializer(user)
             return Response(serializer.data)
         else:
-            serializer = UserProfileSerializer(user)
+            serializer = MyProfileSerializer(user)
             return Response(serializer.data)
 
     def put(self, request, username):
         user = get_object_or_404(User, username=username)
         if request.user != user:
             raise PermissionDenied("수정 권한이 없습니다")
-
         serializer = UpdateProfileSerializer(user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
