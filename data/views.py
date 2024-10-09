@@ -1,13 +1,22 @@
 import requests
-from config import API_KEY
+from homebase.config import API_KEY
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from data.schedule import crawl_game_data
-from data.players import crawl_player_data
-from .models import TeamRank
+from data.players import crawl_players_data
+from data.player_rival import crawl_player_data
+from .models import TeamRank, PlayerRecord, GameRecord, Players
+from .serializers import (
+    PlayerRecordSerializer,
+    GameRecordSerializer,
+    TeamRankSerializer,
+)
 
 api_key = API_KEY
+
+
+# 내부적으로 일정 시간에 실행되게 하려면 핸들링 추가해야함@
 
 
 # google News API 이용
@@ -33,10 +42,10 @@ class SportsNewsAPIView(APIView):
             )
 
 
-class CrawlAndSavePlayersView(APIView):
-    def post(self, request, *args, **kwargs):
+class PlayersCreateAPIView(APIView):
+    def post(self, request):
         # 크롤링 작업을 실행하여 데이터를 데이터베이스에 저장
-        total_records = crawl_player_data()
+        total_records = crawl_players_data()  # 크롤링 함수 호출
 
         # 저장된 선수 기록 개수를 반환
         return Response(
@@ -44,6 +53,19 @@ class CrawlAndSavePlayersView(APIView):
         )
 
 
+# 선수 기록 저장 뷰 (POST)
+class CrawlAndSavePlayersView(APIView):
+    def post(self, request, *args, **kwargs):
+        # 크롤링 작업을 실행하여 데이터를 데이터베이스에 저장
+        total_records = crawl_player_data()
+
+        # 저장된 선수 기록 개수를 반환
+        return Response(
+            {"message": f"총 {total_records}개의 선수라이벌 기록이 저장되었습니다."}
+        )
+
+
+# 경기 기록 저장 뷰 (POST)
 class CrawlGameDataView(APIView):
     def post(self, request):
         start_game_number = request.data.get("start_game_number", 20240001)  # 시작 번호
@@ -74,6 +96,7 @@ class CrawlGameDataView(APIView):
         )
 
 
+# 팀 순위 데이터 저장 뷰 (POST)
 class TeamRecordAPIView(APIView):
     def post(self, request, *args, **kwargs):
         # 요청 데이터에서 팀 정보 추출
@@ -101,3 +124,27 @@ class TeamRecordAPIView(APIView):
             {"message": "팀 데이터가 성공적으로 저장되었습니다."},
             status=status.HTTP_201_CREATED,
         )
+
+
+# 선수 기록 조회 뷰 (GET)
+class PlayerRecordListView(APIView):
+    def get(self, request, *args, **kwargs):
+        players = PlayerRecord.objects.all()
+        serializer = PlayerRecordSerializer(players, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# 경기 기록 조회 뷰 (GET)
+class GameRecordListView(APIView):
+    def get(self, request):
+        games = GameRecord.objects.all()
+        serializer = GameRecordSerializer(games, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# 팀 순위 조회 뷰 (GET)
+class TeamRankListView(APIView):
+    def get(self, request, *args, **kwargs):
+        teams = TeamRank.objects.all()
+        serializer = TeamRankSerializer(teams, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
