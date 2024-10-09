@@ -82,6 +82,7 @@ class LiveCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Live
         fields = [
+            "id",
             "live_image",
             "review",
             "game_date",
@@ -99,6 +100,8 @@ class LiveListSerializer(serializers.ModelSerializer):
         model = Live
         fields = [
             "id",
+            "home_team",
+            "away_team",
             "author",
             "stadium",
             "created_at",

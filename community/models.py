@@ -46,16 +46,16 @@ class Free(TimeStamp):
 
 class Live(TimeStamp):
     TEAM_CHOICES = [
-        ("lg_twins", "LG 트윈스"),
-        ("kt_wiz", "KT 위즈"),
-        ("ssg_landers", "SSG 랜더스"),
-        ("nc_dinos", "NC 다이노스"),
-        ("doosan_bears", "두산 베어스"),
-        ("kia_tigers", "KIA 타이거즈"),
-        ("lotte_giants", "롯데 자이언츠"),
-        ("samsung_lions", "삼성 라이온즈"),
-        ("hanwha_eagles", "한화 이글스"),
-        ("kiwoom_heroes", "키움 히어로즈"),
+        ("LG 트윈스", "LG 트윈스"),
+        ("KT 위즈", "KT 위즈"),
+        ("SSG 랜더스", "SSG 랜더스"),
+        ("NC 다이노스", "NC 다이노스"),
+        ("두산 베어스", "두산 베어스"),
+        ("KIA 타이거즈", "KIA 타이거즈"),
+        ("롯데 자이언츠", "롯데 자이언츠"),
+        ("삼성 라이온즈", "삼성 라이온즈"),
+        ("한화 이글스", "한화 이글스"),
+        ("키움 히어로즈", "키움 히어로즈"),
     ]
     STADIUM_CHOICES = [
         ("잠실", "잠실 야구장"),

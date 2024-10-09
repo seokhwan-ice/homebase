@@ -8,9 +8,7 @@ const form = document.getElementById('create-form');
 form.addEventListener('submit', async function(event) {
     event.preventDefault();  // 기본 form 제출 방지 (페이지 새로고침 방지)
 
-    if (!checkSignin()) {
-        return;
-    }
+    if (!checkSignin()) return;
 
     const formData = new FormData(form);
     // FormData 객체 생성: JSON 말고 multipart/form-data 형식으로 서버 전송(이미지때문에)

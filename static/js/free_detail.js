@@ -73,9 +73,7 @@ getFreeDetail();
 // 글 수정
 document.getElementById('update-button').addEventListener('click', function() {
 
-    if (!checkSignin()) {
-        return;
-    }
+    if (!checkSignin()) return;
 
     location.href = `free_update.html?id=${freeId}`;  // 수정 페이지로 이동
 });
@@ -83,9 +81,7 @@ document.getElementById('update-button').addEventListener('click', function() {
 // 글 삭제
 document.getElementById('delete-button').addEventListener('click', async function() {
 
-    if (!checkSignin()) {
-        return;
-    }
+    if (!checkSignin()) return;
 
     const confirmDelete = confirm('정말 삭제하시겠습니까?????');
     if (confirmDelete) {
@@ -105,9 +101,7 @@ const commentForm = document.getElementById('comment-form');
 commentForm.addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    if (!checkSignin()) {
-        return;
-    }
+    if (!checkSignin()) return;
 
     const content = document.getElementById('comment-content').value;
     const formData = { content };
@@ -136,9 +130,7 @@ commentForm.addEventListener('submit', async function(event) {
 // 북마트 토글
 document.getElementById('bookmark-button').addEventListener('click', async function() {
 
-    if (!checkSignin()) {
-        return;
-    }
+    if (!checkSignin()) return;
 
     try {
         const response = await axios.post(`community/free/${freeId}/toggle_bookmark/`);
