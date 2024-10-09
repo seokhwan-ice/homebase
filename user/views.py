@@ -184,12 +184,14 @@ class FollowAPIView(APIView):
 
     def post(self, request, username):
         user = get_object_or_404(User, username=username)
+        if request.user == user:
+            return Response("나 자신을 팔로우 할 수 없습니다.", status=status.HTTP_400_BAD_REQUEST)
         if request.user in user.followers.all():
             user.followers.remove(request.user)
-            return Response("unfollow", status=status.HTTP_200_OK)
+            return Response("언팔로우!", status=status.HTTP_200_OK)
         else:
             user.followers.add(request.user)
-            return Response("follow success", status=status.HTTP_200_OK)
+            return Response("팔로우성공!", status=status.HTTP_200_OK)
 
 
 class FollowingListAPIView(APIView):
@@ -226,3 +228,4 @@ class BookMarkListAPIView(APIView):
         user = get_object_or_404(User, username=username)
         serializer = BookMarkListSerializer(user)
         return Response(serializer.data)
+

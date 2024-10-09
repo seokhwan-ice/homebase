@@ -117,7 +117,7 @@ class UserProfileTitleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["community_free_title", "nickname", "created_at"]
+        fields = ["community_free_title", "nickname"]
 
 
 class UserProfileliveViewSerializer(serializers.ModelSerializer):
