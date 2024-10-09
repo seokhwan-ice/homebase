@@ -309,5 +309,7 @@ $RECYCLE.BIN/
 chromedriver.exe
 
 #config
-config.py
+homebase/config.py
 
+# image
+media/
