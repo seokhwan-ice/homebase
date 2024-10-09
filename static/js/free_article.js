@@ -1,32 +1,34 @@
 // 내가 쓴 글 조회 - 자유 게시판
 // 내가 쓴 글이 맞는 지 확인하는 구문?
 
-const getFreeArticleList = async () => {
+const getMyFreeArticles = async () => {
     try {
-        const response = await axios.get(`user/${userId}/free`);  // API 요청
+        const response = await axios.get(`user/${userId}/my_free`);  // 내 게시물 조회 API 요청
         const data = response.data;
 
-        const free_articleList = document.getElementById('free-list');
-        // getElementById: 특정 ID 가진 HTML 요소를 가져오는 함수.
-        // 12번째 줄 id="free-list" ul 태그에 데이터를 표시할거라는 뜻
+        // const my_free_articleList = document.getElementById('my-free-list');
+        // 내 프로필에서 작성한 게시물을 표시할 ul 태그를 가져옴 (id="my-free-list")
+        const profileImage = free.author.profile_image ? `<img src="${free.author.profile_image}" alt="프로필 이미지" width="50">` : "이미지 없음";
+        document.getElementById('free-profile-image').innerHTML = profileImage;
+        document.getElementById('free-profile-nickname').textContent = free.author.nickname;
 
-        data.forEach(free => { // 파이썬 for...in문이랑 비슷함. free 하나씩 돌면서, 화살표함수 내용 실행
-            const free_articleList = document.createElement('li');
-            // createElement: 새로운 HTML 요소 만들어주는 함수. li(list item) 태그 만들었어요
-            // freeListItem 변수 선언: 이게 게시글 목록의 "글 한개" 에 해당함
-            free_articleList.innerHTML = `
+        data.forEach(free => {  // 내 게시물 목록을 하나씩 처리
+            const my_free_articleListItem = document.createElement('li');
+            // li 태그를 생성하여 내 게시물 목록의 한 항목을 만듦
+            my_free_articleListItem.innerHTML = `
                 <a href="free_detail.html?id=${free.id}">[${free.id}] ${free.title}</a>
                 <br>작성자: ${free.author.nickname}
                 <br>조회수: ${free.views}
                 <br>댓글수: ${free.comments_count}<hr>
             `;
-            free_articleList.appendChild(free_articleListItem);
-        });  // 새로 생성한 li 태그(freeListItem)를 ul 태그(freelist)에 추가하고 반복문 끝
-
+            my_free_articleList.appendChild(my_free_articleListItem);
+            location.href = `free_list.html?id=${freeId}`;  // 내가 쓴 글 목록으로 이동
+        });
     } catch (error) {
-        console.error("Error:", error);
-        alert("글 등록 실패");
+        console.error('게시물 불러오기 실패:', error);
     }
 };
 
-getFreeArticleList();
+window.onload = () => {
+    getMyFreeArticles();  // 페이지 로드 시 내가 작성한 게시물을 불러오는 함수 호출
+};

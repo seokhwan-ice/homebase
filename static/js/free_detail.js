@@ -1,5 +1,5 @@
 
-// 자유게시판 글 상세 (free_detail)
+// // 자유게시판 글 상세 (free_detail)
 
 const params = new URLSearchParams(location.search); // URL 파라미터 찾는 객체 만들어서
 const freeId = params.get('id');  // id 파라미터 값 가져오기
