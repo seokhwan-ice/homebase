@@ -8,9 +8,11 @@ from .views import (
     TeamRankListView,
     PlayersCreateAPIView,
     PlayersListAPIView,
+    SportsNewsAPIView,
 )
 
 urlpatterns = [
+    path("news/", SportsNewsAPIView.as_view(), name="sports-news"),
     # 크롤링 후 데이터를 저장하는 POST 요청용 URL
     path(
         "players_rival/crawl/", CrawlAndSavePlayersView.as_view(), name="crawl-players"
