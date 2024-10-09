@@ -12,7 +12,7 @@ form.addEventListener('submit', async function(event) {
     const password = document.getElementById('password').value;
 
     try {
-        const response = await axios.post('user/signin/', {
+        const response = await axios.post('http://localhost:8000/api/user/signin/', {
             username: username,
             password: password
         });
@@ -20,8 +20,6 @@ form.addEventListener('submit', async function(event) {
         const token = response.data.access;  // 서버에서 Access Token 받아서
         localStorage.setItem('token', token);  // 로컬 스토리지에 저장하기
         alert('로그인 성공!');
-
-        location.href = 'free_list.html' // 목록페이지로 이동
 
     } catch (error) {
         console.error("Error:", error);

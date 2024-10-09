@@ -311,3 +311,5 @@ chromedriver.exe
 #config
 homebase/config.py
 
+# image
+media/

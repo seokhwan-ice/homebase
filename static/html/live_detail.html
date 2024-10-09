@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>live_detail</title>
+</head>
+
+<body>
+    <h1>Live 게시판 상세 페이지</h1>
+
+    <button onclick="location.href='live_list.html'">목록으로 돌아가기</button>
+    <button id="update-button">수정하기</button>
+    <button id="delete-button">삭제하기</button><br><br>
+    <button id="bookmark-button">북마크</button>
+    <button id="like-button">좋아요</button>
+
+    <div id="live-detail">
+        <h2 id="game-info"></h2>
+        <p>작성자: <span id="live-author"></span></p>
+        <p>프사: <span id="live-profile-image"></span></p>
+        <p>좌석: <span id="live-seat"></span></p>
+        <p>경기장: <span id="live-stadium"></span></p>
+        <p>리뷰: <span id="live-review"></span></p>
+        <p>(이미지 들어갈 자리)<br><span id="live-image"></span></p>
+        <p>작성일: <span id="live-created-at"></span></p>
+        <p>좋아요수: <span id="live-likes-count"></span></p>
+        <p>댓글수: <span id="live-comments-count"></span></p>
+    </div>
+    <hr>
+
+    <!-- 댓글 -->
+    <h3>댓글</h3>
+    <div id="comments-list"></div>
+    <form id="comment-form">
+        <textarea id="comment-content" placeholder="댓글을 입력하세요" rows="3"></textarea>
+        <button type="submit">댓글 작성</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/live_detail.js"></script>
+</body>
+</html>

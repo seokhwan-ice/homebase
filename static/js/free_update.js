@@ -39,5 +39,5 @@ form.addEventListener('submit', async function(event) {
     } catch (error) {
         console.error("Error:", error);
         alert('글 수정 실패');
-    }
+    } 
 });
