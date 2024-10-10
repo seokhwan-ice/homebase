@@ -17,7 +17,7 @@ const getComments = (comments) => {
             <p>댓글내용: ${comment.content}</p>
             <p>작성시간: ${new Date(comment.created_at).toLocaleString()}</p>
             <button class="reply-button" data-id="${comment.id}">답글</button>
-            <button class="edit-button" data-id="${comment.id}">수정</button>
+            <button class="update-button" data-id="${comment.id}">수정</button>
             <button class="delete-button" data-id="${comment.id}">삭제</button>
             <div class="reply-list" id="reply-list-${comment.id}"></div>
             <hr>
@@ -60,22 +60,22 @@ const getComments = (comments) => {
     });
 
     // 댓글 수정 버튼 이벤트 추가
-    document.querySelectorAll('.edit-button').forEach(button => {
+    document.querySelectorAll('.update-button').forEach(button => {
         button.addEventListener('click', (event) => {
             const commentId = event.target.getAttribute('data-id');
             const commentItem = event.target.parentElement;
             const currentContent = commentItem.querySelector('p:nth-child(2)').textContent.replace('댓글내용: ', '');
-            const editForm = document.createElement('form');
-            editForm.classList.add('edit-form');
-            editForm.innerHTML = `
-                <textarea class="edit-content" rows="2">${currentContent}</textarea>
+            const updateForm = document.createElement('form');
+            updateForm.classList.add('update-form');
+            updateForm.innerHTML = `
+                <textarea class="update-content" rows="2">${currentContent}</textarea>
                 <button type="submit">수정 완료</button>
             `;
-            commentItem.appendChild(editForm);
+            commentItem.appendChild(updateForm);
 
-            editForm.addEventListener('submit', async function(event) {
+            updateForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
-                const content = editForm.querySelector('.edit-content').value;
+                const content = updateForm.querySelector('.update-content').value;
                 const formData = { comment_id: commentId, content };
 
                 try {
@@ -119,7 +119,7 @@ const getReplies = (replies, parentId) => {
             <p>작성자: ${reply.author.nickname}</p>
             <p>대댓글내용: ${reply.content}</p>
             <p>작성시간: ${new Date(reply.created_at).toLocaleString()}</p>
-            <button class="edit-button" data-id="${reply.id}">수정</button>
+            <button class="update-button" data-id="${reply.id}">수정</button>
             <button class="delete-button" data-id="${reply.id}">삭제</button>
             <hr>
         `;
