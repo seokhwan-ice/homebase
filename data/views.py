@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from data.schedule import crawl_game_data
 from data.players import crawl_players_data
-from data.player_rival import crawl_player_data
+from data.player_rival import crawl_playerrival_data
+from data.team_rank import team_rank
 from .models import TeamRank, PlayerRecord, GameRecord, Players
 from .serializers import (
     PlayerRecordSerializer,
@@ -58,7 +59,7 @@ class PlayersCreateAPIView(APIView):
 class CrawlAndSavePlayersView(APIView):
     def post(self, request, *args, **kwargs):
         # 크롤링 작업을 실행하여 데이터를 데이터베이스에 저장
-        total_records = crawl_player_data()
+        total_records = crawl_playerrival_data()
 
         # 저장된 선수 기록 개수를 반환
         return Response(
@@ -100,29 +101,12 @@ class CrawlGameDataView(APIView):
 # 팀 순위 데이터 저장 뷰 (POST)
 class TeamRecordAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        # 요청 데이터에서 팀 정보 추출
-        teams_data = (
-            request.data
-        )  # 예: [{"rank": 1, "name": "팀명", "games_played": 10, "wins": 7, ...}, {...}]
+        # 크롤링 작업을 실행하여 팀 데이터 가져오기
+        total_records = team_rank()  # 크롤링 및 저장하는 함수 호출
 
-        for team_data in teams_data:
-            # 각 팀 데이터를 DB에 저장
-            team_record = TeamRank(
-                rank=team_data.get("rank"),
-                name=team_data.get("name"),
-                games_played=team_data.get("games_played"),
-                wins=team_data.get("wins"),
-                draws=team_data.get("draws"),
-                losses=team_data.get("losses"),
-                games_behind=team_data.get("games_behind"),
-                win_percentage=team_data.get("win_percentage"),
-                streak=team_data.get("streak"),
-                recent_10_games=team_data.get("recent_10_games"),
-            )
-            team_record.save()  # 데이터베이스에 저장
-
+        # 저장된 팀 기록 개수를 반환
         return Response(
-            {"message": "팀 데이터가 성공적으로 저장되었습니다."},
+            {"message": f"총 {total_records}개의 팀 기록이 저장되었습니다."},
             status=status.HTTP_201_CREATED,
         )
 

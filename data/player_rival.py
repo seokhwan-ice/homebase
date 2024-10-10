@@ -19,7 +19,7 @@ def safe_convert_to_int(value):
         return 0  # 변환할 수 없을 때 기본값
 
 
-def crawl_player_data():
+def crawl_playerrival_data():
     # 각 팀의 URL을 리스트로 저장
     base_url = "https://statiz.sporki.com"
     team_urls = [
