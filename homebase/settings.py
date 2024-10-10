@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from . import config
 from datetime import timedelta
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +28,9 @@ SECRET_KEY = config.DJANGO_SECRET_KEY
 OPENAI_API_KEY = config.OPENAI_API_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["43.203.126.165","127.0.0.1","localhost"]
 
 
 # Application definition
@@ -89,17 +91,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "homebase.wsgi.application"
 
+# 프로젝트 루트 경로에 있는 .env 파일 로드
+load_dotenv(dotenv_path=BASE_DIR / '.env')
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-        # "TEST": {
-        #     "NAME": BASE_DIR / "test_db.sqlite3",
-        # }, # 테스트 코드 실행할 때 사용할 데이터베이스
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.getenv("POSTGRES_LOCALHOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
+        "NAME": os.getenv("POSTGRES_NAME"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
     }
 }
 

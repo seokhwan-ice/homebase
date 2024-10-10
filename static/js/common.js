@@ -3,7 +3,7 @@
 // 토큰, URL, 로그인
 
 // Axios 기본 URL 설정
-axios.defaults.baseURL = 'http://localhost:8000/api/';
+axios.defaults.baseURL = 'http://43.203.126.165/api/';
 
 // Authorization 헤더에 토큰 자동 추가
 axios.interceptors.request.use(config => {
@@ -13,6 +13,7 @@ axios.interceptors.request.use(config => {
     }
     return config;
 }, error => {
+    console.log(token)
     return Promise.reject(error);
 });
 
@@ -21,7 +22,7 @@ function checkSignin() {
     const token = localStorage.getItem('token');
     if (!token) {
         alert('로그인이 필요합니다!');
-        location.href = 'user.html';  // 이동할 페이지
+       location.href = 'user.html';  // 이동할 페이지
         return false;
     }
     return true;
