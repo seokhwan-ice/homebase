@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBO 스포츠 뉴스</title>
+</head>
+<body>
+    <h1>KBO 관련 스포츠 뉴스</h1>
+
+    <ul id="news-list">
+        <!-- 뉴스 기사가 JavaScript로 여기 동적으로 추가됩니다 -->
+    </ul>
+
+    <!-- JavaScript 파일을 불러옵니다 -->
+    <script src="{% static 'js/data_news.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/free_create.js"></script>
+</body>
+</html>
