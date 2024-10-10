@@ -166,6 +166,7 @@ const getLiveDetail = async () => {
         document.getElementById('live-likes-count').textContent = live.likes_count;
         document.getElementById('live-comments-count').textContent = live.comments_count;
         document.getElementById('live-created-at').textContent = new Date(live.created_at).toLocaleString();
+        document.getElementById('live-game-date').textContent = new Date(live.game_date).toLocaleString();
 
         // 이미지 처리 >>> 백엔드에서 수정할게요 디폴트 이미지
         const profileImage = live.author.profile_image ? `<img src="${live.author.profile_image}" alt="프로필 이미지" width="50">` : "이미지 없음";
