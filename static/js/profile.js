@@ -4,13 +4,11 @@ const params = new URLSearchParams(location.search); // URL 파라미터 찾는 
 const userId = params.get('id'); 
 
 const getProfile= async () => {
-    try {
-        const token = response.data.access;  // 서버에서 Access Token 받아서
-        localStorage.setItem('token', token);  // 로컬 스토리지에 저장하기
-        const response = await axios.get(`user/${userId}/`);  // API 요청
+    try {  
+        const response = await axios.get(`user/${username}/`);  // API 요청
         const data = response.data;
 
-        // 생각해보니까 회원가입된 정보를 받아서 입력 받아야 됨 다시 찾아보기......
+        
         document.getElementById('nickname').textContent = data.nickname;
         doucument.getElementById('free_count').textContent = data.free_count;
         doucument.getElementById('live_count').textContent = data.live_count;

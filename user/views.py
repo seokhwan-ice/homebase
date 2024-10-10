@@ -32,16 +32,6 @@ class UserCreateView(APIView):
 
         user = User.objects.create_user(**request.data)  # 코드 간소화
 
-        # user = User.objects.create_user(
-        #     username=request.data.get("username"),
-        #     nickname=request.data.get("nickname"),
-        #     name = request.data.get("name"),
-        #     password=request.data.get("password"),
-        #     bio=request.data.get("bio"),
-        #     profile_image=request.data.get("profile_image"),
-        #     phone_number=request.data.get("phone_number"),
-        # )
-
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
