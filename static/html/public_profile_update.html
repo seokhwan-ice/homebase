@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 수정</title>
+</head>
+<body>
+
+    <!-- 내 프로필 수정 페이지 -->
+    <div class="profile-update">
+        <h2>프로필 수정</h2>
+        <form id="profile-update-form">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" placeholder="이메일 입력" required><br><br>
+
+            <label for="phone_number">전화번호</label>
+            <input type="text" id="phone_number" name="phone_number" placeholder="010-xxxx-xxxx"><br><br>
+
+            <label for="nickname">닉네임</label>
+            <input type="text" id="nickname" name="nickname" placeholder="닉네임 입력" required><br><br>
+
+            <label for="bio">소개</label>
+            <textarea id="bio" name="bio" placeholder="자기소개를 입력하세요"></textarea><br><br>
+
+            <button type="button" id="update-profile-button">프로필 수정</button>
+        </form>
+    </div>
+
+    <!-- 외부 스크립트 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="/static/js/public_profile_update.js"></script>
+
+</body>
+</html>
+
+
+
+
+

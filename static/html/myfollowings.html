@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 팔로우 목록</title>
+</head>
+<body>
+
+    <!-- 내 프로필 정보 -->
+    <div class="profile-sidebar">
+        <img id="my-profile-image" src="" alt="내 프로필 사진" width="100" height="100">
+        <h2 id="my-nickname">내 닉네임</h2>
+        <p id="followers-count">팔로워 로딩 중...</p>
+        <p id="following-count">팔로잉 로딩 중...</p>
+    </div>
+
+    <!-- 내가 팔로우한 사용자 목록 -->
+    <div class="following-list">
+        <h3>팔로우한 사용자</h3>
+        <ul id="following-list"></ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="/static/js/myfollowings.js"></script>
+
+
+</body>
+</html>
+

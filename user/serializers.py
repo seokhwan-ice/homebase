@@ -53,6 +53,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "article_count",
             "comment_count",
             "bookmark_count",
+            "username",
         ]
 
 # 타인의 프로필을 볼때 페이지
@@ -84,6 +85,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
             "following_count",
             "follower_count",
             "community_live_image",
+            "username",
         ]
 
 
@@ -167,6 +169,7 @@ class FollowingListSerializer(serializers.ModelSerializer):
             "following_count",
             "follower_count",
             "following_list",
+            "username",
         ]
 
 
