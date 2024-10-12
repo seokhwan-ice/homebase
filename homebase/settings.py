@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "data",
     "community",
     "chat",
+    "chatbot",
 ]
 
 
