@@ -292,4 +292,4 @@ class BookMarkListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["profile_image", "nickname", "bookmark"]
+        fields = ["username","profile_image", "nickname", "bookmark"]

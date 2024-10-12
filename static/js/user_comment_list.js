@@ -57,3 +57,6 @@ const loadUserProfileAndComments = async () => {
 
 // 페이지 로드 시 사용자 정보와 작성 댓글을 불러옴
 document.addEventListener('DOMContentLoaded', loadUserProfileAndComments);
+
+
+// 코멘트 작성과 수정한 시간이 이상한 시간으로 나옴
