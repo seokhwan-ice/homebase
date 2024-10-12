@@ -122,3 +122,8 @@ document.getElementById('cancel-button').addEventListener('click', function() {
 
 // 페이지 로드 시 프로필 데이터 불러오기
 getProfileDetailForUpdate();
+
+// 프로필 버튼 클릭 시 사용자 이름에 따라 동적 페이지 이동
+document.getElementById('profile-button').addEventListener('click', function() {
+    location.href = `public_profile_update.html?username=${username}`;
+});

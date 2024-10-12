@@ -25,7 +25,7 @@
 
         <!-- 프로필/계정 버튼 -->
         <div>
-            <button onclick="location.href='profile.html'">프로필</button>
+            <button id="profile-button">프로필</button> <!-- JS에서 동적 링크 처리 -->
             <button disabled style="background-color: lightgray;">계정</button> <!-- 계정 버튼 비활성화 -->
         </div>
 
@@ -48,7 +48,7 @@
             <input type="password" id="old-password" ><br><br>
 
             <label for="new-password">뉴 비밀번호</label>
-            <input type="password" id="new-password" ><br><br>
+            <input type="password" id="new-password" required><br><br>
 
             <button type="submit">변경사항 저장</button>
             <button type="button" id="cancel-button">취소</button>

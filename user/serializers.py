@@ -60,6 +60,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "username",
         ]
 
+
 # 타인의 프로필을 볼때 페이지
 class MyProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
@@ -71,7 +72,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
     def get_follower_count(self, obj):
         return obj.followers.count()
-    
+
     def get_community_live_image(self, obj):
         user_live_image = obj.author_live.all()
         images = []
@@ -79,12 +80,12 @@ class MyProfileSerializer(serializers.ModelSerializer):
         for live_image in user_live_image:
             if live_image.live_image:
                 live_image.append(live_image.title)
-        return images    
-    
+        return images
+
     class Meta:
         model = User
         fields = [
-            "profile_image", 
+            "profile_image",
             "nickname",
             "following_count",
             "follower_count",
@@ -96,7 +97,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
 class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["profile_image","nickname", "bio"]
+        fields = ["profile_image", "nickname", "bio"]
 
 
 # 나만 보이는 페이지 부분 수정?
@@ -106,6 +107,7 @@ class UpdateMyProfileSerializer(serializers.ModelSerializer):
         fields = [
             "email",
             "phone_number",
+            "username",
         ]
 
 
@@ -123,7 +125,12 @@ class UserProfileTitleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["community_free_title", "nickname"]
+        fields = [
+            "profile_image",
+            "nickname",
+            "community_free_title",
+            "username",
+        ]
 
 
 class UserProfileliveViewSerializer(serializers.ModelSerializer):
