@@ -1,13 +1,14 @@
 // URL에서 쿼리 파라미터로부터 username 추출하기
 const urlParams = new URLSearchParams(window.location.search);
 const username = urlParams.get('username');  // URL에 있는 'username' 파라미터 가져오기
+//?username=aiden55 > 주소끝에 유저네임을 검색해야...
 
 // username이 있으면 프로필 조회, 없으면 에러
 if (username) {
     // 프로필 정보 가져오기
     async function getMyProfileData() {
         try {
-            const response = await axios.get(`user/${username}/`);
+            const response = await axios.get(`user/${username}/followinglist`);
             const data = response.data;
 
             // 프로필 정보 업데이트
@@ -60,3 +61,6 @@ if (username) {
     alert('URL에서 사용자 이름을 찾을 수 없습니다.');
 }
 
+
+
+// 프로필 페이지 완성 후 팔로우 사람의 닉네임을 클릭하면 해당유저의 프로필로 이동 만들어야해요

@@ -96,7 +96,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
 class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "phone_number", "nickname", "bio"]
+        fields = ["profile_image","nickname", "bio"]
 
 
 # 나만 보이는 페이지 부분 수정?
