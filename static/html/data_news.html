@@ -3,55 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KBO 스포츠 뉴스</title>
+    <title>뉴스 기사 목록</title>
+    <ul id="newsList"></ul>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
+            margin: 0;
             padding: 20px;
         }
         h1 {
             text-align: center;
             color: #333;
         }
-        .news-list {
-            list-style-type: none;
+        #newsList {
+            list-style: none;
             padding: 0;
         }
         .news-item {
-            background-color: white;
+            background: white;
             margin: 10px 0;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .news-item h2 {
-            font-size: 20px;
-            color: #1a73e8;
+            font-size: 1.5em;
+            margin: 0;
         }
-        .news-item p {
-            font-size: 14px;
-            color: #555;
+        .news-item img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
         }
-        .news-item a {
-            text-decoration: none;
-            color: #1a73e8;
+        .source, .date {
+            font-size: 0.9em;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>KBO 스포츠 뉴스</h1>
-        <ul id="newsList" class="news-list"></ul>
-    </div>
-
-    <!-- JavaScript 파일 로드 -->
-    <script src="{% static 'js/data_news.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/data_news.js"></script>
 </body>
 </html>

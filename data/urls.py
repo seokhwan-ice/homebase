@@ -26,5 +26,5 @@ urlpatterns = [
     path("games/", GameRecordListView.as_view(), name="game-list"),
     path("teamrank/", TeamRankListView.as_view(), name="team-rank-list"),
     path("players/", PlayersListAPIView.as_view(), name="players-api"),
-    path("news/", SportsNewsListAPIView.as_view(), name="sports-news"),
+    path("news/", SportsNewsListAPIView.as_view(), name="sports-news-list"),
 ]

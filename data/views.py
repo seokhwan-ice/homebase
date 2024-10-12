@@ -1,4 +1,3 @@
-import requests
 from homebase.config import API_KEY
 from rest_framework import status
 from rest_framework.response import Response
@@ -7,15 +6,15 @@ from data.schedule import crawl_game_data
 from data.players import crawl_players_data
 from data.player_rival import crawl_playerrival_data
 from data.team_rank import team_rank
+from data.news import news_crawling
 from .models import TeamRank, PlayerRecord, GameRecord, Players, SportsNews
 from .serializers import (
     PlayerRecordSerializer,
     GameRecordSerializer,
     TeamRankSerializer,
     PlayersSerializer,
+    SportsNewsListSerializer,
 )
-
-api_key = API_KEY
 
 
 # 내부적으로 일정 시간에 실행되게 하려면 핸들링 추가해야함@
@@ -23,24 +22,18 @@ api_key = API_KEY
 
 # google News API 이용
 class SportsNewsAPIView(APIView):
-    def post(self, request):
-        url = "https://newsapi.org/v2/everything"  # Google News API URL
-        params = {
-            "q": "KBO",  # 스포츠 관련 뉴스 검색
-            "apiKey": api_key,
-            "language": "ko",  # 한국어 뉴스
-            "pageSize": 3,  # 가져올 뉴스 기사 수 (필요에 따라 조정 가능)
-        }
+    def post(self, request):  # 실제 API 키로 변경
 
-        response = requests.get(url, params=params)
+        try:
+            total_saved = news_crawling()  # 크롤링 함수 호출
 
-        if response.status_code == 200:
-            headlines_data = response.json()
-            return Response(headlines_data, status=status.HTTP_200_OK)
-        else:
             return Response(
-                {"error": "뉴스를 가져오는 데 실패했습니다."},
-                status=response.status_code,
+                {"message": f"{total_saved}개의 스포츠 뉴스 기사가 저장되었습니다."},
+                status=status.HTTP_201_CREATED,
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
 
@@ -113,22 +106,11 @@ class TeamRecordAPIView(APIView):
 
 # 구글뉴스 조회 뷰(GET)
 class SportsNewsListAPIView(APIView):
-    def get(self, request):
-        news_articles = SportsNews.objects.all().order_by("-published_at")
-        # 필요한 데이터만 응답
-        response_data = [
-            {
-                "title": article.title,
-                "author": article.author,
-                "description": article.description,
-                "url": article.url,
-                "published_at": article.published_at,
-                "content": article.content,
-                "image_url": article.image_url,
-            }
-            for article in news_articles
-        ]
-        return Response(response_data, status=status.HTTP_200_OK)
+    def get(self, request, *args, **kwargs):
+        # 데이터베이스에서 모든 뉴스 기사를 가져옵니다.
+        articles = SportsNews.objects.all()
+        serializer = SportsNewsListSerializer(articles, many=True)
+        return Response({"articles": serializer.data})
 
 
 # 선수 기록 조회 뷰 (GET)
