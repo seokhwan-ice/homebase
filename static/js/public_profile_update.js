@@ -7,7 +7,7 @@ if (!username) {
     throw new Error('username이 없습니다. 요청을 진행할 수 없습니다.');
 }
 
-// 프로필 데이터를 불러오기
+// 프로필 데이터를 불러오기 (JWT 인증 필요 없음)
 const getProfileDetailForUpdate = async () => {
     try {
         const response = await axios.get(`user/${username}/`);  // 프로필 데이터를 GET 요청으로 가져옴
@@ -40,7 +40,7 @@ profileImageInput.addEventListener('change', function(event) {
     }
 });
 
-// 프로필 업데이트
+// 프로필 업데이트 (JWT 인증 추가)
 const form = document.getElementById('profile-update-form');
 form.addEventListener('submit', async function(event) {
     event.preventDefault();  // 폼 제출 방지
@@ -57,13 +57,14 @@ form.addEventListener('submit', async function(event) {
     }
 
     try {
-        const response = await axios.put(`user/${username}/`, formData, {
+        const response = await axios.patch(`user/${username}/`, formData, {
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,  // 수정할 때 JWT 토큰을 포함
                 'Content-Type': 'multipart/form-data'  // 파일 업로드를 위해 설정
             }
         });  // 프로필 업데이트 요청
         alert('프로필 수정 완료!');
-        location.href = `user_profile.html?username=${username}`;  // 수정 완료 후 프로필 페이지로 이동
+        //location.href = `user_profile.html?username=${username}`;  // 수정 완료 후 프로필 페이지로 이동
     } catch (error) {
         console.error("프로필 수정 중 오류 발생:", error);
         alert('프로필 수정 실패');
@@ -78,8 +79,6 @@ document.getElementById('cancel-button').addEventListener('click', function() {
         location.href = 'home.html';  // 이전 페이지가 없을 경우 홈 페이지로 이동
     }
 });
-// 홈 페이지 지정시 >>>>>>>>>>>>> 수정해야함 >>> >
 
 // 페이지 로드 시 프로필 데이터 불러오기
 document.addEventListener('DOMContentLoaded', getProfileDetailForUpdate);
-

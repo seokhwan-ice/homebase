@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계정 설정</title>
+</head>
+<body>
+    <div>
+        <button onclick="location.href='mypage.html'">mypage</button>
+        <button onclick="location.href='signout.html'">signout</button>
+    </div>
+
+    <div>
+        <div>
+            <a href="#">홈</a>
+            <a href="#">뉴스</a>
+            <a href="#">경기일정</a>
+            <a href="#">팀/선수정보</a>
+            <a href="#">자유게시판</a>
+            <a href="#">커뮤니티</a>
+        </div>
+
+        <div>Home Base</div>
+
+        <!-- 프로필/계정 버튼 -->
+        <div>
+            <button onclick="location.href='profile.html'">프로필</button>
+            <button disabled style="background-color: lightgray;">계정</button> <!-- 계정 버튼 비활성화 -->
+        </div>
+
+        <!-- 계정 설정 페이지 -->
+        <h2>계정</h2>
+        <form id="account-form">
+            <label for="current-email">이메일</label>
+            <input type="email" id="current-email" readonly><br><br>
+
+            <label for="email">새로운 이메일</label>
+            <input type="email" id="email" placeholder="새로운 이메일을 입력하세요"><br><br>
+
+            <label for="current-phone_number">기존 전화번호</label>
+            <input type="text" id="current-phone_number" readonly><br><br>
+
+            <label for="phone_number">새로운 전화번호</label>
+            <input type="text" id="phone_number" placeholder="새로운 전화번호를 입력하세요"><br><br>
+
+            <label for="old-password">현재 비밀번호</label>
+            <input type="password" id="old-password" ><br><br>
+
+            <label for="new-password">뉴 비밀번호</label>
+            <input type="password" id="new-password" ><br><br>
+
+            <button type="submit">변경사항 저장</button>
+            <button type="button" id="cancel-button">취소</button>
+            <button type="button" id="delete-account-button">계정 탈퇴</button>
+        </form>
+
+        <!-- 외부 스크립트 추가 -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="../js/common.js"></script>
+        <script src="../js/private_profile_update.js"></script>
+    </div>
+</body>
+</html>
