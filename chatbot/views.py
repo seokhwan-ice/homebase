@@ -1,23 +1,32 @@
-from rest_framework.views import APIView
+from homebase import config
+import openai
 from rest_framework.response import Response
-from rest_framework import status
-from chatbot.models import ChatResponse
-from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view
+from data.models import Players  # 데이터베이스에서 Player 모델 가져오기
 
-class ChatResponseView(APIView):
-    permission_classes = [AllowAny]  # 필요한 권한 설정
+openai.api_key = config.OPENAI_API_KEY
 
-    def post(self, request):
-        user_input = request.data.get('user_input')
+@api_view(['POST'])
+def get_player_info(request):
+    player_name = request.data.get('player_name')  # 요청에서 선수 이름 받기
 
-        if user_input is None:
-            return Response({'error': 'user_input is required'}, status=status.HTTP_400_BAD_REQUEST)
+    # 데이터베이스에서 해당 선수 정보 검색
+    try:
+        player = Players.objects.get(name=player_name)
+        player_info = f"이 선수는 {player.name}이고, 나이는 {player.age}살이며, 포지션은 {player.position}입니다."
+    except Players.DoesNotExist:
+        return Response({'response': "해당 선수에 대한 정보를 찾을 수 없습니다."}, status=404)
 
-        try:
-            # 입력된 user_input과 일치하는 답변 검색
-            response = ChatResponse.objects.get(user_input=user_input).response
-        except ChatResponse.DoesNotExist:
-            # 일치하는 데이터가 없을 경우 기본 응답 설정
-            response = "죄송합니다, 해당 질문에 대한 답변이 없습니다."
+    # OpenAI API 호출에 선수 정보를 프롬프트로 전달
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=f"선수 정보: {player_info}. 이 선수에 대해 자세히 설명해주세요.",
+            max_tokens=100,
+            temperature=0.7
+        )
+        openai_response = response.choices[0].text.strip()
+        return Response({'response': openai_response})
+    except Exception as e:
+        return Response({'response': "OpenAI API 호출에 실패했습니다.", 'error': str(e)}, status=500)
 
-        return Response({'response': response}, status=status.HTTP_200_OK)
