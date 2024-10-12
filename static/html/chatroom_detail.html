@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>chatroom_detail</title>
+</head>
+
+<body>
+    <h1 id="chatroom-title"></h1>
+    <ul id="messages"></ul>
+
+    <div>
+        <input id="chat-message-input" placeholder="메시지를 입력하세요" autocomplete="off" />
+        <button id="send-button">전송하기</button>
+    </div>
+    <br><br>
+    <button onclick="location.href='chatroom_list.html'">목록으로 돌아가기</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script> <!-- Socket.io -->
+    <script src="../js/common.js"></script>
+    <script src="../js/chatroom_detail.js"></script>
+</body>
+</html>

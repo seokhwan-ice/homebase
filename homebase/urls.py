@@ -30,7 +30,7 @@ urlpatterns = [
             "community.urls",
         ),
     ),
-    path("chat/", include("chat.urls")),
+    path("api/chat/", include("chat.urls")),
 ]
 
 if settings.DEBUG:

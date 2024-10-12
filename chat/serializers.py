@@ -1,21 +1,19 @@
 from rest_framework import serializers
-
-from .models import ChatRoom
-
-# from user.models import User
+from .models import ChatRoom, ChatMessage
 
 
-# # Creator
-# class CreatorSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ["nickname", "profile_image"]
-
-
+# 채팅방
 class ChatRoomSerializer(serializers.ModelSerializer):
-    creator = serializers.ReadOnlyField(source="creator.username")
-
     class Meta:
         model = ChatRoom
-        fields = ["id", "name", "image", "creator", "created_at"]
-        read_only_fields = ["id", "creator", "created_at"]
+        fields = ["id", "title", "image", "description", "creator", "created_at"]
+        read_only_fields = ["creator", "created_at"]
+
+
+# 채팅 메시지
+class ChatMessageSerializer(serializers.ModelSerializer):
+    user_nickname = serializers.ReadOnlyField(source="user.nickname")
+
+    class Meta:
+        model = ChatMessage
+        fields = ["id", "room", "user_nickname", "content", "created_at"]

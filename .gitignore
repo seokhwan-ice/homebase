@@ -313,3 +313,6 @@ homebase/config.py
 
 # image
 media/
+
+# node.js
+node_modules/
