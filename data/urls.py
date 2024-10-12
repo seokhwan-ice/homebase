@@ -9,11 +9,12 @@ from .views import (
     PlayersCreateAPIView,
     PlayersListAPIView,
     SportsNewsAPIView,
+    SportsNewsListAPIView,
 )
 
 urlpatterns = [
-    path("news/", SportsNewsAPIView.as_view(), name="sports-news"),
     # 크롤링 후 데이터를 저장하는 POST 요청용 URL
+    path("news/crawl/", SportsNewsAPIView.as_view(), name="sports-news"),
     path(
         "players_rival/crawl/", CrawlAndSavePlayersView.as_view(), name="crawl-players"
     ),
@@ -25,4 +26,5 @@ urlpatterns = [
     path("games/", GameRecordListView.as_view(), name="game-list"),
     path("teamrank/", TeamRankListView.as_view(), name="team-rank-list"),
     path("players/", PlayersListAPIView.as_view(), name="players-api"),
+    path("news/", SportsNewsListAPIView.as_view(), name="sports-news"),
 ]

@@ -7,7 +7,7 @@ from data.schedule import crawl_game_data
 from data.players import crawl_players_data
 from data.player_rival import crawl_playerrival_data
 from data.team_rank import team_rank
-from .models import TeamRank, PlayerRecord, GameRecord, Players
+from .models import TeamRank, PlayerRecord, GameRecord, Players, SportsNews
 from .serializers import (
     PlayerRecordSerializer,
     GameRecordSerializer,
@@ -23,13 +23,13 @@ api_key = API_KEY
 
 # google News API 이용
 class SportsNewsAPIView(APIView):
-    def get(self, request):
+    def post(self, request):
         url = "https://newsapi.org/v2/everything"  # Google News API URL
         params = {
             "q": "KBO",  # 스포츠 관련 뉴스 검색
             "apiKey": api_key,
             "language": "ko",  # 한국어 뉴스
-            "pageSize": 100,  # 가져올 뉴스 기사 수 (필요에 따라 조정 가능)
+            "pageSize": 3,  # 가져올 뉴스 기사 수 (필요에 따라 조정 가능)
         }
 
         response = requests.get(url, params=params)
@@ -71,7 +71,7 @@ class CrawlAndSavePlayersView(APIView):
 class CrawlGameDataView(APIView):
     def post(self, request):
         start_game_number = request.data.get("start_game_number", 20240001)  # 시작 번호
-        end_game_number = request.data.get("end_game_number", 20250000)  # 끝 번호
+        end_game_number = request.data.get("end_game_number", 20242500)  # 끝 번호
 
         # 유효성 검사
         if start_game_number is None or end_game_number is None:
@@ -109,6 +109,26 @@ class TeamRecordAPIView(APIView):
             {"message": f"총 {total_records}개의 팀 기록이 저장되었습니다."},
             status=status.HTTP_201_CREATED,
         )
+
+
+# 구글뉴스 조회 뷰(GET)
+class SportsNewsListAPIView(APIView):
+    def get(self, request):
+        news_articles = SportsNews.objects.all().order_by("-published_at")
+        # 필요한 데이터만 응답
+        response_data = [
+            {
+                "title": article.title,
+                "author": article.author,
+                "description": article.description,
+                "url": article.url,
+                "published_at": article.published_at,
+                "content": article.content,
+                "image_url": article.image_url,
+            }
+            for article in news_articles
+        ]
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 # 선수 기록 조회 뷰 (GET)

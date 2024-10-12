@@ -91,3 +91,6 @@ def team_rank(year=2024):
         )
 
     return len(teams)  # 저장된 팀의 수 반환
+
+
+## 데이터  재 크롤링시 데이터 덮어쓰는거 만들기

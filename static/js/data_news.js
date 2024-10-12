@@ -1,51 +1,63 @@
-// API 엔드포인트
-const apiUrl = '/api/data/news/';  // Django의 API URL
-
-// 페이지가 로드되면 API 요청
-window.onload = function() {
-    fetch(apiUrl)
-        .then(response => response.json())
+document.addEventListener('DOMContentLoaded', function () {
+    // API에서 데이터를 가져와서 표시하는 함수
+    fetch('/news/')
+        .then(response => {
+            console.log('응답 상태:', response.status);  // 응답 상태 코드 로그
+            return response.json();
+        })
         .then(data => {
-            const newsList = document.getElementById('news-list');
-
-            if (data.articles && data.articles.length > 0) {
-                // 뉴스 데이터가 있을 경우
-                data.articles.forEach(article => {
-                    // 기사 리스트 아이템 생성
-                    const listItem = document.createElement('li');
-
-                    // 기사 제목 추가
-                    const title = document.createElement('h2');
-                    const link = document.createElement('a');
-                    link.href = article.url;
-                    link.target = '_blank';  // 새 창에서 열기
-                    link.textContent = article.title;
-                    title.appendChild(link);
-
-                    // 기사 설명 추가
-                    const description = document.createElement('p');
-                    description.textContent = article.description;
-
-                    // 기사 출처와 날짜 추가
-                    const source = document.createElement('p');
-                    source.innerHTML = `<strong>출처:</strong> ${article.source.name} | <strong>작성일:</strong> ${new Date(article.publishedAt).toLocaleDateString()}`;
-
-                    // 리스트 아이템에 추가
-                    listItem.appendChild(title);
-                    listItem.appendChild(description);
-                    listItem.appendChild(source);
-
-                    // 뉴스 리스트에 추가
-                    newsList.appendChild(listItem);
-                });
-            } else {
-                // 뉴스가 없을 경우
-                newsList.innerHTML = '<p>현재 KBO 관련 뉴스가 없습니다.</p>';
-            }
+            console.log('받은 데이터:', data);  // 받아온 데이터 로그
+            displayNews(data.articles);
         })
         .catch(error => {
-            console.error('Error fetching news:', error);
-            const newsList = document.getElementById('news-list');
-            newsList.innerHTML = '<p>뉴스를 가져오는 중 오류가 발생했습니다.</p>';
+            console.error('뉴스 데이터를 가져오는 데 실패했습니다.', error);
         });
-};
+});
+
+function displayNews(articles) {
+    const newsList = document.getElementById("newsList");
+    newsList.innerHTML = '';  // 기존 내용을 비움
+
+    articles.forEach(function (article) {
+        const newsItem = document.createElement('li');
+        newsItem.classList.add('news-item');
+
+        // 뉴스 제목과 링크
+        const newsTitle = document.createElement('h2');
+        const newsLink = document.createElement('a');
+        newsLink.href = article.url;
+        newsLink.target = "_blank";
+        newsLink.textContent = article.title;
+        newsTitle.appendChild(newsLink);
+
+        // 뉴스 이미지 (이미지가 있을 경우에만 표시)
+        if (article.urlToImage) {
+            const newsImage = document.createElement('img');
+            newsImage.src = article.urlToImage;
+            newsImage.alt = article.title;
+            newsImage.style.width = '100%';
+            newsImage.style.maxHeight = '200px';
+            newsImage.style.objectFit = 'cover';
+            newsItem.appendChild(newsImage);
+        }
+
+        // 뉴스 설명
+        const newsDescription = document.createElement('p');
+        newsDescription.textContent = article.description || '설명이 없습니다.';
+        newsItem.appendChild(newsDescription);
+
+        // 뉴스 출처
+        const newsSource = document.createElement('p');
+        newsSource.classList.add('source');
+        newsSource.textContent = `출처: ${article.source.name || '출처 정보 없음'}`;
+        newsItem.appendChild(newsSource);
+
+        // 뉴스 발행일
+        const newsDate = document.createElement('p');
+        newsDate.classList.add('date');
+        newsDate.textContent = `발행일: ${new Date(article.publishedAt).toLocaleDateString()}`;
+        newsItem.appendChild(newsDate);
+
+        newsList.appendChild(newsItem);
+    });
+}

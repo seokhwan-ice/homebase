@@ -123,3 +123,6 @@ def crawl_players_data():
                 )
 
     return total_records  # 저장된 선수 기록의 개수 반환
+
+
+# 중복된 크롤링에 대해서 덮어쓰기 하지 않는 부분 수정해야함@@@@
