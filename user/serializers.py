@@ -252,7 +252,7 @@ class CommentsListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["profile_image", "nickname", "comments"]
+        fields = ["username","profile_image", "nickname", "comments"]
 
 
 class BookMarkListSerializer(serializers.ModelSerializer):
