@@ -9,6 +9,7 @@ openai.api_key = config.OPENAI_API_KEY
 
 @api_view(['POST'])
 def get_player_info(request):
+    
     # 요청에서 선수 이름 받기
     name = request.data.get('player_name')
 
@@ -17,7 +18,9 @@ def get_player_info(request):
 
     # 데이터베이스에서 해당 선수 정보 검색
     try:
-        player = Players.objects.filter(name__icontains=name)  # 대소문자 구분 없이 검색
+        player = Players.objects.filter(name__icontains=name).first()  # 첫 번째 선수만 가져오기
+        if player is None:
+            return Response({'response': '해당 선수에 대한 정보를 찾을 수 없습니다.'}, status=404)
         player_info = (
             f"이 선수는 {player.name}이고, 팀은 {player.team}, "
             f"포지션은 {player.position}, 타석은 {player.batter_hand} 입니다."
@@ -37,4 +40,3 @@ def get_player_info(request):
         return Response({'response': openai_response})
     except Exception as e:
         return Response({'response': 'OpenAI API 호출에 실패했습니다.', 'error': str(e)}, status=500)
-
