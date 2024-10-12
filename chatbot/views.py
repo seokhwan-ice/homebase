@@ -1,21 +1,29 @@
-from homebase import config
 import openai
+from homebase import config
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from data.models import Players  # 데이터베이스에서 Player 모델 가져오기
+from data.models import Players  # Player 모델 가져오기
 
+# OpenAI API 키 설정
 openai.api_key = config.OPENAI_API_KEY
 
 @api_view(['POST'])
 def get_player_info(request):
-    player_name = request.data.get('player_name')  # 요청에서 선수 이름 받기
+    # 요청에서 선수 이름 받기
+    name = request.data.get('player_name')
+
+    if not name:
+        return Response({'response': '선수 이름을 입력해주세요.'}, status=400)
 
     # 데이터베이스에서 해당 선수 정보 검색
     try:
-        player = Players.objects.get(name=player_name)
-        player_info = f"이 선수는 {player.name}이고, 나이는 {player.age}살이며, 포지션은 {player.position}입니다."
+        player = Players.objects.filter(name__icontains=name)  # 대소문자 구분 없이 검색
+        player_info = (
+            f"이 선수는 {player.name}이고, 팀은 {player.team}, "
+            f"포지션은 {player.position}, 타석은 {player.batter_hand} 입니다."
+        )
     except Players.DoesNotExist:
-        return Response({'response': "해당 선수에 대한 정보를 찾을 수 없습니다."}, status=404)
+        return Response({'response': '해당 선수에 대한 정보를 찾을 수 없습니다.'}, status=404)
 
     # OpenAI API 호출에 선수 정보를 프롬프트로 전달
     try:
@@ -28,5 +36,5 @@ def get_player_info(request):
         openai_response = response.choices[0].text.strip()
         return Response({'response': openai_response})
     except Exception as e:
-        return Response({'response': "OpenAI API 호출에 실패했습니다.", 'error': str(e)}, status=500)
+        return Response({'response': 'OpenAI API 호출에 실패했습니다.', 'error': str(e)}, status=500)
 
