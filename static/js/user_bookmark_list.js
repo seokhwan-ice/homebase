@@ -30,7 +30,7 @@ const loadUserProfileAndBookmarks = async () => {
 
             // 북마크한 시간을 표시
             const timeSpan = document.createElement('span');
-            timeSpan.textContent = `${bookmark.updated_at}`;  // 북마크한 시간 표시
+            timeSpan.textContent = ` | ${bookmark.updated_at}`;  // 북마크한 시간 표시
             timeSpan.style.marginLeft = '10px';  // 시간과 제목 사이 간격 설정
 
             listItem.appendChild(link);
@@ -46,3 +46,5 @@ const loadUserProfileAndBookmarks = async () => {
 
 // 페이지 로드 시 사용자 정보와 북마크된 글 불러옴
 document.addEventListener('DOMContentLoaded', loadUserProfileAndBookmarks);
+
+//>>>>>>>>>>>> 직관 인증글의 데이터가 있을때 문제

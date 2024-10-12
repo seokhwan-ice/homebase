@@ -265,26 +265,26 @@ class BookMarkListSerializer(serializers.ModelSerializer):
         for bookmark in bookmarks:
             bookmarks_data = {
                 "article_type": self.get_article_type(bookmark),
-                "title": self.get_article_title(bookmark),
-                "created_at": bookmark.created_at.strftime("%Y-%m-%d %H:%M:"),
-                "updated_at": bookmark.updated_at.strftime(
-                    "%Y-%m-%d %H:%M:"
-                ),  # strftime 데이트타입 포맷터(출력date지정)
+                "title": self.get_article_title(bookmark),  # Live에서는 review 필드로 변경됨
+                "created_at": bookmark.created_at.strftime("%Y-%m-%d %H:%M"),
+                "updated_at": bookmark.updated_at.strftime("%Y-%m-%d %H:%M"),
             }
             bookmark_list.append(bookmarks_data)
 
         return bookmark_list
 
     def get_article_title(self, bookmark):
-        # 기사 제목 가져오기
-        if bookmark.content_object:  # content_object가 존재하는지 확인
-            return bookmark.content_object.title  # 제목 반환
-        else:
-            return None  # 존재하지 않으면 None 반환
+        # Free와 Live 모델에 따라 다른 필드를 반환
+        content_object = bookmark.content_object
+        if content_object:
+            if bookmark.content_type.model == "free":
+                return content_object.title  
+            elif bookmark.content_type.model == "live":
+                return content_object.review 
+        return None 
 
     def get_article_type(self, bookmark):
-
-        # 댓글이 작성된 게시물이 Free인지 Live인지 반환
+        # 게시물의 타입 반환 (Free 또는 Live)
         if bookmark.content_type.model == "free":
             return "Free"
         elif bookmark.content_type.model == "live":
@@ -292,4 +292,5 @@ class BookMarkListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username","profile_image", "nickname", "bookmark"]
+        fields = ["username", "profile_image", "nickname", "bookmark"]
+
