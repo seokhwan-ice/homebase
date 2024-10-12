@@ -142,12 +142,17 @@ class UserProfileliveViewSerializer(serializers.ModelSerializer):
 
         for live_image in user_live_image:
             if live_image.live_image:
-                live_image.append(live_image.title)
+                images.append(live_image.live_image.url)
         return images
 
     class Meta:
         model = User
-        fields = ["community_live_image", "nickname", "created_at"]
+        fields = [
+            "profile_image",
+            "username",
+            "nickname",
+            "community_live_image",
+        ]
 
 
 class FollowingListSerializer(serializers.ModelSerializer):
