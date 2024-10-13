@@ -7,7 +7,7 @@ if (!username) {
     throw new Error('username이 없습니다. 요청을 진행할 수 없습니다.');
 }
 
-// 사용자 정보와 작성 글 제목을 가져오는 함수
+// 사용자 정보와 작성 글 정보를 가져오는 함수
 const loadUserProfileAndPosts = async () => {
     try {
         // 서버로부터 사용자 정보와 작성 글 목록 가져오기
@@ -20,14 +20,30 @@ const loadUserProfileAndPosts = async () => {
 
         // 작성한 글의 제목 리스트 추가
         const postsList = document.getElementById('free-posts-list');
-        userData.community_free_title.forEach((title, index) => {
+        userData.community_free_articles.forEach(article => {
             const listItem = document.createElement('li');
             const postLink = document.createElement('a');
 
-            postLink.textContent = title;  // 제목 표시
-            postLink.href = `post_detail.html?post_id=${index + 1}`;  // 예시로 게시글 링크를 지정
-            // 내가 작성한 글의 id 값을 받아야할것같은데..........
+            // 게시글 제목과 링크 설정
+            postLink.textContent = article.title;  // 제목 표시
+            postLink.href = `free_detail.html?id=${article.id}`;  // 게시글 ID로 상세 페이지 링크 설정
+            
+            // 이미지가 있는 경우 이미지 미리보기 추가
+            if (article.free_image) {
+                const imagePreview = document.createElement('img');
+                imagePreview.src = article.free_image;
+                imagePreview.alt = article.title;
+                imagePreview.style.width = "50px";  // 이미지 크기 설정
+                listItem.appendChild(imagePreview);
+            }
+
+            // 게시글 작성일 표시
+            const dateInfo = document.createElement('span');
+            dateInfo.textContent = ` (작성일: ${article.created_at})`;
+            
+            // 리스트 아이템 구성
             listItem.appendChild(postLink);
+            listItem.appendChild(dateInfo);
             postsList.appendChild(listItem);
         });
 
@@ -42,8 +58,7 @@ document.getElementById('mypage-button').addEventListener('click', () => {
     window.location.href = `user_main_profile.html?username=${username}`;
 });
 
-// 버튼 버튼 클릭 시 페이지 이동 설정
-
+// 버튼 클릭 시 페이지 이동 설정
 document.getElementById('community_posts-button').addEventListener('click', () => {
     window.location.href = `user_live_list.html?username=${username}`;
 });

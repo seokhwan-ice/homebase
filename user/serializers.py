@@ -116,23 +116,30 @@ class UpdateMyProfileSerializer(serializers.ModelSerializer):
 
 
 class UserProfileTitleSerializer(serializers.ModelSerializer):
-    community_free_title = serializers.SerializerMethodField()
+    community_free_articles = serializers.SerializerMethodField()
 
-    def get_community_free_title(self, obj):
-        user_free_article = obj.author_free.all()
-        title = []
+    def get_community_free_articles(self, obj):
+        user_free_articles = obj.author_free.all()  # 유저가 작성한 Free 게시물 가져오기
+        article_data_list = []  # 리스트 초기화
 
-        for free in user_free_article:
-            if free.title:
-                title.append(free.title)
-        return title
+        for free in user_free_articles:
+            article_data = {
+                "id": free.id,
+                "title": free.title,
+                "free_image": free.free_image.url if free.free_image else None,
+                "created_at": free.created_at.strftime("%Y-%m-%d %H:%M"),
+                "updated_at": free.updated_at.strftime("%Y-%m-%d %H:%M"),
+            }
+            article_data_list.append(article_data)  # 리스트에 딕셔너리 추가
+
+        return article_data_list  # 리스트 반환
 
     class Meta:
         model = User
         fields = [
             "profile_image",
             "nickname",
-            "community_free_title",
+            "community_free_articles",
             "username",
         ]
 
