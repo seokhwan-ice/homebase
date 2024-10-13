@@ -75,12 +75,34 @@
         }
         .gallery {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3열로 설정 */
-            grid-template-rows: repeat(2, 1fr); /* 2행으로 설정 */
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
             gap: 10px;
             padding: 10px;
             border: 1px solid #444;
             background-color: #333;
+        }
+        .gallery-item {
+            position: relative;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover {
+            opacity: 0.7;
+        }
+        .gallery-item .timestamp {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: none;
+        }
+        .gallery-item:hover .timestamp {
+            display: block;
         }
         .gallery img {
             width: 100%;
@@ -95,12 +117,12 @@
     <div class="container">
         <!-- Left side profile section -->
         <div class="profile-left">
-            <div class="profile-image"></div>
+            <img src="https://via.placeholder.com/150" class="profile-image" alt="User Profile Image" id="profileImage">
             <div class="nickname">user_nickname</div>
             
             <!-- 팔로워 및 팔로잉 수 클릭 시 해당 페이지로 이동 -->
             <div class="follower-info">
-                <a href="followers.html">followers</a> · <a href="following.html">following</a>
+                <a id="followers-link" href="#"> followers</a> · <a id="following-link" href="#"> following</a>
             </div>
         </div>
 
@@ -108,7 +130,7 @@
         <div class="profile-right">
             <div class="bio">
                 <h2>소개글(bio)</h2>
-                <p>여기는 유저가 작성한 bio 내용이 표시되는 곳입니다.</p>
+                <p id="bio">소개글 내용</p>
             </div>
 
             <!-- 6칸 갤러리 (3x2) -->

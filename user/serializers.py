@@ -63,13 +63,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
 # 타인의 프로필을 볼때 페이지
 class MyProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
-    follower_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
     community_live_image = serializers.SerializerMethodField()
 
     def get_following_count(self, obj):
         return obj.followings.count()
 
-    def get_follower_count(self, obj):
+    def get_followers_count(self, obj):
         return obj.followers.count()
 
     def get_community_live_image(self, obj):
@@ -92,9 +92,10 @@ class MyProfileSerializer(serializers.ModelSerializer):
             "profile_image",
             "nickname",
             "following_count",
-            "follower_count",
+            "followers_count",
             "community_live_image",
             "username",
+            "bio",
         ]
 
 
