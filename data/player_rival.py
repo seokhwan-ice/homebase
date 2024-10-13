@@ -19,7 +19,7 @@ def safe_convert_to_int(value):
         return 0  # 변환할 수 없을 때 기본값
 
 
-def crawl_player_data():
+def crawl_playerrival_data():
     # 각 팀의 URL을 리스트로 저장
     base_url = "https://statiz.sporki.com"
     team_urls = [
@@ -32,6 +32,7 @@ def crawl_player_data():
         f"{base_url}/team/?m=seasonBacknumber&t_code=7002&year=2024",  # 한화이글스
         f"{base_url}/team/?m=seasonBacknumber&t_code=12001&year=2024",  # KT위즈
         f"{base_url}/team/?m=seasonBacknumber&t_code=9002&year=2024",  # SSG랜더스
+        f"{base_url}/team/?m=seasonBacknumber&t_code=5002&year=2024",  # LG트윈스
     ]
 
     # 각 팀에 대한 로고 URL을 저장
@@ -45,6 +46,7 @@ def crawl_player_data():
         "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=7002&year=2024": "https://statiz.sporki.com/data/team/ci/2024/7002.svg",  # 한화이글스
         "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=12001&year=2024": "https://statiz.sporki.com/data/team/ci/2024/12001.svg",  # KT위즈
         "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=9002&year=2024": "https://statiz.sporki.com/data/team/ci/2024/9002.svg",  # SSG랜더스
+        "https://statiz.sporki.com/team/?m=seasonBacknumber&t_code=5002&year=2024": "https://statiz.sporki.com/data/team/ci/2024/5002.svg",  # LG트윈스
     }
 
     for url in team_urls:
@@ -83,7 +85,7 @@ def crawl_player_data():
 
                         # 데이터베이스에 저장 (중복 확인)
                         player_record, created = PlayerRecord.objects.get_or_create(
-                            name=f"{team_logo} {a.text}",  # 팀 로고와 선수 이름 결합
+                            name=f"{a.text}",  # 팀 로고와 선수 이름 결합
                             opponent=cols[0] if len(cols) > 0 else "",  # 상대 이름
                             defaults={
                                 "team_logo_url": team_logo,  # 팀 로고 URL

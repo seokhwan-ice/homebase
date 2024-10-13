@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>free_create</title>
+</head>
+
+<body>
+    <h1>Free 게시판 등록 페이지</h1>
+
+    <form id="create-form">
+        <label for="title">제목:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="content">내용:</label><br>
+        <textarea id="content" name="content" rows="10" cols="30" required></textarea><br><br>
+
+        <label for="free_image">이미지:</label>
+        <input type="file" id="free_image" name="free_image"><br><br>
+
+        <button type="submit">등록하기</button>
+        <button onclick="location.href='free_list.html'">목록으로 돌아가기</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/free_create.js"></script>
+</body>
+</html>
