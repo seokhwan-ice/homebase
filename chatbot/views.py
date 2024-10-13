@@ -17,27 +17,31 @@ def get_player_info(request):
 
     # "상대전적" 또는 "상대팀" 관련 질문이면 상대팀 경기 정보 조회
     if "상대전적" in user_input or "상대팀" in user_input:
-        # 선수 이름과 상대팀 정보 추출 (예: "노시환 상대전적")
-        player_name = user_input.replace("상대전적", "").replace("상대팀", "").strip()  # 선수 이름 추출
-        player_record = PlayerRecord.objects.filter(name__icontains=player_name).first()
+        # 선수 이름과 상대팀 정보 추출 (예: "문동주 김도영 상대전적")
+        player_names = user_input.replace("상대전적", "").replace("상대팀", "").strip().split()
+
+        if len(player_names) < 2:
+            return Response({'response': '선수 이름과 상대팀을 모두 입력해주세요.'}, status=400)
+
+        player_name = player_names[0]
+        opponent_name = player_names[1]
+
+        # 해당 선수와 상대팀에 대한 기록을 필터링
+        player_record = PlayerRecord.objects.filter(name__icontains=player_name, opponent__icontains=opponent_name).first()
 
         if player_record:
-            # 상대 팀이 있는지 확인 (PlayerRecord 모델의 opponent 필드)
-            if player_record.opponent:
-                # 상대 팀 정보 포함해서 응답 조합
-                player_rival_info = (
-                    f"선수: {player_record.name}, 상대팀: {player_record.opponent}, "
-                    f"타석: {player_record.pa}, 타수: {player_record.ab}, "
-                    f"안타: {player_record.h}, 홈런: {player_record.hr}, "
-                    f"타점: {player_record.rbi}, 타율: {player_record.avg}, OPS: {player_record.ops}"
-                )
-                response = player_rival_info
-            else:
-                response = f"{player_name} 선수와 상대팀 정보가 없습니다."
+            # 상대팀 정보가 있다면 경기 기록 응답 조합
+            player_rival_info = (
+                f"선수: {player_record.name}, 상대팀: {player_record.opponent}, "
+                f"타석: {player_record.pa}, 타수: {player_record.ab}, "
+                f"안타: {player_record.h}, 홈런: {player_record.hr}, "
+                f"타점: {player_record.rbi}, 타율: {player_record.avg}, OPS: {player_record.ops}"
+            )
+            response = player_rival_info
         else:
-            response = f"{player_name} 선수와의 경기 정보가 없습니다."
+            response = f"{player_name} 선수와 {opponent_name} 선수와의 경기 정보가 없습니다."
     else:
-        # 선수 프로필 조회
+        # 상대전적 이외의 질문일 경우, 선수 프로필 조회
         player = Players.objects.filter(name__icontains=user_input).first()
 
         if player:
