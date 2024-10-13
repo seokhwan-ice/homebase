@@ -97,7 +97,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
 class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["profile_image", "nickname", "bio"]
+        fields = ["profile_image", "nickname", "bio", "username"]
 
 
 # 나만 보이는 페이지 부분 수정?
@@ -218,6 +218,7 @@ class FollowerslistSerializer(serializers.ModelSerializer):
             "following_count",
             "followers_count",
             "followers_list",
+            "username",
         ]
 
 
@@ -252,7 +253,7 @@ class CommentsListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username","profile_image", "nickname", "comments"]
+        fields = ["username", "profile_image", "nickname", "comments"]
 
 
 class BookMarkListSerializer(serializers.ModelSerializer):
@@ -265,7 +266,9 @@ class BookMarkListSerializer(serializers.ModelSerializer):
         for bookmark in bookmarks:
             bookmarks_data = {
                 "article_type": self.get_article_type(bookmark),
-                "title": self.get_article_title(bookmark),  # Live에서는 review 필드로 변경됨
+                "title": self.get_article_title(
+                    bookmark
+                ),  # Live에서는 review 필드로 변경됨
                 "created_at": bookmark.created_at.strftime("%Y-%m-%d %H:%M"),
                 "updated_at": bookmark.updated_at.strftime("%Y-%m-%d %H:%M"),
             }
@@ -278,10 +281,10 @@ class BookMarkListSerializer(serializers.ModelSerializer):
         content_object = bookmark.content_object
         if content_object:
             if bookmark.content_type.model == "free":
-                return content_object.title  
+                return content_object.title
             elif bookmark.content_type.model == "live":
-                return content_object.review 
-        return None 
+                return content_object.review
+        return None
 
     def get_article_type(self, bookmark):
         # 게시물의 타입 반환 (Free 또는 Live)
@@ -293,4 +296,3 @@ class BookMarkListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "profile_image", "nickname", "bookmark"]
-
