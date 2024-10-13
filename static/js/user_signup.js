@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('username', document.getElementById('username').value);
         formData.append('name', document.getElementById('name').value);
         formData.append('nickname', document.getElementById('nickname').value);
+        formData.append('email', document.getElementById('email').value); // 이메일 추가
         formData.append('password', password); // 확인된 비밀번호만 서버로 전송
         formData.append('phone_number', document.getElementById('phone_number')?.value || ''); // 선택 필드 (없을 수 있음)
         formData.append('bio', document.getElementById('bio')?.value || ''); // 선택 필드 (없을 수 있음)

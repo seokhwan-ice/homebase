@@ -1,27 +1,22 @@
-// URL에서 쿼리 파라미터로부터 username 추출하기
-const params = new URLSearchParams(window.location.search);
-const username = params.get('username');  // URL에 있는 'username' 파라미터 가져오기
-
+// URL에서 쿼리 파라미터로부터 username 추출
+const username = new URLSearchParams(window.location.search).get('username');
 if (!username) {
     alert('올바른 사용자를 찾을 수 없습니다.');
-    throw new Error('username이 없습니다. 요청을 진행할 수 없습니다.');
+    throw new Error('username이 없습니다.');
 }
 
-// 프로필 데이터를 불러오기 (JWT 인증 필요 없음)
+// 프로필 데이터를 불러오기
 const getProfileDetailForUpdate = async () => {
     try {
-        const response = await axios.get(`user/${username}/`);  // 프로필 데이터를 GET 요청으로 가져옴
+        const response = await axios.get(`user/${username}/`);
         const profile = response.data;
-
-        // 가져온 데이터를 폼에 반영
         document.getElementById('nickname').value = profile.nickname;
         document.getElementById('bio').value = profile.bio;
 
-        // 프로필 이미지가 있을 경우 표시
         if (profile.profile_image) {
             const imgPreview = document.getElementById('profile_image_preview');
             imgPreview.src = profile.profile_image;
-            imgPreview.style.display = 'block';  // 이미지 미리보기 표시
+            imgPreview.style.display = 'block'; // 이미지 미리보기 표시
         }
     } catch (error) {
         console.error("프로필 데이터를 불러오는 중 오류 발생:", error);
@@ -31,7 +26,7 @@ const getProfileDetailForUpdate = async () => {
 
 // 이미지 미리보기 설정
 const profileImageInput = document.getElementById('profile_image');
-profileImageInput.addEventListener('change', function(event) {
+profileImageInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
         const imgPreview = document.getElementById('profile_image_preview');
@@ -40,14 +35,14 @@ profileImageInput.addEventListener('change', function(event) {
     }
 });
 
-// 프로필 업데이트 (JWT 인증 추가)
+// 프로필 업데이트
 const form = document.getElementById('profile-update-form');
-form.addEventListener('submit', async function(event) {
-    event.preventDefault();  // 폼 제출 방지
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
     const nickname = document.getElementById('nickname').value;
     const bio = document.getElementById('bio').value;
-    const profileImage = document.getElementById('profile_image').files[0];  // 파일 선택
+    const profileImage = profileImageInput.files[0]; 
 
     const formData = new FormData();
     formData.append('nickname', nickname);
@@ -57,14 +52,12 @@ form.addEventListener('submit', async function(event) {
     }
 
     try {
-        const response = await axios.patch(`user/${username}/`, formData, {
+        await axios.put(`user/${username}/`, formData, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,  // 수정할 때 JWT 토큰을 포함
-                'Content-Type': 'multipart/form-data'  // 파일 업로드를 위해 설정
+                'Content-Type': 'multipart/form-data'
             }
-        });  // 프로필 업데이트 요청
+        });
         alert('프로필 수정 완료!');
-        //location.href = `user_profile.html?username=${username}`;  // 수정 완료 후 프로필 페이지로 이동
     } catch (error) {
         console.error("프로필 수정 중 오류 발생:", error);
         alert('프로필 수정 실패');
@@ -72,12 +65,9 @@ form.addEventListener('submit', async function(event) {
 });
 
 // 취소 버튼 클릭 시 이전 페이지로 이동
-document.getElementById('cancel-button').addEventListener('click', function() {
-    if (document.referrer) {
-        window.history.back();  // 이전 페이지로 이동
-    } else {
-        location.href = 'home.html';  // 이전 페이지가 없을 경우 홈 페이지로 이동
-    }
+const cancelButton = document.getElementById('cancel-button');
+cancelButton.addEventListener('click', () => {
+    window.history.back();
 });
 
 // 페이지 로드 시 프로필 데이터 불러오기

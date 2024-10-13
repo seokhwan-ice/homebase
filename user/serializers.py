@@ -10,7 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             "username",
-            "password",
             "nickname",
             "name",
             "profile_image",
@@ -79,7 +78,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
         for live_image in user_live_image:
             if live_image.live_image:
-                live_image.append(live_image.title)
+                images.append(live_image.live_image.url)
         return images
 
     class Meta:
@@ -265,6 +264,7 @@ class BookMarkListSerializer(serializers.ModelSerializer):
 
         for bookmark in bookmarks:
             bookmarks_data = {
+                "article_id": bookmark.content_object.id,
                 "article_type": self.get_article_type(bookmark),
                 "title": self.get_article_title(
                     bookmark

@@ -32,20 +32,26 @@
         <!-- 계정 설정 페이지 -->
         <h2>계정</h2>
         <form id="account-form">
-            <label for="current-email">이메일</label>
-            <input type="email" id="current-email" readonly><br><br>
+            <!-- 기존 이메일 표시 -->
+            <label for="current-email">email</label>
+            <span id="current-email">등록된 이메일이 없습니다</span> <!-- 기존 이메일 표시 -->
+            <br><br>
 
+            <!-- 새로운 이메일 입력 -->
             <label for="email">새로운 이메일</label>
             <input type="email" id="email" placeholder="새로운 이메일을 입력하세요"><br><br>
 
-            <label for="current-phone_number">기존 전화번호</label>
-            <input type="text" id="current-phone_number" readonly><br><br>
+            <!-- 기존 전화번호 표시 -->
+            <label for="current-phone_number"> Phone Number</label>
+            <span id="current-phone_number">등록된 전화번호가 없습니다</span> <!-- 기존 전화번호 표시 -->
+            <br><br>
 
-            <label for="phone_number">새로운 전화번호</label>
-            <input type="text" id="phone_number" placeholder="새로운 전화번호를 입력하세요"><br><br>
+            <!-- 새로운 전화번호 입력 -->
+            <label for="phone_number">변경하실 폰번호</label>
+            <input type="text" id="phone_number" placeholder="010-1234-5678"><br><br>
 
             <label for="old-password">현재 비밀번호</label>
-            <input type="password" id="old-password" ><br><br>
+            <input type="password" id="old-password"><br><br>
 
             <label for="new-password">뉴 비밀번호</label>
             <input type="password" id="new-password" required><br><br>
@@ -62,3 +68,4 @@
     </div>
 </body>
 </html>
+

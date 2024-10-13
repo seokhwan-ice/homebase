@@ -40,6 +40,7 @@ class UserCreateView(APIView):
             'bio': request.data.get("bio"),
             'profile_image': request.data.get("profile_image"),
             'phone_number': request.data.get("phone_number"),
+            'email':request.data.get("email"),
         }
 
         # 사용자 생성
