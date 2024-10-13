@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>index_page</title>
+    <!-- css 추가하자 -->
+</head>
+
+<body>
+    <h1>메인 페이지</h1>
+
+    <!-- data 앱 관련 섹션 추가해야됨 -->
+    <p>data: 최신뉴스 + 팀순위 + 선수순위 등등 추가</p>
+    <hr>
+    <!-- 커뮤니티 섹션 (free) -->
+    <section id="community-free">
+        <h2>자유 게시판 (Free)</h2>
+        <h3>조회수 많은 게시글</h3>
+        <ul id="top-viewed-free"></ul>
+        <h3>댓글 많은 게시글</h3>
+        <ul id="top-commented-free"></ul>
+    </section>
+    <hr>
+    <!-- 라이브 게시판 (live) -->
+    <section id="community-live">
+        <h2>직관인증 게시판 (Live)</h2>
+        <h3>좋아요 많은 게시글</h3>
+        <ul id="top-liked-live"></ul>
+        <h3>댓글 많은 게시글</h3>
+        <ul id="top-commented-live"></ul>
+    </section>
+    <hr>
+    <!-- 채팅 섹션 -->
+    <section id="chat">
+        <h2>인기 채팅방 (Chat)</h2>
+        <ul id="top-participated-chatrooms"></ul>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+</html>
