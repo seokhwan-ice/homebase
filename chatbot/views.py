@@ -1,23 +1,56 @@
 # import openai
-# from homebase import config
+# from homebase.config import OPENAI_API_KEY
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from data.models import Players  # Player 모델 가져오기
+from data.models import PlayerRecord # PlayerRecord 모델 가져오기
 
 # OpenAI API 키 설정
-# openai.api_key = config.OPENAI_API_KEY
+# openai.api_key = OPENAI_API_KEY
 
 @api_view(['POST'])
-def  get_player_info(request):
+def get_player_info(request): 
     user_input = request.data.get('user_input')
-    
-    # "선수 이름"을 쿼리로 받아서 해당 선수 프로필을 조회
-    player = Players.objects.filter(name__icontains=user_input).first()
 
-    if player:
-        response = f"{player.name} 선수의 프로필:나이: {player.birth_date}, 팀: {player.team}, 포지션: {player.position}"
+    if not user_input:
+        return Response({'response': '질문을 입력해주세요.'}, status=400)
+
+    # "상대전적" 또는 "상대팀" 관련 질문이면 상대팀 경기 정보 조회
+    if "상대전적" in user_input or "상대팀" in user_input:
+        # 선수 이름과 상대팀 정보 추출 (예: "노시환 상대전적")
+        player_name = user_input.replace("상대전적", "").replace("상대팀", "").strip()  # 선수 이름 추출
+        player_record = PlayerRecord.objects.filter(name__icontains=player_name).first()
+
+        if player_record:
+            # 상대 팀이 있는지 확인 (PlayerRecord 모델의 opponent 필드)
+            if player_record.opponent:
+                # 상대 팀 정보 포함해서 응답 조합
+                player_rival_info = (
+                    f"선수: {player_record.name}, 상대팀: {player_record.opponent}, "
+                    f"타석: {player_record.pa}, 타수: {player_record.ab}, "
+                    f"안타: {player_record.h}, 홈런: {player_record.hr}, "
+                    f"타점: {player_record.rbi}, 타율: {player_record.avg}, OPS: {player_record.ops}"
+                )
+                response = player_rival_info
+            else:
+                response = f"{player_name} 선수와 상대팀 정보가 없습니다."
+        else:
+            response = f"{player_name} 선수와의 경기 정보가 없습니다."
     else:
-        response = "해당 선수에 대한 정보를 찾을 수 없습니다."
+        # 선수 프로필 조회
+        player = Players.objects.filter(name__icontains=user_input).first()
+
+        if player:
+            # 선수의 프로필 정보 조합
+            player_info = (
+                f"이름: {player.name}, 팀: {player.team}, 포지션: {player.position}, "
+                f"타석: {player.batter_hand}, 나이: {player.birth_date}, "
+                f"학교: {player.school}, 드래프트 정보: {player.draft_info}, "
+                f"활동 팀: {player.active_team}, 프로필 이미지: {player.profile_img}"
+            )
+            response = player_info
+        else:
+            response = "해당 선수에 대한 정보를 찾을 수 없습니다."
 
     return Response({'response': response})
 
