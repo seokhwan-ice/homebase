@@ -98,7 +98,7 @@ class Command(BaseCommand):
             )
 
             # 채팅방 참여자 수 0~20
-            participants_count = random.randint(0, 20)
+            participants_count = random.randint(0, 10)
             participants = random.sample(users, k=min(participants_count, len(users)))
             for participant in participants:
                 ChatParticipant.objects.create(user=participant, room=chat_room)

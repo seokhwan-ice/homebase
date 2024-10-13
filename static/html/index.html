@@ -10,32 +10,44 @@
 
 <body>
     <h1>메인 페이지</h1>
-    <button onclick="location.href='user.html'">로그임</button>
+    <button onclick="location.href='user.html'">로그인 페이지</button>
 
-    <!-- data 앱 관련 섹션 추가해야됨 -->
-    <p>data: 최신뉴스 + 팀순위 + 선수순위 등등 추가</p>
+    <!-- data 섹션 -->
+    <section id="latest-news">
+        <h2>뉴스</h2>
+        <h3>(최신 뉴스)</h3>
+        <ul id="news-list"></ul>
+        <h3>(댓글 많은 뉴스- 아직 구현 안했어...)</h3>
+    </section>
+
+    <hr>
+    <section id="team-rank">
+        <h2>팀 랭킹</h2>
+        <ul id="team-rank-list"></ul>
+    </section>
+
     <hr>
     <!-- 커뮤니티 섹션 (free) -->
     <section id="community-free">
-        <h2>자유 게시판 (Free)</h2>
-        <h3>조회수 많은 게시글</h3>
+        <h2>자유 게시판</h2>
+        <h3>(조회수 많은 게시글)</h3>
         <ul id="top-viewed-free"></ul>
-        <h3>댓글 많은 게시글</h3>
+        <h3>(댓글 많은 게시글)</h3>
         <ul id="top-commented-free"></ul>
     </section>
     <hr>
     <!-- 라이브 게시판 (live) -->
     <section id="community-live">
-        <h2>직관인증 게시판 (Live)</h2>
-        <h3>좋아요 많은 게시글</h3>
+        <h2>직관인증 게시판</h2>
+        <h3>(좋아요 많은 게시글)</h3>
         <ul id="top-liked-live"></ul>
-        <h3>댓글 많은 게시글</h3>
+        <h3>(댓글 많은 게시글)</h3>
         <ul id="top-commented-live"></ul>
     </section>
     <hr>
     <!-- 채팅 섹션 -->
     <section id="chat">
-        <h2>인기 채팅방 (Chat)</h2>
+        <h2>실시간 채팅방</h2>
         <ul id="top-participated-chatrooms"></ul>
     </section>
 

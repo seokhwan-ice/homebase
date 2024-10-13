@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const topViewedFreeList = document.getElementById('top-viewed-free');
         topViewedFree.forEach(free => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="free_detail.html?id=${free.id}">${free.title}</a> (조회수: ${free.views})`;
+            li.innerHTML = `<a href="free_detail.html?id=${free.id}">${free.title}</a> [ 조회: ${free.views} / 댓글: ${free.comments_count} ]`;
             topViewedFreeList.appendChild(li);
         });
 
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const topCommentedFreeList = document.getElementById('top-commented-free');
         topCommentedFree.forEach(free => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="free_detail.html?id=${free.id}">${free.title}</a> (댓글 수: ${free.comments_count})`;
+            li.innerHTML = `<a href="free_detail.html?id=${free.id}">${free.title}</a> [ 조회: ${free.views} / 댓글: ${free.comments_count} ]`;
             topCommentedFreeList.appendChild(li);
         });
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const topLikedLiveList = document.getElementById('top-liked-live');
         topLikedLive.forEach(live => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="live_detail.html?id=${live.id}">${live.image}</a> (좋아요: ${live.likes_count})`;
+            li.innerHTML = `<a href="live_detail.html?id=${live.id}">${live.home_team} vs ${live.away_team}</a> [ 좋아요: ${live.likes_count} / 댓글: ${live.comments_count} ]`;
             topLikedLiveList.appendChild(li);
         });
 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const topCommentedLiveList = document.getElementById('top-commented-live');
         topCommentedLive.forEach(live => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="live_detail.html?id=${live.id}">${live.image}</a> (댓글 수: ${live.comments_count})`;
+            li.innerHTML = `<a href="live_detail.html?id=${live.id}">${live.home_team} vs ${live.away_team}</a> [ 좋아요: ${live.likes_count} / 댓글: ${live.comments_count} ]`;
             topCommentedLiveList.appendChild(li);
         });
 
@@ -42,8 +42,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         const topChatroomList = document.getElementById('top-participated-chatrooms');
         topChatrooms.forEach(chatroom => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="chatroom_detail.html?roomId=${chatroom.id}">${chatroom.title}</a> (참여자 수: ${chatroom.participants_count})`;
+            li.innerHTML = `<a href="chatroom_detail.html?roomId=${chatroom.id}">${chatroom.title}</a> [ 참여자수: ${chatroom.participants_count} / 최근대화: ${chatroom.latest_message_time} ]`;
             topChatroomList.appendChild(li);
+        });
+
+        // 최신 뉴스 (News)
+        const latestNews = data.latest_news;
+        const newsList = document.getElementById('news-list');
+        latestNews.forEach(news => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${news.url}" target="_blank">${news.title}</a> [ 발행일: ${news.published_at} ]`;
+            newsList.appendChild(li);
+        });
+
+        // 팀 랭킹 (Team Rank)
+        const teamRank = data.team_rank;
+        const teamRankList = document.getElementById('team-rank-list');
+        teamRank.forEach((team, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `${team.rank}위: ${team.team_name} [ 승: ${team.wins} / 무: ${team.draws} / 패: ${team.losses} ]`;
+            teamRankList.appendChild(li);
         });
 
     } catch (error) {
