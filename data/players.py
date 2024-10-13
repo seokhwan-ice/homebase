@@ -23,6 +23,7 @@ def crawl_players_data():
         f"{base_url}/team/?m=seasonBacknumber&t_code=7002&year=2024",  # 한화이글스
         f"{base_url}/team/?m=seasonBacknumber&t_code=12001&year=2024",  # KT위즈
         f"{base_url}/team/?m=seasonBacknumber&t_code=9002&year=2024",  # SSG랜더스
+        f"{base_url}/team/?m=seasonBacknumber&t_code=5002&year=2024",  # LG트윈스
     ]
     total_records = 0  # 저장된 기록 수 초기화
 
@@ -126,3 +127,4 @@ def crawl_players_data():
 
 
 # 중복된 크롤링에 대해서 덮어쓰기 하지 않는 부분 수정해야함@@@@
+# 이미지 저장 하는걸 어떻게해야...?

@@ -2,6 +2,7 @@ from homebase.config import API_KEY
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 from data.schedule import crawl_game_data
 from data.players import crawl_players_data
 from data.player_rival import crawl_playerrival_data
@@ -15,6 +16,12 @@ from .serializers import (
     PlayersSerializer,
     SportsNewsListSerializer,
 )
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 10  # 기본 페이지당 아이템 수
+    page_size_query_param = "page_size"  # 쿼리 파라미터로 페이지당 아이템 수 조정 가능
+    max_page_size = 100  # 최대 페이지당 아이템 수
 
 
 # 내부적으로 일정 시간에 실행되게 하려면 핸들링 추가해야함@
@@ -106,40 +113,63 @@ class TeamRecordAPIView(APIView):
 
 # 구글뉴스 조회 뷰(GET)
 class SportsNewsListAPIView(APIView):
+    pagination_class = CustomPagination
+
     def get(self, request, *args, **kwargs):
-        # 데이터베이스에서 모든 뉴스 기사를 가져옵니다.
         articles = SportsNews.objects.all()
-        serializer = SportsNewsListSerializer(articles, many=True)
-        return Response({"articles": serializer.data})
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(
+            articles, request
+        )  # 페이지네이션 적용
+        serializer = SportsNewsListSerializer(result_page, many=True)
+        return paginator.get_paginated_response(
+            serializer.data
+        )  # 페이지네이션된 응답 반환
 
 
 # 선수 기록 조회 뷰 (GET)
 class PlayerRecordListView(APIView):
+    pagination_class = CustomPagination
+
     def get(self, request, *args, **kwargs):
         players = PlayerRecord.objects.all()
-        serializer = PlayerRecordSerializer(players, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(players, request)
+        serializer = PlayerRecordSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
 
 # 경기 기록 조회 뷰 (GET)
 class GameRecordListView(APIView):
+    pagination_class = CustomPagination
+
     def get(self, request):
         games = GameRecord.objects.all()
-        serializer = GameRecordSerializer(games, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(games, request)
+        serializer = GameRecordSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
 
 # 팀 순위 조회 뷰 (GET)
 class TeamRankListView(APIView):
+    pagination_class = CustomPagination
+
     def get(self, request, *args, **kwargs):
         teams = TeamRank.objects.all()
-        serializer = TeamRankSerializer(teams, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(teams, request)
+        serializer = TeamRankSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
 
 # 전체 선수 정보 조회 뷰 (GET)
 class PlayersListAPIView(APIView):
+    pagination_class = CustomPagination
+
     def get(self, request):
-        players = Players.objects.all()  # 모든 선수 정보 조회
-        serializer = PlayersSerializer(players, many=True)  # 직렬화
-        return Response(serializer.data, status=status.HTTP_200_OK)  # 성공 응답
+        players = Players.objects.all()
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(players, request)
+        serializer = PlayersSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)  # 성공 응답
