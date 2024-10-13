@@ -40,7 +40,11 @@ class ChatMessage(TimeStamp):
 # 채팅방 참여자
 class ChatParticipant(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    room = models.ForeignKey(to=ChatRoom, on_delete=models.CASCADE)
+    room = models.ForeignKey(
+        to=ChatRoom,
+        on_delete=models.CASCADE,
+        related_name="participants",
+    )
     joined_at = models.DateTimeField(auto_now_add=True)
     # left_at = models.DateTimeField(null=True, blank=True)  # 안나갔으면 null 로 저장
 

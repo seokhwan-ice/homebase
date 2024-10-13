@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from .models import ChatRoom, ChatMessage, ChatParticipant
 from .serializers import ChatRoomSerializer, ChatMessageSerializer
 from user.serializers import UserSerializer
@@ -15,6 +15,10 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
+
+    # 검색
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title"]
 
     # 채팅방에 참여하는 API (ChatParticipant 추가하기)
     @action(detail=True, methods=["post"])
@@ -44,8 +48,8 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
 # 채팅 메시지
 class ChatMessageViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = ChatMessage.objects.all()
     serializer_class = ChatMessageSerializer
+    queryset = ChatMessage.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

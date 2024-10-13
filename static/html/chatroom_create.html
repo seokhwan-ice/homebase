@@ -10,13 +10,22 @@
 <body>
     <h1>새로운 채팅방 생성 페이지</h1>
 
-    <form id="create-chatroom-form">
-        <label>채팅방 제목:</label>
-        <input type="text" id="chatroom-title" placeholder="채팅방 이름(20글자 이내)" required>
+    <form id="chatroom-form" enctype="multipart/form-data">
+        <label for="title">채팅방 제목</label>
+        <input type="text" id="title" name="title" placeholder="채팅방 이름(20글자 이내)" required>
         <br><br>
-        <label>설명:</label>
-        <input type="text" id="chatroom-description" placeholder="채팅방 설명 간단하게(안써두됨)">
+
+        <label for="description">채팅방 설명</label>
+        <textarea id="description" name="description" placeholder="채팅방 설명 간단하게(안써두됨)" required></textarea>
+        <br><br>
+
+        <label for="image">채팅방 대표 이미지</label>
+        <input type="file" id="image" name="image" accept="image/*">
+        <br><br>
+
         <button type="submit">생성하기</button>
+
+        <button onclick="location.href='chatroom_list.html'">목록으로 돌아가기</button>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->

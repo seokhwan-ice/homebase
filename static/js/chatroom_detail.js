@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const response = await axios.post(`chat/chatrooms/${roomId}/join/`);
         // 사용자 정보를 응답에서 가져옴
         userNickname = response.data.nickname; // 서버 응답에서 nickname 가져오기
-        console.log('참여자 닉네임:', userNickname);  // 콘솔에서 닉네임 확인
+        console.log('참여자 닉네임:', userNickname);
     } catch (error) {
         console.error('참여자 등록 실패:', error);
-        return;  // 실패하면 진행하지 않도록 종료
+        return;
     }
 
-    // Socket.IO 로직
+    // Socket.IO
     const socket = io('http://localhost:3000');
 
     // 채팅방 입장
@@ -27,10 +27,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // 메시지 전송
-    document.getElementById('send-button').addEventListener('click', function() {
+    document.getElementById('send-button').addEventListener('click', async function() {
         const message = document.getElementById('chat-message-input').value;
-        if (message.trim()) {  // 빈 메시지를 보내지 않도록 체크
+        if (message.trim()) {  // 빈 메시지 안보내도록 체크
+
+            // 1. Socket.IO로 메시지 전송
             socket.emit('sendMessage', { roomId, userNickname, message });
+
+            // 2. 서버에 메시지 저장
+            try {
+                const response = await axios.post('chat/messages/', {
+                    room: roomId,
+                    content: message
+                });
+                console.log('메시지 데이터베이스 저장 성공!:', response.data);
+            } catch (error) {
+                console.error('메시지 데이터베이스 저장 실패:', error);
+            }
+
+            // 3. 입력 필드 비우기
             document.getElementById('chat-message-input').value = '';
         }
     });
