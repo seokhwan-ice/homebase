@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from data.models import Players  # Player 모델 가져오기
 from data.models import PlayerRecord # PlayerRecord 모델 가져오기
+from data.models import TeamRank
 
 # OpenAI API 키 설정
 # openai.api_key = OPENAI_API_KEY
@@ -57,6 +58,34 @@ def get_player_info(request):
             response = "해당 선수에 대한 정보를 찾을 수 없습니다."
 
     return Response({'response': response})
+
+def get_team_info(request):
+    # 요청에서 팀 이름 받기
+    user_input = request.data.get('user_input')
+
+    if not user_input:
+        return Response({'response': '팀 이름을 입력해주세요.'}, status=400)
+
+    # 데이터베이스에서 해당 팀 정보 검색 (filter 사용)
+    teams = TeamRank.objects.filter(team_name__icontains=user_input)  # 대소문자 구분 없이 검색
+
+    if teams.exists():
+        # 팀이 존재하면, 첫 번째 팀을 선택해서 응답 구성
+        team = teams.first()
+        team_info = (
+            f"팀: {team.team_name}, 순위: {team.rank}, "
+            f"경기 수: {team.games_played}, 승리: {team.wins}, "
+            f"패배: {team.losses}, 무승부: {team.draws}, "
+            f"승률: {team.win_rate}, 게임차: {team.games_behind}, "
+            f"연속: {team.streak}, 최근 10경기: {team.last_10_games}"
+        )
+        response = team_info
+    else:
+        # 해당 팀이 데이터베이스에 없으면 오류 메시지
+        response = "해당 팀에 대한 정보를 찾을 수 없습니다."
+
+    return Response({'response': response})
+
 
 # @api_view(['POST'])
 # def get_player_info(request):
