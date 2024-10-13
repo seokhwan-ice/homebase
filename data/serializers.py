@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import PlayerRecord, GameRecord, TeamRank, Players
+from .models import PlayerRecord, GameRecord, TeamRank, Players, SportsNews
+
+
+class SportsNewsListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SportsNews
+        fields = "__all__"  # 모든 필드를 포함
 
 
 class PlayersSerializer(serializers.ModelSerializer):

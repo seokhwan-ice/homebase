@@ -1,6 +1,19 @@
 from django.db import models
 
 
+class SportsNews(models.Model):
+    title = models.CharField(max_length=255)  # 뉴스 제목
+    author = models.CharField(max_length=100, null=True, blank=True)  # 기자 이름
+    description = models.TextField(null=True, blank=True)  # 기사 설명
+    url = models.URLField()  # 기사 링크
+    published_at = models.DateTimeField()  # 발행일
+    content = models.TextField(null=True, blank=True)  # 기사 내용
+    image_url = models.URLField(null=True, blank=True)  # 이미지 링크
+
+    def __str__(self):
+        return self.title
+
+
 class Players(models.Model):
     name = models.CharField(max_length=100)
     team = models.CharField(max_length=50)
@@ -55,6 +68,7 @@ class PlayerRecord(models.Model):
 
 
 class GameRecord(models.Model):
+    url = models.URLField()
     date = models.DateField()
     team_1 = models.CharField(max_length=100)
     team_2 = models.CharField(max_length=100)
