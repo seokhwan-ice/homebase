@@ -55,6 +55,24 @@ const loadUserProfileAndComments = async () => {
     }
 };
 
+// mypage 버튼 클릭 시 페이지 이동 설정
+document.getElementById('mypage-button').addEventListener('click', () => {
+    window.location.href = `user_main_profile.html?username=${username}`;
+});
+
+// 버튼 버튼 클릭 시 페이지 이동 설정
+
+document.getElementById('community_posts-button').addEventListener('click', () => {
+    window.location.href = `user_live_list.html?username=${username}`;
+});
+document.getElementById('free_posts-button').addEventListener('click', () => {
+    window.location.href = `user_free_list.html?username=${username}`;
+});
+document.getElementById('saved_posts-button').addEventListener('click', () => {
+    window.location.href = `user_bookmark_list.html?username=${username}`;
+});
+
+
 // 페이지 로드 시 사용자 정보와 작성 댓글을 불러옴
 document.addEventListener('DOMContentLoaded', loadUserProfileAndComments);
 

@@ -51,6 +51,11 @@ if (username) {
         }
     }
 
+    // mypage 버튼 클릭 시 페이지 이동 설정
+document.getElementById('mypage-button').addEventListener('click', () => {
+    window.location.href = `user_main_profile.html?username=${username}`;
+});
+
     // 페이지 로드 시 데이터 가져오기
     document.addEventListener("DOMContentLoaded", function() {
         getMyProfileData();  // 프로필 정보
