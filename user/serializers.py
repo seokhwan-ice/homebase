@@ -145,16 +145,22 @@ class UserProfileTitleSerializer(serializers.ModelSerializer):
 
 
 class UserProfileliveViewSerializer(serializers.ModelSerializer):
-    community_live_image = serializers.SerializerMethodField()
+    community_live_articles = serializers.SerializerMethodField()
 
-    def get_community_live_image(self, obj):
-        user_live_image = obj.author_live.all()
-        images = []
+    def get_community_live_articles(self, obj):
+        user_live_articles = obj.author_live.all()  # 유저가 작성한 Live 게시물 가져오기
+        article_data = []
 
-        for live_image in user_live_image:
-            if live_image.live_image:
-                images.append(live_image.live_image.url)
-        return images
+        for live in user_live_articles:
+            article_data.append({
+                "id": live.id,
+                "live_image": live.live_image.url if live.live_image else None,  # 이미지 URL
+                "review": live.review,  # 경기 리뷰
+                "created_at": live.created_at.strftime("%Y-%m-%d %H:%M"),
+                "updated_at": live.updated_at.strftime("%Y-%m-%d %H:%M"),
+            })
+        
+        return article_data
 
     class Meta:
         model = User
@@ -162,8 +168,9 @@ class UserProfileliveViewSerializer(serializers.ModelSerializer):
             "profile_image",
             "username",
             "nickname",
-            "community_live_image",
+            "community_live_articles",  # live 게시글 데이터
         ]
+
 
 
 class FollowingListSerializer(serializers.ModelSerializer):
