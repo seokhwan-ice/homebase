@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import get_player_info
+from .views import get_info
 
 urlpatterns = [
-    path('get-player-info/', get_player_info, name='get_player_info'),
+    path('get-info/', get_info, name='get_info'),
 ]
