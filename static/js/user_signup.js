@@ -1,50 +1,35 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('signupForm');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();  // 폼이 제출될 때 페이지 새로고침 방지
+// 로그인 로그아웃 (테스트용)
 
-        // 폼 데이터 수집
-        const formData = new FormData();
-        formData.append('username', document.getElementById('username').value);
-        formData.append('password', document.getElementById('password').value);
-        formData.append('name', document.getElementById('name').value);
-        formData.append('nickname', document.getElementById('nickname').value);
-        formData.append('email', document.getElementById('email').value);
-        formData.append('phone_number', document.getElementById('phone_number').value);
-        formData.append('bio', document.getElementById('bio').value);
+const form = document.getElementById('signup-form');
 
-        const profileImage = document.getElementById('profile_image').files[0];
-        if (profileImage) {
-            formData.append('profile_image', profileImage);
-        }
+form.addEventListener('submit', async function(event) {
+    event.preventDefault();  // 기본 폼 제출 방지 (페이지 새로고침 방지)
 
-        // Axios로 POST 요청 보내기
-        axios.post('http://127.0.0.1:8000/api/user/signup/', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-        .then(function(response) {
-            alert('회원가입 성공!!!!');
-            console.log(response.data);
-        })
-        .catch(function(error) {
-            if (error.response) {
-                alert(`오류 발생: ${error.response.data.message}`);
-            } else if (error.request) {
-                alert('서버로부터 응답을 받지 못했습니다.');
-            } else {
-                alert('요청 중 오류가 발생했습니다.');
-            }
-            console.error('오류:', error);
+    // html 파일에서 만든 form 데이터 가져와서 username, name, password변수에 저장
+    const username = document.getElementById('username').value;
+    const name = document.getElementById('name').value;
+    const nickname = document.getElementById('nickname').value;
+    const password = document.getElementById('password').value;
+    // const confirm_password = document.getElementById('confirm_password').value;
+
+    try {
+        const response = await axios.post('user/signup/', {
+            username: username,
+            name: name,
+            nickname: nickname, 
+            password: password,
+            // confirm_password: confirm_password
         });
-    });
 
-    // 취소 버튼 클릭 시 뒤로가기
-    document.querySelector('button[type="reset"]').addEventListener('click', function(event) {
-        event.preventDefault();  // 기본 취소 동작을 막음
-        window.history.back();    // 이전 페이지로 이동
-    });
+        const data = response.data.access; 
+        localStorage.setItem('data', data); // 로컬 스토리지에 저장하기
+        alert('회원가입 성공!');
+
+        // location.href =  'profile.html' // 메인페이지로 이동인데 일단 내 프로필 페이지로 이동하도록 경로 설정해둘게요
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert('회원가입 실패 다시 시도');
+    }
 });
-
