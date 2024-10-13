@@ -26,7 +26,7 @@ const loadChatrooms = async (searchQuery = '') => {
                 <p>방설명: ${room.description}</p>
                 <p>참여인원: ${room.participants_count}명</p>
                 <p>최근대화: ${room.latest_message_time}</p>
-                <a href="chatroom_detail.html?roomId=${room.id}">채팅방 입장</a>
+                <a href="chatroom_detail.html?roomId=${room.id}" class="join-chatroom">채팅방 입장</a>
             `;
             chatroomList.appendChild(li);
         });
@@ -45,4 +45,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.getElementById('search-button').addEventListener('click', async () => {
     const searchInput = document.getElementById('search-input').value;
     await loadChatrooms(searchInput);
+});
+
+// 채팅방 생성 버튼 클릭 시
+document.getElementById('create-chatroom-button').addEventListener('click', () => {
+    if (!checkSignin()) return;
+    location.href = 'chatroom_create.html';
+});
+
+// 채팅방 입장 버튼 클릭 시
+document.getElementById('chatroom-list').addEventListener('click', (event) => {
+    if (event.target.tagName === 'A' && event.target.classList.contains('join-chatroom')) {
+        if (!checkSignin()) {
+            event.preventDefault();  // 기본 동작 막기 (페이지 이동 방지)
+        }
+    }
 });

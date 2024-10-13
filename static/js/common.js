@@ -20,8 +20,10 @@ axios.interceptors.request.use(config => {
 function checkSignin() {
     const token = localStorage.getItem('token');
     if (!token) {
-        alert('로그인이 필요합니다!');
-        location.href = 'user.html';  // 이동할 페이지
+        // 확인/취소 선택할 수 있는 알림창
+        if (confirm('로그인이 필요합니다!\n로그인 페이지로 이동하시겠습니까?')) {
+            location.href = 'user.html';
+        }
         return false;
     }
     return true;

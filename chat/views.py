@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import viewsets, filters
@@ -15,6 +15,14 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
+
+    # 권한 설정
+    def get_permissions(self):
+        if self.action == "list":  # 목록 조회는 로그인 없이 가능
+            permission_classes = [AllowAny]
+        else:  # 채팅방 생성, 입장(상세조회)은 로그인 필수
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     # 검색
     filter_backends = [filters.SearchFilter]
