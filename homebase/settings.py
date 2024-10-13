@@ -156,11 +156,6 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
 
-# 서원
-# STATICFILES_DIRS = [BASE_DIR / "static"]  # 개발환경에서 장고가 정적파일 찾는 경로
-# STATIC_ROOT = BASE_DIR / "staticfiles" 배포환경에서 사용할 정적파일 모음 경로
-# 동일한 경로로 설정하면, collectstatic 명령을 실행 시 기존에 사용하던 정적 파일이 덮어쓰이거나 삭제될 수 있대요.
-
 # 준호
 # STATIC_ROOT = BASE_DIR / "staticfiles"
 # import os
@@ -168,6 +163,10 @@ STATIC_ROOT = BASE_DIR / "static"
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static"),  # 실제로 존재하는 디렉토리로 바꿉니다
 # ]
+
+# 서원
+# STATICFILES_DIRS = [BASE_DIR / "static"]  # 개발환경에서 장고가 정적파일 찾는 경로
+# STATIC_ROOT = BASE_DIR / "staticfiles" 배포환경에서 사용할 정적파일 모음 경로
 
 # Media files
 MEDIA_URL = "/media/"
