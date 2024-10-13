@@ -14,7 +14,10 @@ def get_info(request):
     if not user_input:
         return Response({'response': '질문을 입력해주세요.'}, status=400)
 
-    # "상대전적" 또는 "상대팀" 관련 질문이면 상대팀 경기 정보 조회
+    # 팀 이름 목록을 데이터베이스에서 동적으로 가져옴
+    team_names = TeamRank.objects.values_list('team_name', flat=True)
+
+    # "상대전적" 또는 "상대팀" 관련 질문 처리
     if "상대전적" in user_input or "상대팀" in user_input:
         player_names = user_input.replace("상대전적", "").replace("상대팀", "").strip().split()
 
@@ -38,8 +41,8 @@ def get_info(request):
         else:
             return Response({'response': f"{player_name} 선수와 {opponent_name} 선수와의 경기 정보가 없습니다."})
 
-    # "팀 정보" 조회를 위한 분기
-    elif "팀" in user_input:
+    # "팀 정보" 조회를 위한 분기, 팀 이름이 데이터베이스에 있는지 확인
+    elif "팀" in user_input or any(team in user_input for team in team_names):
         teams = TeamRank.objects.filter(team_name__icontains=user_input)
 
         if teams.exists():
