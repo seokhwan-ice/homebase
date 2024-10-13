@@ -78,7 +78,12 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
         for live_image in user_live_image:
             if live_image.live_image:
-                images.append(live_image.live_image.url)
+                images.append({
+                    "id": live_image.id,
+                    "url": live_image.live_image.url,
+                    "title": live_image.review,  # 또는 다른 필드
+                    "created_at": live_image.created_at.strftime("%Y-%m-%d %H:%M")
+                })
         return images
 
     class Meta:

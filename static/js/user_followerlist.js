@@ -14,7 +14,7 @@ if (username) {
             // 프로필 정보 업데이트
             document.getElementById('my-nickname').innerText = data.nickname;
             document.getElementById('my-profile-image').src = data.profile_image || 'https://via.placeholder.com/100';
-            document.getElementById('followers-count').innerText = `${data.follower_count} followers`;
+            document.getElementById('followers-count').innerText = `${data.followers_count} followers`;
             document.getElementById('following-count').innerText = `${data.following_count} following`;
         } catch (error) {
             console.error('프로필 정보를 가져오는 중 오류 발생:', error);
@@ -22,7 +22,7 @@ if (username) {
         }
     }
 
-    // 팔로워 리스트 가져오기
+    // 팔로우 리스트 가져오기
     async function getFollowersList() {
         try {
             const response = await axios.get(`user/${username}/followerslist/`);
@@ -33,28 +33,28 @@ if (username) {
 
             if (data.followers_list.length === 0) {
                 const noDataMessage = document.createElement('li');
-                noDataMessage.innerText = '팔로워한 사용자가 없습니다.';
+                noDataMessage.innerText = '팔로우한 사용자가 없습니다.';
                 followersList.appendChild(noDataMessage);
             } else {
-                data.followers_list.forEach(follower => {
+                data.followers_list.forEach(followers => {
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `
-                        <img src="${follower.profile_image || 'https://via.placeholder.com/50'}" alt="User Profile" width="50" height="50">
-                        <span>${follower.nickname}</span>
+                        <img src="${followers.profile_image || 'https://via.placeholder.com/50'}" alt="User Profile" width="50" height="50">
+                        <span>${followers}</span>
                     `;
                     followersList.appendChild(listItem);
                 });
             }
         } catch (error) {
-            console.error('팔로워 목록을 가져오는 중 오류 발생:', error);
-            alert('팔로워 목록을 불러오는 중 오류가 발생했습니다.');
+            console.error('팔로우 목록을 가져오는 중 오류 발생:', error);
+            alert('팔로우 목록을 불러오는 중 오류가 발생했습니다.');
         }
     }
 
     // 페이지 로드 시 데이터 가져오기
     document.addEventListener("DOMContentLoaded", function() {
         getMyProfileData();  // 프로필 정보
-        getFollowersList();  // 팔로워한 사용자 목록
+        getFollowersList();  // 팔로우한 사용자 목록
     });
 } else {
     console.error('URL에서 사용자 이름을 찾을 수 없습니다.');

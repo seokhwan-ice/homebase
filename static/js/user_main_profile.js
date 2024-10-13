@@ -14,37 +14,60 @@ async function getUserProfile() {
         const data = response.data;
 
         // 프로필 이미지 설정
-        const profileImage = document.querySelector('.profile-image');
+        const profileImage = document.getElementById('profileImage');
         profileImage.src = data.profile_image || 'https://via.placeholder.com/150';
 
         // 닉네임 설정
-        const nicknameElement = document.querySelector('.nickname');
+        const nicknameElement = document.getElementById('nickname');
         nicknameElement.textContent = data.nickname;
 
         // 소개글(bio) 설정
-        const bioElement = document.querySelector('.bio p');
+        const bioElement = document.getElementById('bio');
         bioElement.textContent = data.bio || '소개글이 없습니다.';
 
         // 이메일 및 전화번호 설정
-        const emailElement = document.querySelector('.contact-info p:nth-child(1)');
-        const phoneNumberElement = document.querySelector('.contact-info p:nth-child(2)');
+        const emailElement = document.getElementById('email');
+        const phoneNumberElement = document.getElementById('phone-number');
         emailElement.textContent = `email: ${data.email || '등록된 이메일이 없습니다.'}`;
         phoneNumberElement.textContent = `전화번호: ${data.phone_number || '등록된 전화번호가 없습니다.'}`;
 
         // 가입일 설정
-        const signupDateElement = document.querySelector('.signup-date');
-        signupDateElement.textContent = `가입일: ${data.created_at.split('T')[0]}`;
+        const signupDateElement = document.getElementById('signup-date');
+        signupDateElement.textContent = `가입일: ${data.created_at}`;
 
         // 팔로워 및 팔로잉 수 설정 및 링크 추가
-        const followerInfoElement = document.querySelector('.follower-info');
-        followerInfoElement.innerHTML = `<a href="followers.html">${data.followers_count} followers</a> · <a href="following.html">${data.following_count} following</a>`;
-
+        const followersLink = document.getElementById('followers-link');
+        const followingLink = document.getElementById('following-link');
+        followersLink.innerHTML = `${data.followers_count} followers`;  // 팔로워 수 추가
+        followingLink.innerHTML = `${data.following_count} following`;  // 팔로잉 수 추가
+        followersLink.href = `user_followerlist.html?username=${data.username}`;
+        followingLink.href = `user_followlist.html?username=${data.username}`;
+        
         // 통계 데이터 설정 (커뮤니티 작성글, 댓글, 자게 작성글, 좋아요한 글)
-        const stats = document.querySelectorAll('.stat-number');
-        stats[0].textContent = `${data.article_count}개`;  // 커뮤니티 작성글
-        stats[1].textContent = `${data.comment_count}개`;  // 작성 댓글
-        stats[2].textContent = `${data.article_count}개`;  // 자게 작성글 (자게 글도 article_count로 처리)
-        stats[3].textContent = `${data.bookmark_count}개`;  // 좋아요한 글
+        const communityCountElement = document.getElementById('community-count');
+        const commentCountElement = document.getElementById('comment-count');
+        const freeboardCountElement = document.getElementById('freeboard-count');
+        const likedCountElement = document.getElementById('liked-count');
+        
+        communityCountElement.textContent = `${data.article_count}개`;
+        commentCountElement.textContent = `${data.comment_count}개`;
+        freeboardCountElement.textContent = `${data.article_count}개`; 
+        likedCountElement.textContent = `${data.bookmark_count}개`;
+
+        // 링크 설정
+        document.getElementById('community-link').href = `user_live_list.html?username=${data.username}`;
+        document.getElementById('comment-link').href = `user_comment_list.html?username=${data.username}`;
+        document.getElementById('freeboard-link').href = `user_free_list.html?username=${data.username}`;
+        document.getElementById('bookmark-link').href = `user_bookmark_list.html?username=${data.username}`;
+
+        // edit profile, edit profile (public) 버튼 클릭 시 페이지 이동 설정
+        document.getElementById('edit-public-profile').addEventListener('click', () => {
+            window.location.href = `user_pubprofile_update.html?username=${data.username}`;
+        });
+        document.getElementById('edit-profile').addEventListener('click', () => {
+            window.location.href = `user_prvprofile_update.html?username=${data.username}`;
+        });
+
     } catch (error) {
         console.error('프로필 정보를 가져오는 중 오류 발생:', error);
         alert('프로필 정보를 불러오는 중 오류가 발생했습니다.');
