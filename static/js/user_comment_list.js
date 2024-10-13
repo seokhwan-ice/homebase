@@ -7,12 +7,6 @@ if (!username) {
     throw new Error('username이 없습니다. 요청을 진행할 수 없습니다.');
 }
 
-// 날짜 포맷팅 함수
-const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-    return new Date(dateString).toLocaleDateString('ko-KR', options);
-}
-
 // 사용자 정보와 작성 댓글 목록을 가져오는 함수
 const loadUserProfileAndComments = async () => {
     try {
@@ -26,6 +20,8 @@ const loadUserProfileAndComments = async () => {
 
         // 작성한 댓글 리스트 추가
         const commentsList = document.getElementById('comment-list');
+        commentsList.innerHTML = '';  // 기존 리스트 초기화
+
         userData.comments.forEach(comment => {
             const listItem = document.createElement('li');
 
@@ -36,20 +32,16 @@ const loadUserProfileAndComments = async () => {
             } else if (comment.article_type === "Live") {
                 commentLink.href = `live_detail.html?id=${comment.id}`; // 직관 게시판 상세페이지로 이동
             }
-            commentLink.textContent = comment.content;
 
-            // 최신 시간 계산 (생성 시간과 수정 시간 중 더 최신 시간)
-            const createdAt = new Date(comment.created_at);
-            const updatedAt = new Date(comment.updated_at);
-            const latestTime = createdAt > updatedAt ? createdAt : updatedAt;
+            commentLink.textContent = `${comment.article_type}: ${comment.content}`;  // 게시글 유형과 댓글 내용 표시
 
-            // 시간 표시
-            const timeElement = document.createElement('span');
-            timeElement.textContent = ` (${formatDate(latestTime)})`;
+            // 댓글 작성 또는 수정 시간을 표시
+            const timeSpan = document.createElement('span');
+            timeSpan.textContent = `${comment.updated_at}`;  // 최신 수정 시간 표시
+            timeSpan.style.marginLeft = '10px';  // 시간과 댓글 내용 사이 간격 설정
 
-            listItem.textContent = `[${comment.article_type}] `;
             listItem.appendChild(commentLink);
-            listItem.appendChild(timeElement);  // 최신 시간 추가
+            listItem.appendChild(timeSpan);
             commentsList.appendChild(listItem);
         });
 
@@ -65,7 +57,6 @@ document.getElementById('mypage-button').addEventListener('click', () => {
 });
 
 // 버튼 버튼 클릭 시 페이지 이동 설정
-
 document.getElementById('community_posts-button').addEventListener('click', () => {
     window.location.href = `user_live_list.html?username=${username}`;
 });
