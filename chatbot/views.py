@@ -43,7 +43,8 @@ def get_info(request):
 
     # "팀 정보" 조회를 위한 분기, 팀 이름이 데이터베이스에 있는지 확인
     elif "팀" in user_input or any(team in user_input for team in team_names):
-        teams = TeamRank.objects.filter(team_name__icontains=user_input)
+        team_name = user_input.strip()  # 공백 제거
+        teams = TeamRank.objects.filter(team_name__icontains=team_name)
 
         if teams.exists():
             team = teams.first()
