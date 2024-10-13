@@ -29,9 +29,13 @@ const loadUserProfileAndComments = async () => {
         userData.comments.forEach(comment => {
             const listItem = document.createElement('li');
 
-            // 댓글 내용과 댓글이 달린 게시물로의 링크
+            // 댓글이 달린 게시물로의 링크 생성 (Free 또는 Live에 따라)
             const commentLink = document.createElement('a');
-            commentLink.href = `/${comment.article_type.toLowerCase()}_article/${comment.article_id}`; // 해당 게시물로 이동
+            if (comment.article_type === "Free") {
+                commentLink.href = `free_detail.html?id=${comment.id}`; // 자유게시판 상세페이지로 이동
+            } else if (comment.article_type === "Live") {
+                commentLink.href = `live_detail.html?id=${comment.id}`; // 직관 게시판 상세페이지로 이동
+            }
             commentLink.textContent = comment.content;
 
             // 최신 시간 계산 (생성 시간과 수정 시간 중 더 최신 시간)
@@ -72,9 +76,5 @@ document.getElementById('saved_posts-button').addEventListener('click', () => {
     window.location.href = `user_bookmark_list.html?username=${username}`;
 });
 
-
 // 페이지 로드 시 사용자 정보와 작성 댓글을 불러옴
 document.addEventListener('DOMContentLoaded', loadUserProfileAndComments);
-
-
-// 코멘트 작성과 수정한 시간이 이상한 시간으로 나옴

@@ -236,6 +236,7 @@ class CommentsListSerializer(serializers.ModelSerializer):
 
         for comment in comments:
             comments_data = {
+                "id":comment.content_object.id,
                 "content": comment.content,
                 "article_type": self.get_article_type(comment),
                 "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:"),
@@ -269,7 +270,7 @@ class BookMarkListSerializer(serializers.ModelSerializer):
 
         for bookmark in bookmarks:
             bookmarks_data = {
-                "article_id": bookmark.content_object.id,
+                "id": bookmark.content_object.id,
                 "article_type": self.get_article_type(bookmark),
                 "title": self.get_article_title(
                     bookmark
