@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 프로필 페이지</title>
+</head>
+<body>
+    <h1>내 프로필 페이지</h1>
+    <div id="profile">
+        <p>닉네임:<span id="nickname"></span></p>
+        <p>프사:<span id="free-profile-image"></span></p>
+        <p>소개글:<span id="bio"></span></p>
+        <p>가입일:<span id="created_at"></span></p>
+        <p>자유게시판 작성글:<span id="free_count"></span>
+            <button onclick="location.href='free_article.html?id=${freeId}'">자유게시판 작성글 보기</button> </p>
+        <p>직관인증 작성글: <span id="live_count"></span></p>
+        <p>작성 댓글: <span id="comment_count"></span></p>
+        <p>팔로워 수:<span id="follower_count"></span>
+            <button onclick="location.href='follower.html?id=${username}'">follower</button> </p>
+        <p>팔로잉 수: <span id="following_count"></span></p>
+        <p>북마크:<span id="bookmark_count"></span>
+            <button onclick="location.href='bookmark.html?id=${username}'">bookmark</button> </p>
+        
+    // 좋아요 추가?
+    </div>
+
+    <button onclick="location.href='update_profile.html'">프로필 수정으로 이동하기</button>
+    <!--프로필 수정 페이지 연결 어떤 식으로 해야 되는지...-->
+    <!--회원 정보 수정, 탈퇴 추가하기-->
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/profile.js"></script>
+</body> 
+</html>

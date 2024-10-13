@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>직관인증 게시판 작성글</title>
+</head>
+<body>
+    <h1>직관인증 게시판 작성글</h1>
+    <div id="profile">
+    <p>닉네임:<span id="username"></span></p>
+    <p>프사: <span id="free-profile-image"></span></p>
+    </div>
+
+    <button onclick="location.href='free_list.html?id=${freeId}'">자유게시판 작성글 보기</button><br><br> 
+    <button onclick="location.href='comment_list.html?id=${commentId}'">작성한 댓글 보기</button><br><br>
+
+        <!-- 작성한 게시물 목록 제목만 보이게 수정 -->
+        
+    </ul>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/live_articlelist.js"></script>
+</body>
+</html>
