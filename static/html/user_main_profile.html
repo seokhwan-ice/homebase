@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .profile-left {
+            width: 35%;
+            text-align: center;
+            border-right: 1px solid #ccc;
+            padding-right: 20px;
+        }
+        .profile-right {
+            width: 60%;
+            padding-left: 20px;
+        }
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        .nickname {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .follower-info {
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .follower-info a {
+            text-decoration: none;
+            color: black;
+        }
+        .follower-info a:hover {
+            text-decoration: underline;
+        }
+        .contact-info {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .bio {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .signup-date {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .stat {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .stat-title {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left side profile section -->
+        <div class="profile-left">
+            <img src="https://via.placeholder.com/150" class="profile-image" alt="User Profile Image" id="profileImage">
+            <div class="nickname" id="nickname">my_nickname</div>
+            
+            <div class="buttons">
+                <button id="edit-public-profile">edit profile (public)</button>
+                <button id="edit-profile">edit profile</button>
+            </div>
+            
+            
+            <div class="follower-info">
+                <!-- 팔로워와 팔로잉을 클릭하면 각각의 페이지로 이동 -->
+                <a id="followers-link" href="#"> followers</a> · <a id="following-link" href="#"> following</a>
+            </div>
+
+            <div class="contact-info">
+                <p id="email">email</p>
+                <p id="phone-number">전화번호</p>
+            </div>
+        </div>
+
+        <!-- Right side profile details -->
+        <div class="profile-right">
+            <div class="bio">
+                <h2>소개글(bio)</h2>
+                <p id="bio">소개글 내용</p>
+            </div>
+            <div class="signup-date" id="signup-date">
+                가입일 
+            </div>
+            <div class="stats-container">
+                <div class="stat">
+                    <a id="community-link" href="#">직관 게시글</a>
+                    <div class="stat-number" id="community-count">커뮤작성글 수</div>
+                </div>
+                <div class="stat">
+                    <a id="comment-link" href="#">작성 댓글</a>
+                    <div class="stat-number" id="comment-count">댓글의 수</div>
+                </div>
+                <div class="stat">
+                    <a id="freeboard-link" href="#">자유게시판 작성글</a>
+                    <div class="stat-number" id="freeboard-count">자유게시판 작성글의 수</div>
+                </div>
+                <div class="stat">
+                    <a id="bookmark-link" href="#">북마크 한 글</a>
+                    <div class="stat-number" id="liked-count">북마크 한 글의 수</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 외부 스크립트 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/user_main_profile.js"></script>
+    
+</body>
+</html>
+
+

@@ -1,0 +1,5 @@
+/* chatroom_list.css */
+.chatroom-image {
+    width: 100px;  /* 너비 */
+    border-radius: 50px;  /* 이미지 둥근 테두리  */
+}
