@@ -78,12 +78,14 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
         for live_image in user_live_image:
             if live_image.live_image:
-                images.append({
-                    "id": live_image.id,
-                    "url": live_image.live_image.url,
-                    "title": live_image.review,  # 또는 다른 필드
-                    "created_at": live_image.created_at.strftime("%Y-%m-%d %H:%M")
-                })
+                images.append(
+                    {
+                        "id": live_image.id,
+                        "url": live_image.live_image.url,
+                        "title": live_image.review,  # 또는 다른 필드
+                        "created_at": live_image.created_at.strftime("%Y-%m-%d %H:%M"),
+                    }
+                )
         return images
 
     class Meta:
@@ -153,14 +155,18 @@ class UserProfileliveViewSerializer(serializers.ModelSerializer):
         article_data = []
 
         for live in user_live_articles:
-            article_data.append({
-                "id": live.id,
-                "live_image": live.live_image.url if live.live_image else None,  # 이미지 URL
-                "review": live.review,  # 경기 리뷰
-                "created_at": live.created_at.strftime("%Y-%m-%d %H:%M"),
-                "updated_at": live.updated_at.strftime("%Y-%m-%d %H:%M"),
-            })
-        
+            article_data.append(
+                {
+                    "id": live.id,
+                    "live_image": (
+                        live.live_image.url if live.live_image else None
+                    ),  # 이미지 URL
+                    "review": live.review,  # 경기 리뷰
+                    "created_at": live.created_at.strftime("%Y-%m-%d %H:%M"),
+                    "updated_at": live.updated_at.strftime("%Y-%m-%d %H:%M"),
+                }
+            )
+
         return article_data
 
     class Meta:
@@ -171,7 +177,6 @@ class UserProfileliveViewSerializer(serializers.ModelSerializer):
             "nickname",
             "community_live_articles",  # live 게시글 데이터
         ]
-
 
 
 class FollowingListSerializer(serializers.ModelSerializer):
@@ -251,7 +256,7 @@ class CommentsListSerializer(serializers.ModelSerializer):
 
         for comment in comments:
             comments_data = {
-                "id":comment.content_object.id,
+                "id": comment.content_object.id,
                 "content": comment.content,
                 "article_type": self.get_article_type(comment),
                 "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:"),
@@ -273,7 +278,12 @@ class CommentsListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username", "profile_image", "nickname", "comments"]
+        fields = [
+            "username",
+            "profile_image",
+            "nickname",
+            "comments",
+        ]
 
 
 class BookMarkListSerializer(serializers.ModelSerializer):
