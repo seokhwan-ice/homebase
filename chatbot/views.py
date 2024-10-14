@@ -19,7 +19,12 @@ def get_info(request):
 
     # "상대전적" 또는 "상대팀" 관련 질문 처리
     if "상대전적" in user_input or "상대팀" in user_input:
-        player_names = user_input.replace("상대전적", "").replace("상대팀", "").strip().split()
+        player_names = user_input.replace("상대전적", "").replace("상대팀", "").strip().split() 
+        '''
+        질문 예시)
+        문동주 김도영 상대전적
+        '''
+
 
         if len(player_names) < 2:
             return Response({'response': '선수 이름과 상대팀을 모두 입력해주세요.'}, status=400)
@@ -44,6 +49,11 @@ def get_info(request):
     # "팀 정보" 조회를 위한 분기, 팀 이름이 데이터베이스에 있는지 확인
     elif "팀" in user_input or any(team in user_input for team in team_names):
         team_name = user_input.strip()  # 공백 제거
+        '''
+        질문 예시)
+        한화, 삼성
+        '''
+
         teams = TeamRank.objects.filter(team_name__icontains=team_name)
 
         if teams.exists():
@@ -62,6 +72,10 @@ def get_info(request):
     # 선수 프로필 조회
     else:
         player = Players.objects.filter(name__icontains=user_input).first()
+        '''
+        질문 예시)
+        문동주
+        '''
 
         if player:
             player_info = (
