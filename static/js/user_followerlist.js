@@ -50,21 +50,6 @@ if (username) {
             alert('팔로우 목록을 불러오는 중 오류가 발생했습니다.');
         }
     }
-
-    // mypage 버튼 클릭 시 페이지 이동 설정
-document.getElementById('mypage-button').addEventListener('click', () => {
-    window.location.href = `user_main_profile.html?username=${username}`;
-});
-
-// sign-out버튼
-document.getElementById('signout-button').addEventListener('click', () => {
-    // 로그아웃 후 메인 페이지로 리디렉션
-    localStorage.removeItem('access_token');  // 토큰 제거
-    localStorage.removeItem('refresh_token');
-    alert('로그아웃 완료!');
-    window.location.href = '/';  // 로그아웃 후 메인 페이지로 이동
-});
-
     // 페이지 로드 시 데이터 가져오기
     document.addEventListener("DOMContentLoaded", function() {
         getMyProfileData();  // 프로필 정보

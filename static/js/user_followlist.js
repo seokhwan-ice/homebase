@@ -51,21 +51,6 @@ if (username) {
         }
     }
 
-    // mypage 버튼 클릭 시 페이지 이동 설정
-document.getElementById('mypage-button').addEventListener('click', () => {
-    window.location.href = `user_main_profile.html?username=${username}`;
-});
-
-// sign-out버튼
-document.getElementById('signout-button').addEventListener('click', () => {
-    // 로그아웃 후 메인 페이지로 리디렉션
-    localStorage.removeItem('access_token');  // 토큰 제거
-    localStorage.removeItem('refresh_token');
-    alert('로그아웃 완료!');
-    window.location.href = '/';  // 로그아웃 후 메인 페이지로 이동
-});
-
-
     // 페이지 로드 시 데이터 가져오기
     document.addEventListener("DOMContentLoaded", function() {
         getMyProfileData();  // 프로필 정보
@@ -75,5 +60,3 @@ document.getElementById('signout-button').addEventListener('click', () => {
     console.error('URL에서 사용자 이름을 찾을 수 없습니다.');
     alert('URL에서 사용자 이름을 찾을 수 없습니다.');
 }
-
-// 프로필 페이지 완성 후 팔로우 사람의 닉네임을 클릭하면 해당유저의 프로필로 이동 만들어야해요

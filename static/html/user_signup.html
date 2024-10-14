@@ -6,6 +6,7 @@
     <title>회원가입</title>
 </head>
 <body>
+    <div id="navbar"></div>
     <h1>회원가입</h1>
     <form id="signup-form" enctype="multipart/form-data"> <!-- 이미지 업로드를 위해 enctype 추가 -->
 
@@ -38,10 +39,13 @@
 
         <button type="submit">회원가입</button>
     </form>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
-    <script src="../js/common.js"></script>
-    <script src="../js/user_signup.js"></script>
+    
+    <!-- Footer 요소 추가 -->
+    <div id="footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+    <script src="../js/common.js" defer></script>
+    <script src="../js/user_signup.js" defer></script>
 
 </body>
 </html>

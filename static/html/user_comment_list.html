@@ -6,22 +6,17 @@
     <title>내가 작성한 댓글</title>
 </head>
 <body>
-    <!-- 상단 메뉴 -->
-    <div>
-        <button id="mypage-button">mypage</button>
-        <button id="signout-button">signout</button>
-    </div>
+    <div id="navbar"></div>
 
-        <!-- 프로필 섹션 -->
-        <div>
-            <img src="#" alt="프로필 이미지" id="profile-image" width="100px">
-            <p id="nickname">my_nickname</p>
-            <p>작성 글/작성 댓글 페이지로 이동하는 버튼</p>
-            <button id="community_posts-button">커뮤니티 작성글</button>
-            <button id="free_posts-button">자게 작성글</button>
-            <button disabled style="background-color: lightgray;">작성 댓글</button> <!-- 비활성화된 버튼 -->
-            <button id="saved_posts-button">북마크한 글</button>
-        </div>
+    <!-- 프로필 섹션 -->
+    <div>
+        <img src="#" alt="프로필 이미지" id="profile-image" width="100px">
+        <p id="nickname">my_nickname</p>
+        <p>작성 글/작성 댓글 페이지로 이동하는 버튼</p>
+        <button id="community_posts-button">커뮤니티 작성글</button>
+        <button id="free_posts-button">자게 작성글</button>
+        <button disabled style="background-color: lightgray;">작성 댓글</button> <!-- 비활성화된 버튼 -->
+        <button id="saved_posts-button">북마크한 글</button>
     </div>
 
     <!-- 내가 작성한 댓글 -->
@@ -29,6 +24,9 @@
         <h2>내가 작성한 댓글</h2>
         <ul id="comment-list"></ul> <!-- 작성한 댓글 리스트 -->
     </div>
+
+    <!-- Footer 요소 추가 -->
+    <div id="footer"></div>
 
     <!-- 외부 스크립트 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -53,12 +53,7 @@ const loadUserProfileAndBookmarks = async () => {
     }
 };
 
-// mypage 버튼 클릭 시 페이지 이동 설정
-document.getElementById('mypage-button').addEventListener('click', () => {
-    window.location.href = `user_main_profile.html?username=${username}`;
-});
-
-// 버튼 버튼 클릭 시 페이지 이동 설정
+// 버튼 클릭 시 페이지 이동 설정
 document.getElementById('community_posts-button').addEventListener('click', () => {
     window.location.href = `user_live_list.html?username=${username}`;
 });
