@@ -11,6 +11,10 @@ def crawl_game_data(start_game_number, end_game_number):
         base_url = "https://statiz.sporki.com/schedule/"
         url = f"{base_url}?m=summary&s_no={game_number}"
 
+        print(
+            f"게임 번호 {game_number}에 대한 데이터 크롤링 중: {url}"
+        )  # 현재 크롤링 중인 URL 출력
+
         # HTTP 요청 보내기
         response = requests.get(url)
 
@@ -92,8 +96,14 @@ def crawl_game_data(start_game_number, end_game_number):
                 try:
                     date = datetime.strptime(date_str, "%Y-%m-%d").date()
                 except ValueError:
+                    print(
+                        f"날짜 변환 실패: {date_str}. 건너뜁니다."
+                    )  # 날짜 변환 실패 시 메시지 출력
                     continue  # 날짜 변환 실패 시 다음 루프로
             else:
+                print(
+                    "날짜 요소가 없습니다. 건너뜁니다."
+                )  # 날짜 요소가 없으면 메시지 출력
                 continue  # 날짜 요소가 없으면 다음 루프로
 
             team_1 = soup.select_one(
@@ -107,11 +117,14 @@ def crawl_game_data(start_game_number, end_game_number):
             if GameRecord.objects.filter(
                 date=date, team_1=team_1, team_2=team_2
             ).exists():
-                print(f"중복된 레코드 발견: {date}, {team_1} vs {team_2}. 건너뜁니다.")
+                print(
+                    f"중복된 레코드 발견: {date}, {team_1} vs {team_2}. 건너뜁니다."
+                )  # 중복된 경우 메시지 출력
                 continue  # 중복된 경우 건너뜀
 
             # GameRecord 모델에 데이터 저장
             game_record = GameRecord(
+                url=url,
                 date=date,  # 날짜
                 team_1=team_1,  # 팀 1 이름
                 team_2=team_2,  # 팀 2 이름
@@ -122,5 +135,9 @@ def crawl_game_data(start_game_number, end_game_number):
             )
             game_record.save()  # 데이터베이스에 저장
             total_records += 1  # 레코드 수 증가
+            print(
+                f"레코드 저장 완료: {date}, {team_1} vs {team_2}."
+            )  # 저장 완료 메시지 출력
 
+    print(f"총 크롤링한 레코드 수: {total_records}")  # 총 레코드 수 출력
     return total_records
