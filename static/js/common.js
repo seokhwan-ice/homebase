@@ -1,6 +1,8 @@
 
-// 공통 Axios 설정
-// 토큰, URL, 로그인
+// 공통 설정
+// baseURL, 토큰 자동 추가, 로그인 여부 확인
+// navbar, footer
+// Bootstrap, FontAwesome, Google Fonts, Axios
 
 // Axios 기본 URL 설정
 axios.defaults.baseURL = 'http://localhost:8000/api/';
@@ -28,21 +30,6 @@ function checkSignin() {
     }
     return true;
 }
-
-
-// navbar
-fetch('../html/navbar.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('navbar').innerHTML = data;
-    });
-
-// footer
-fetch('../html/footer.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('footer').innerHTML = data;
-    });
 
 
 // head
@@ -81,19 +68,10 @@ function loadCommonHead() {
     head.appendChild(commonCSS);
 }
 
+
 // body
 function loadCommonBody() {
     const body = document.getElementsByTagName('body')[0];
-
-    // Axios
-    const axiosScript = document.createElement('script');
-    axiosScript.src = 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
-    body.appendChild(axiosScript);
-
-    // Common JS
-    const commonScript = document.createElement('script');
-    commonScript.src = '../js/common.js';
-    body.appendChild(commonScript);
 
     // FontAwesome
     const fontAwesomeScript = document.createElement('script');
@@ -113,4 +91,47 @@ function loadCommonBody() {
 document.addEventListener('DOMContentLoaded', () => {
     loadCommonHead();
     loadCommonBody();
-});
+
+
+    // navbar 로드 후 이벤트 리스너 등록
+    fetch('../html/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar').innerHTML = data;
+
+            // [내프로필] 버튼 클릭 이벤트 리스너 추가
+            const profileLink = document.getElementById('profile-link');
+            if (profileLink) {  // 버튼이 존재하는지 확인  >>> 로그인 여부에 따라 버튼 다르게 보이게 하쟈
+                profileLink.addEventListener('click', (event) => {
+                    event.preventDefault();  // 기본 링크 동작 막기
+                    const username = localStorage.getItem('username'); // localStorage에서 username 가져오기
+                    if (username) {
+                        location.href = `user_main_profile.html?username=${username}`; // username 파라미터 추가
+                    } else {
+                        alert('로그인이 필요합니다.');
+                    }
+                });
+            }
+
+            // [로그아웃] 버튼 클릭 이벤트 리스너 추가
+            const signoutButton = document.getElementById('signout-link');
+            if(signoutButton) {
+                signoutButton.addEventListener('click', function (event) {
+                    event.preventDefault();  // 기본 링크 동작 막기
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('username');
+                    alert('로그아웃 완료!!');
+                    location.href = '../html/index.html';  // 로그인 후 메인페이지로
+                });
+            }
+        })
+        .catch(error => console.error('Navbar 로드 중에 발생한 오류임 -> common.js로 와라:', error));
+    });
+
+
+// footer
+fetch('../html/footer.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('footer').innerHTML = data;
+    });

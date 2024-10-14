@@ -34,8 +34,8 @@
 }
 
 .navbar-nav .btn-custom:hover {
-    background-color: #d7dbdf;    /* 마우스를 올렸을 때 배경색 변경 */
-    color: black;                 /* 호버 시 텍스트 색상 변경 */
+    background-color: #d7dbdf;
+    color: black;
 }
 
 
@@ -77,8 +77,18 @@
 
 /* body */
 body {
+    height: 100%;
     margin-top: 65px;
     margin-left: 270px;
     margin-right: 30px;
     font-family: 'Gowun Dodum', sans-serif;  /* 글씨체 수정 여기서!!! */
+}
+
+/* footer */
+.footer {
+    background-color: #ebeef1;
+    color: #343a40;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid #bdbdbd;
 }
