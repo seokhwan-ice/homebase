@@ -12,13 +12,7 @@ let currentPage = 1;  // 현재 페이지
                     playerRecords.forEach(record => {
                         const row = document.createElement('tr');
 
-                        // 팀 로고를 이미지로 추가
-                        const logoCell = document.createElement('td');
-                        const logoImg = document.createElement('img');
-                        logoImg.src = record.team_logo_url; // 팀 로고 URL
-                        logoImg.alt = `${record.name}의 팀 로고`;
-                        logoCell.appendChild(logoImg);
-                        row.appendChild(logoCell);
+
 
                         // 나머지 필드 추가
                         const fields = [

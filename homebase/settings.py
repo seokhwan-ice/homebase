@@ -164,10 +164,6 @@ STATIC_ROOT = BASE_DIR / "static"
 #     os.path.join(BASE_DIR, "static"),  # 실제로 존재하는 디렉토리로 바꿉니다
 # ]
 
-# 서원
-# STATICFILES_DIRS = [BASE_DIR / "static"]  # 개발환경에서 장고가 정적파일 찾는 경로
-# STATIC_ROOT = BASE_DIR / "staticfiles" 배포환경에서 사용할 정적파일 모음 경로
-
 # Media files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

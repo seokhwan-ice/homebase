@@ -19,7 +19,6 @@ class PlayerRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerRecord
         fields = [
-            "team_logo_url",
             "name",
             "opponent",
             "pa",
