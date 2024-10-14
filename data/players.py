@@ -4,11 +4,16 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from data.models import Players  # 필요한 모델을 임포트하세요
-
+import random  # 랜덤 대기 시간을 위해 import 추가
 # Django 환경 설정
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "homebase.settings")
 django.setup()
 
+
+# headers 정의
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'
+}
 
 def crawl_players_data():
 
