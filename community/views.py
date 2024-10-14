@@ -1,3 +1,4 @@
+from django.db import models
 from django.db.models import Q, F
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -8,6 +9,10 @@ from rest_framework import viewsets, status, views
 from .mixins import CommentMixin, BookmarkMixin, LikeMixin
 from .models import Free, Live
 from . import serializers
+from chat.models import ChatRoom
+from data.models import SportsNews, TeamRank
+from chat.serializers import ChatRoomSerializer
+from data.serializers import SportsNewsListSerializer, TeamRankSerializer
 
 
 # Free, Live 공통 로직
@@ -119,10 +124,24 @@ class LiveViewSet(BaseViewSet, LikeMixin):
 
 class MainView(views.APIView):
     def get(self, request):
+        # community
         top_viewed_free = Free.objects.order_by("-views")[:3]
         top_commented_free = Free.objects.order_by("-comments_count")[:3]
         top_liked_live = Live.objects.order_by("-likes_count")[:3]
         top_commented_live = Live.objects.order_by("-comments_count")[:3]
+
+        # data
+        latest_news = SportsNews.objects.order_by("-published_at")[:3]
+        team_rank = TeamRank.objects.order_by("rank")[:10]
+
+        # top_commented_news = News.objects.order_by("-comments_count")[:3]
+        # 또 더 보여주면 좋을만한거 생각해보자 선수순위? 그런것두 있나? 아니면 이번달 경기일정
+
+        # chat
+        top_participated_chatrooms = ChatRoom.objects.annotate(
+            participants_count=models.Count("participants")
+        ).order_by("-participants_count")[:3]
+
         top_data = {
             "top_viewed_free": serializers.FreeListSerializer(
                 top_viewed_free, many=True
@@ -136,8 +155,10 @@ class MainView(views.APIView):
             "top_commented_live": serializers.LiveListSerializer(
                 top_commented_live, many=True
             ).data,
+            "top_participated_chatrooms": ChatRoomSerializer(
+                top_participated_chatrooms, many=True
+            ).data,
+            "latest_news": SportsNewsListSerializer(latest_news, many=True).data,
+            "team_rank": TeamRankSerializer(team_rank, many=True).data,
         }
         return Response(top_data, status=status.HTTP_200_OK)
-
-
-# TODO: 여기에 data 앱 내용 추가해서 전체 메인페이지로 써도 좋을거 같애!

@@ -90,4 +90,5 @@ def team_rank(year=2024):
             f"순위: {team['rank']}, 팀명: {team['name']}, 로고: {team['logo_url']}, 경기 수: {team['games']}, 승: {team['wins']}, 무: {team['draws']}, 패: {team['losses']}, 승차: {team['game_diff']}, 승률: {team['win_rate']}"
         )
 
-    return len(teams)  # 저장된 팀의 수 반환
+    return len(teams)  # 저장된 팀의 수 반환#
+
