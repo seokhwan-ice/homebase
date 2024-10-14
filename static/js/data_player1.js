@@ -1,26 +1,31 @@
-let currentPage = 1;  // 현재 페이지
-let totalPages = 0;   // 총 페이지 수
-let currentPlayerId;  // 현재 선수 ID 저장
+let currentPlayersPage = 1;  // 현재 선수 페이지
+let totalPlayersPages = 0;    // 총 선수 페이지 수
+let currentRecordsPage = 1;    // 현재 선수 기록 페이지
+let totalRecordsPages = 0;      // 총 선수 기록 페이지 수
 
-    // API에서 선수 데이터를 가져오는 함수
-async function fetchPlayersData() {
+// API에서 선수 데이터를 가져오는 함수
+async function fetchPlayersData(page = 1) {
     try {
-        const response = await axios.get('data/players/');
-        const players = response.data;
+        const response = await axios.get(`data/players`); // URL 수정
+        const players = response.data.results; // 페이지네이션에 따른 선수 목록
+        totalPlayersPages = response.data.total_pages; // 총 페이지 수
 
-            // 선수 데이터 출력
         const playersContainer = document.getElementById('players-container');
+        playersContainer.innerHTML = ''; // 이전 내용 지우기
         const baseURL = 'https://statiz.sporki.com';
 
+        // 선수 정보를 DOM에 추가
         players.forEach(player => {
             const playerDiv = document.createElement('div');
             playerDiv.className = 'player';
 
-            const playerImage = `${baseURL}${player.profile_img}`;
+            // 이미지 URL 절대 경로로 변환
+            const playerImage = `${baseURL}${player.profile_img}`; // 절대 경로로 변환
 
+            // 선수 정보 표시
             playerDiv.innerHTML = `
-                <img src="${playerImage}" alt="${player.name} 프로필 이미지" />
-                <p>이름: ${player.name}</p>
+                <img src="${playerImage}" alt="${player.name} 프로필 이미지" onerror="this.onerror=null; this.src='path/to/default-image.jpg';" />
+                <h2>${player.name}</h2>
                 <p>팀: ${player.team}</p>
                 <p>포지션: ${player.position}</p>
                 <p>타격손: ${player.batter_hand}</p>
@@ -29,38 +34,33 @@ async function fetchPlayersData() {
                 <p>신인지명: ${player.draft_info ? player.draft_info : '정보 없음'}</p>
                 <p>활약연도: ${player.active_years ? player.active_years : '정보 없음'}</p>
                 <p>활약팀: ${player.active_team ? player.active_team : '정보 없음'}</p>
-                <button onclick="fetchPlayerRecords(${player.id})">상대 전적 보기</button>
             `;
 
             playersContainer.appendChild(playerDiv);
         });
+
+        // 페이지네이션 표시
+        displayPlayersPagination(currentPlayersPage, totalPlayersPages);
     } catch (error) {
         console.error('선수 데이터를 가져오는 중 오류 발생:', error);
     }
 }
 
-    // 특정 선수의 상대 전적을 가져오는 함수
-function fetchPlayerRecords(playerId, page = 1) {
-    currentPlayerId = playerId; // 현재 선수 ID 설정
-    axios.get(`data/players_rival/?player_id=${playerId}&page=${page}`)
+// 선수 기록을 가져오는 함수
+function fetchPlayerRecords(page = 1) {
+    axios.get(`data/players_rival/?page=${page}`) // API URL 확인
         .then(response => {
-            const playerRecords = response.data.results;
-            totalPages = response.data.total_pages;
+            const playerRecords = response.data.results;  // 페이지네이션 결과
+            totalRecordsPages = response.data.total_pages; // 총 페이지 수
             const tableBody = document.querySelector("#player-records-table tbody");
-            tableBody.innerHTML = ''; // 기존 데이터 지우기
+            tableBody.innerHTML = '';  // 기존 데이터 지우기
 
             playerRecords.forEach(record => {
                 const row = document.createElement('tr');
 
-                const logoCell = document.createElement('td');
-                const logoImg = document.createElement('img');
-                logoImg.src = record.team_logo_url; // 팀 로고 URL
-                logoImg.alt = `${record.opponent}의 팀 로고`;
-                logoCell.appendChild(logoImg);
-                row.appendChild(logoCell);
-
+                // 나머지 필드 추가
                 const fields = [
-                    'opponent', 'pa', 'epa', 'ab', 'r', 'h',
+                    'name', 'opponent', 'pa', 'epa', 'ab', 'r', 'h',
                     'two_b', 'three_b', 'hr', 'tb', 'rbi', 'bb', 'hp',
                     'ib', 'so', 'gdp', 'sh', 'sf', 'avg', 'obp', 'slg',
                     'ops', 'np', 'avli', 're24', 'wpa'
@@ -74,27 +74,52 @@ function fetchPlayerRecords(playerId, page = 1) {
                 tableBody.appendChild(row);
             });
 
-            updatePaginationButtons();
+            updateRecordsPaginationButtons();
         })
         .catch(error => {
             console.error("데이터를 가져오는 중 오류 발생:", error);
         });
 }
 
-    // 페이지를 변경하는 함수
-function changePage(direction) {
-    currentPage += direction;
-    fetchPlayerRecords(currentPlayerId, currentPage); // currentPlayerId는 현재 선수의 ID입니다.
+// 선수 페이지네이션 표시 함수
+function displayPlayersPagination(currentPage, totalPages) {
+    const paginationContainer = document.getElementById('pagination-container');
+    paginationContainer.innerHTML = ''; // 이전 내용 지우기
+
+    for (let i = 1; i <= totalPages; i++) {
+        const pageLink = document.createElement('a');
+        pageLink.innerText = i;
+        pageLink.href = '#';
+        pageLink.onclick = () => {
+            currentPlayersPage = i;
+            fetchPlayersData(i); // 클릭 시 해당 페이지 데이터 가져오기
+        };
+
+        if (i === currentPage) {
+            pageLink.className = 'active'; // 현재 페이지 표시
+        }
+
+        paginationContainer.appendChild(pageLink);
+    }
 }
 
-    // 페이지네이션 버튼 상태 업데이트
-function updatePaginationButtons() {
+// 선수 기록 페이지 전환 함수
+function changeRecordsPage(direction) {
+    currentRecordsPage += direction;
+    fetchPlayerRecords(currentRecordsPage);
+}
+
+// 선수 기록 페이지네이션 버튼 업데이트 함수
+function updateRecordsPaginationButtons() {
     const prevButton = document.getElementById("prev-page");
     const nextButton = document.getElementById("next-page");
 
-    prevButton.disabled = currentPage === 1;
-    nextButton.disabled = currentPage === totalPages;
+    prevButton.disabled = currentRecordsPage === 1;
+    nextButton.disabled = currentRecordsPage === totalRecordsPages;
 }
 
-    // 페이지 로드 시 선수 데이터를 가져옴
-window.onload = fetchPlayersData;
+// 페이지가 로드될 때 선수 데이터와 기록을 가져오기
+document.addEventListener("DOMContentLoaded", () => {
+    fetchPlayersData(currentPlayersPage); // 선수 데이터 가져오기
+    fetchPlayerRecords(currentRecordsPage); // 선수 기록 가져오기
+});

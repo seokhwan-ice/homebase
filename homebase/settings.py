@@ -154,14 +154,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "static"
 
-import os
-
-# 추가적인 정적 파일 디렉토리 (여기에는 STATIC_ROOT를 포함하면 안 됩니다)
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),  # 실제로 존재하는 디렉토리로 바꿉니다
-]
 
 # Media files
 MEDIA_URL = "/media/"

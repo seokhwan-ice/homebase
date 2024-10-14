@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>선수 데이터</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>선수 목록</title>
+    <link rel="stylesheet" href="styles.css"> <!-- 필요한 경우 CSS 파일 추가 -->
+    <style>
+        #pagination-container a {
+            margin: 0 5px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #007BFF;
+            color: #007BFF;
+            border-radius: 3px;
+        }
+        #pagination-container a.active {
+            background-color: #007BFF;
+            color: white;
+        }
+        #pagination-container a:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
 </head>
-
 <body>
-  <h1>선수 정보</h1>
-  <div id="players-container"></div>  <!-- 선수 데이터를 표시할 컨테이너 -->
+    <h1>선수 목록</h1>
+    <div id="players-container"></div> <!-- 선수 정보를 표시할 컨테이너 -->
+    <div id="pagination-container"></div> <!-- 페이지네이션 컨테이너 -->
 
-
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/data_players.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="../js/common.js"></script>
+    <script src="../js/data_players.js"></script>
 </body>
 </html>
