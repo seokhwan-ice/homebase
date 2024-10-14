@@ -30,7 +30,7 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["43.203.126.165","127.0.0.1","localhost"]
+ALLOWED_HOSTS = ["43.203.126.165","127.0.0.1","localhost","home-base.co.kr"]
 
 
 # Application definition
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "data",
     "community",
     "chat",
+    "chatbot",
 ]
 
 
@@ -90,6 +91,22 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "homebase.wsgi.application"
+
+# 프로젝트 루트 경로에 있는 .env 파일 로드
+load_dotenv(dotenv_path=BASE_DIR / '.env')
+
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#         # "TEST": {
+#         #     "NAME": BASE_DIR / "test_db.sqlite3",
+#         # }, # 테스트 코드 실행할 때 사용할 데이터베이스
+#     }
+# }
 
 # 프로젝트 루트 경로에 있는 .env 파일 로드
 load_dotenv(dotenv_path=BASE_DIR / '.env')
@@ -168,6 +185,14 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
 
+# 준호
+# STATIC_ROOT = BASE_DIR / "staticfiles"
+# import os
+# 추가적인 정적 파일 디렉토리 (여기에는 STATIC_ROOT를 포함하면 안 됩니다)
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),  # 실제로 존재하는 디렉토리로 바꿉니다
+# ]
+
 # Media files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -178,16 +203,16 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Channels
 ASGI_APPLICATION = "homebase.asgi.application"
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],  # Redis 서버 위치
-        },
-    },
-}
+# Channels
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],  # Redis 서버 위치
+#         },
+#     },
+# }
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True

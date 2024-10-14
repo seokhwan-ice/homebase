@@ -1,17 +1,11 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
 
+router = DefaultRouter()
+router.register(r"chatrooms", views.ChatRoomViewSet, basename="chatrooms")
+router.register(r"messages", views.ChatMessageViewSet, basename="messages")
+
 urlpatterns = [
-    path(
-        "chatrooms/",
-        views.ChatRoomListCreateView.as_view(),
-        name="chatroom_list_create",
-    ),
-    path(
-        "chatrooms/<int:id>/",
-        views.ChatRoomDetailView.as_view(),
-        name="chatroom_detail",
-    ),
-    path("", views.test_page1, name="test_page1"),
-    path("<str:room_name>/", views.test_page2, name="test_page2"),
+    path("", include(router.urls)),
 ]
