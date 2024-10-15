@@ -24,7 +24,7 @@ function checkSignin() {
     if (!token) {
         // 확인/취소 선택할 수 있는 알림창
         if (confirm('로그인이 필요합니다!\n로그인 페이지로 이동하시겠습니까?')) {
-            location.href = 'user.html';
+            location.href = 'user_signin.html';
         }
         return false;
     }
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     event.preventDefault();  // 기본 링크 동작 막기
                     const username = localStorage.getItem('username'); // localStorage에서 username 가져오기
                     if (username) {
-                        location.href = `user_main_profile.html?username=${username}`; // username 파라미터 추가
+                        location.href = `user_my_profile.html?username=${username}`; // username 파라미터 추가
                     } else {
                         alert('로그인이 필요합니다.');  // >>> 로그인 여부에 따라 버튼 다르게 보이게 하쟈
                     }

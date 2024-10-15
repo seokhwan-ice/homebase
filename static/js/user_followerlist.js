@@ -55,7 +55,7 @@ if (username) {
                 item.addEventListener('click', function() {
                     const clickedUsername = this.getAttribute('data-username');
                     console.log(clickedUsername); // 클릭된 유저의 username 확인
-                    location.href = `user_main_profile.html?username=${clickedUsername}`;
+                    location.href = `user_other_profile.html?username=${clickedUsername}`;
                 });
             });
 
@@ -64,11 +64,6 @@ if (username) {
             alert('팔로우 목록을 불러오는 중 오류가 발생했습니다.');
         }
     }
-
-    // mypage 버튼 클릭 시 페이지 이동 설정
-    document.getElementById('mypage-button').addEventListener('click', () => {
-        window.location.href = `user_main_profile.html?username=${username}`;
-    });
 
     // 페이지 로드 시 데이터 가져오기
     document.addEventListener("DOMContentLoaded", function() {

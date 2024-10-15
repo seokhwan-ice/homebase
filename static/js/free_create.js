@@ -27,3 +27,18 @@ form.addEventListener('submit', async function(event) {
         alert("글 등록 실패");
     }
 });
+
+// 이미지 미리보기
+function previewImage(event) {
+    const reader = new FileReader();
+    const imageField = document.getElementById('image_preview');
+
+    reader.onload = function() {
+        imageField.src = reader.result;
+        imageField.style.display = 'block';
+    };
+
+    if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
+    }
+}

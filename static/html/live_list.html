@@ -9,11 +9,7 @@
 
 <body>
     <div id="navbar"></div>
-    <h1>Live 게시판 목록 페이지</h1>
-
-    <!-- 등록 -->
-    <button onclick="location.href='live_create.html'">등록하기</button>
-    <button onclick="location.href='user.html'">로그인화면으로</button><hr>
+    <h1>Live 게시판 목록 페이지</h1><br>
 
     <!-- 필터링 검색 -->
     <form id="filter-search">
@@ -62,7 +58,13 @@
         <option value="hot">인기순</option>
     </select>
 
+    <!-- 등록 -->
+    <button onclick="location.href='live_create.html'">등록하기</button>
+    <br><br>
+
     <ul id="live-list"></ul>
+
+    <div id="footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
     <script src="../js/common.js"></script>
