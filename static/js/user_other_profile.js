@@ -102,3 +102,28 @@ document.getElementById('next-button').addEventListener('click', () => {
 
 // 페이지 로드 시 프로필 정보 및 갤러리 데이터 가져오기
 document.addEventListener('DOMContentLoaded', getUserProfile);
+
+
+// 팔로우 토글
+document.getElementById('follow-button').addEventListener('click', async function() {
+
+    if (!checkSignin()) return;
+
+    try {
+        const response = await axios.post(`user/${username}/follow/`);
+
+        // 팔로우
+        if (response.data === '팔로우성공!') {
+            alert('팔로우했습니다!');
+            document.getElementById('follow-button').textContent = '팔로우 취소하기';
+        } else if (response.data === '언팔로우!') {
+            alert('팔로우가 취소되었습니다!');
+            document.getElementById('follow-button').textContent = '팔로우하기';
+        }
+        await getUserProfile();  // 방금 팔로우 반영한 followers 수 표시
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert('팔로우 요청 실패');
+    }
+});
