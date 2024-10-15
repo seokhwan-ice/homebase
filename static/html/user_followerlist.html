@@ -6,9 +6,11 @@
     <title>나를 팔로우 목록</title>
 </head>
 <body>
+
+    <div id="navbar"></div>
+
     <div>
-        <button id="mypage-button">mypage</button>
-        <button id="signout-button">signout</button>
+        <button id="mypage-button">프로필 페이지</button>  <!-- 타유저일때도 같은 html 이라서 변경했어요! -->
     </div>
 
     <!-- 내 프로필 정보 -->
@@ -21,13 +23,15 @@
 
     <!-- 내가 팔로우한 사용자 목록 -->
     <div class="followers-list">
-        <h3>나를 팔로우한 사용자</h3>
+        <h3>팔로워 목록</h3>  <!-- 타유저일때도 같은 html 이라서 변경했어요! -->
         <ul id="followers-list"></ul>
     </div>
 
+    <div id="footer"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/common.js"></script>
-    <script src="/static/js/user_followerlist.js"></script>
+    <script src="../js/user_followerlist.js"></script>
 
 
 </body>

@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (username) {
                         location.href = `user_main_profile.html?username=${username}`; // username 파라미터 추가
                     } else {
-                        alert('로그인이 필요합니다.');
+                        alert('로그인이 필요합니다.');  // >>> 로그인 여부에 따라 버튼 다르게 보이게 하쟈
                     }
                 });
             }
