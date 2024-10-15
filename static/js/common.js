@@ -86,7 +86,7 @@ setInterval(() => {
         refreshAccessToken();
         userActive = false;
     }
-}, 20 * 1000);
+}, 25 * 60 * 1000);
 
 
 // 로그인 여부 확인, 리다이렉트 함수
@@ -186,8 +186,19 @@ document.addEventListener('DOMContentLoaded', () => {
             // [로그아웃] 버튼 클릭 이벤트 리스너 추가
             const signoutButton = document.getElementById('signout-link');
             if(signoutButton) {
-                signoutButton.addEventListener('click', function (event) {
+                signoutButton.addEventListener('click', async function (event) {
                     event.preventDefault();  // 기본 링크 동작 막기
+
+                    // signout api 사용! 서버에 refresh token 줘서 blacklist 요청하기
+                    const refreshToken = localStorage.getItem('refresh_token');
+                    if (refreshToken) {
+                        try {
+                            await axios.post('user/signout/', {refresh: refreshToken});
+                        } catch (error) {
+                            console.error("로그아웃 중 실패. 서버 오류?:", error);
+                        }
+                    }
+
                     localStorage.removeItem('token');
                     localStorage.removeItem('refresh_token');
                     localStorage.removeItem('username');
