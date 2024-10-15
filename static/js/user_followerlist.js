@@ -43,8 +43,8 @@ if (username) {
 
                     // 각 팔로워 유저의 닉네임에 span 태그랑 data-username 추가
                     listItem.innerHTML = `
-                        <img src="${followers.profile_image || 'https://via.placeholder.com/50'}" alt="User Profile" width="50" height="50">
-                        <span class="follower-name" data-username="${follower.username}" style="cursor:pointer;">${follower.username}</span>
+                        <img src="${follower.profile_image || 'https://via.placeholder.com/50'}" alt="User Profile" width="50" height="50">
+                        <span class="follower-name" data-username="${follower.username}" style="cursor:pointer;">${follower.nickname}</span>
                     `;
                     followersList.appendChild(listItem);
                 });
@@ -54,6 +54,7 @@ if (username) {
             document.querySelectorAll('.follower-name').forEach(item => {
                 item.addEventListener('click', function() {
                     const clickedUsername = this.getAttribute('data-username');
+                    console.log(clickedUsername); // 클릭된 유저의 username 확인
                     location.href = `user_main_profile.html?username=${clickedUsername}`;
                 });
             });
