@@ -3,6 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.exceptions import TokenError
+
 from .models import User
 from .vaildators import validate_user_data
 from .serializers import (
@@ -33,14 +36,14 @@ class UserCreateView(APIView):
 
         # 사용자 생성 로직
         validated_data = {
-            'username': request.data.get("username"),
-            'nickname': request.data.get("nickname"),
-            'name': request.data.get("name"),
-            'password': request.data.get("password"),
-            'bio': request.data.get("bio"),
-            'profile_image': request.data.get("profile_image"),
-            'phone_number': request.data.get("phone_number"),
-            'email':request.data.get("email"),
+            "username": request.data.get("username"),
+            "nickname": request.data.get("nickname"),
+            "name": request.data.get("name"),
+            "password": request.data.get("password"),
+            "bio": request.data.get("bio"),
+            "profile_image": request.data.get("profile_image"),
+            "phone_number": request.data.get("phone_number"),
+            "email": request.data.get("email"),
         }
 
         # 사용자 생성
@@ -190,7 +193,9 @@ class FollowAPIView(APIView):
     def post(self, request, username):
         user = get_object_or_404(User, username=username)
         if request.user == user:
-            return Response("나 자신을 팔로우 할 수 없습니다.", status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "나 자신을 팔로우 할 수 없습니다.", status=status.HTTP_400_BAD_REQUEST
+            )
         if request.user in user.followers.all():
             user.followers.remove(request.user)
             return Response("언팔로우!", status=status.HTTP_200_OK)
@@ -234,3 +239,18 @@ class BookMarkListAPIView(APIView):
         serializer = BookMarkListSerializer(user)
         return Response(serializer.data)
 
+
+# 리프레시 토큰으로 액세스 토큰 갱신하는 API
+class CustomTokenRefreshView(TokenRefreshView):
+
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.data.get("refresh")
+        if not refresh_token:
+            return Response({"message": "리프레시 토큰 필요함"}, status=400)
+
+        try:
+            refresh = RefreshToken(refresh_token)
+            new_access_token = refresh.access_token
+            return Response({"access": str(new_access_token)})
+        except TokenError as e:
+            return Response({"message": "유효하지 않은 리프레시토큰"}, status=400)

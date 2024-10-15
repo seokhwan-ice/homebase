@@ -8,6 +8,7 @@ urlpatterns = [
     path("signout/", views.UserSignoutView.as_view()),
     path("password/", views.UserPasswordChangeView.as_view()),
     path("withdraw/", views.UserDeleteView.as_view()),
+    path("refresh/", views.CustomTokenRefreshView.as_view()),
     path("<str:username>/", views.UserProfileView.as_view()),
     path("<str:username>/free/", views.UserProfileTitleView.as_view()),
     path("<str:username>/live/", views.UserProfileliveView.as_view()),

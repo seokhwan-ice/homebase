@@ -7,7 +7,7 @@
 // Axios 기본 URL 설정
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 
-// Authorization 헤더에 토큰 자동 추가
+// Axios 요청 인터셉터: 헤더에 토큰 자동 추가
 axios.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -18,11 +18,81 @@ axios.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-// 로그인 여부 확인, 리다이렉트
+// Axios 응답 인터셉터: 토큰 만료 시 자동 로그아웃
+axios.interceptors.response.use(response => {
+    return response;
+}, async error => {
+    console.log("401 에러 발생. 응답 인터셉터 작동 중.");
+
+    if (error.response && error.response.status === 401) {
+        try {
+            console.log("401 에러 -> 토큰 갱신 시도 중.");
+
+            const response = await refreshAccessToken();
+
+            const newAccessToken = response.data.access;
+            if (newAccessToken) {
+                console.log("토큰 갱신 성공. 새로운 액세스 토큰:", newAccessToken);
+                localStorage.setItem('token', newAccessToken);
+                error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                return axios(error.config);
+            }
+        } catch (e) {
+            console.error("토큰 갱신 실패. 에러:", e);
+            alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+            localStorage.removeItem('token');
+            localStorage.removeItem('refresh_token');
+            location.href = 'user_signin.html';
+        }
+    }
+    return Promise.reject(error);
+});
+
+// 토큰 갱신 함수
+async function refreshAccessToken() {
+    console.log("refreshAccessToken 함수 호출은 되고 있는거니");
+
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (!refreshToken) {
+        console.error("리프레시 토큰 없음. 로그인 페이지로 이동함.");
+        location.href = 'user_signin.html';
+        return Promise.reject("리프레시 토큰 없음");
+    }
+
+    try {
+        console.log("리프레시 토큰으로 토큰 갱신 시도 중.");
+        const response = await axios.post('user/refresh/', {
+            refresh: refreshToken
+        });
+
+        console.log("토큰 갱신 성공. 응답:", response.data);
+        return response;
+    } catch (error) {
+        console.error("토근 갱신 실패. 에러:", error);
+        throw error;
+    }
+}
+
+// 유저 활동 감지 (클릭, 키보드 누르기)
+let userActive = false;
+document.addEventListener('click', () => userActive = true);
+document.addEventListener('keydown', () => userActive = true);
+
+// 유저가 사용중이면 25분마다 토큰 갱신
+setInterval(() => {
+    console.log("20초 지났다. userActive 상태:", userActive);
+
+    if (userActive) {
+        refreshAccessToken();
+        userActive = false;
+    }
+}, 20 * 1000);
+
+
+// 로그인 여부 확인, 리다이렉트 함수
 function checkSignin() {
     const token = localStorage.getItem('token');
     if (!token) {
-        // 확인/취소 선택할 수 있는 알림창
         if (confirm('로그인이 필요합니다!\n로그인 페이지로 이동하시겠습니까?')) {
             location.href = 'user_signin.html';
         }
@@ -119,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 signoutButton.addEventListener('click', function (event) {
                     event.preventDefault();  // 기본 링크 동작 막기
                     localStorage.removeItem('token');
+                    localStorage.removeItem('refresh_token');
                     localStorage.removeItem('username');
                     alert('로그아웃 완료!!');
                     location.href = '../html/index.html';  // 로그인 후 메인페이지로
