@@ -6,7 +6,7 @@
     <title>선수 기록</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios CDN -->
     <style>
-        /* 테이블 스타일 (예시) */
+        /* 테이블 스타일 */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -19,12 +19,12 @@
     </style>
 </head>
 <body>
-
+    <div id="navbar"></div>
+    <div id="player-info"></div> <!-- 선수 정보 표시를 위한 요소 추가 -->
     <h1>선수 기록</h1>
     <table id="player-records-table">
         <thead>
             <tr>
-
                 <th>이름</th>
                 <th>상대팀</th>
                 <th>PA</th>
@@ -64,6 +64,7 @@
         <button id="next-page" onclick="changePage(1)">다음</button>
     </div>
 
+  <div id="footer"></div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/data_player_rival.js"></script>

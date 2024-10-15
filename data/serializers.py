@@ -1,5 +1,13 @@
 from rest_framework import serializers
-from .models import PlayerRecord, GameRecord, TeamRank, Players, SportsNews
+from .models import (
+    PlayerRecord,
+    GameRecord,
+    TeamRank,
+    Players,
+    SportsNews,
+    TeamRecord,
+    TeamDetail,
+)
 
 
 class SportsNewsListSerializer(serializers.ModelSerializer):
@@ -18,35 +26,7 @@ class PlayersSerializer(serializers.ModelSerializer):
 class PlayerRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerRecord
-        fields = [
-            "name",
-            "opponent",
-            "pa",
-            "epa",
-            "ab",
-            "r",
-            "h",
-            "two_b",
-            "three_b",
-            "hr",
-            "tb",
-            "rbi",
-            "bb",
-            "hp",
-            "ib",
-            "so",
-            "gdp",
-            "sh",
-            "sf",
-            "avg",
-            "obp",
-            "slg",
-            "ops",
-            "np",
-            "avli",
-            "re24",
-            "wpa",
-        ]
+        fields = "__all__"  # 모든 필드를 포함
 
 
 # 경기 기록 시리얼라이저
@@ -80,3 +60,24 @@ class TeamRankSerializer(serializers.ModelSerializer):
             "streak",
             "last_10_games",
         ]
+
+
+class TeamRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamRecord
+        fields = [
+            "id",
+            "team_name",
+            "rival",
+            "team_number",
+            "wins",
+            "draws",
+            "losses",
+            "win_rate",
+        ]
+
+
+class TeamDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamDetail
+        fields = "__all__"

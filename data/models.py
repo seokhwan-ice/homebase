@@ -15,6 +15,7 @@ class SportsNews(models.Model):
 
 
 class Players(models.Model):
+    player_number = models.IntegerField()  # 선수 고유 번호 추가
     name = models.CharField(max_length=100)
     team = models.CharField(max_length=50)
     position = models.CharField(max_length=50)
@@ -31,6 +32,7 @@ class Players(models.Model):
 
 
 class PlayerRecord(models.Model):
+    player_number = models.IntegerField()  # 선수 고유 번호 추가
     team_logo_url = models.URLField(max_length=255)
     name = models.CharField(max_length=100)
     opponent = models.CharField(max_length=100)
@@ -91,6 +93,7 @@ class GameRecord(models.Model):
 
 class TeamRank(models.Model):
     rank = models.IntegerField()  # 순위
+    team_number = models.CharField(max_length=10)
     team_name = models.CharField(max_length=100)  # 팀 이름
     games_played = models.IntegerField()  # 경기 수
     wins = models.IntegerField()  # 승리 수
@@ -109,3 +112,60 @@ class TeamRank(models.Model):
         verbose_name_plural = "Team Records"
         ordering = ["rank"]  # 순위 기준으로 정렬
         db_table = "data_teamrank"  # 테이블 이름을 명시적으로 설정
+
+
+class TeamRecord(models.Model):
+    team_name = models.CharField(max_length=50)
+    team_number = models.CharField(max_length=10)
+    rival = models.CharField(max_length=50)
+    wins = models.IntegerField()
+    draws = models.IntegerField()
+    losses = models.IntegerField()
+    win_rate = models.FloatField()
+
+    class Meta:
+        unique_together = (
+            ("team_number", "team_name", "rival"),
+        )  # team_name과team_number rival의 조합을 고유하게 설정
+
+
+class TeamDetail(models.Model):
+    team_number = models.CharField(max_length=10)
+    team = models.CharField(max_length=100)  # 팀 이름
+    year = models.FloatField()  # 연도
+    war = models.FloatField()  # WAR
+    owar = models.FloatField()  # oWAR
+    dwar = models.FloatField()  # dWAR
+    games = models.FloatField()  # 경기 수
+    plate_appearances = models.FloatField()  # 타석 수
+    effective_pa = models.FloatField()  # 유효 타석 수
+    at_bats = models.FloatField()  # 타수
+    runs = models.FloatField()  # 득점
+    hits = models.FloatField()  # 안타
+    two_b = models.FloatField()  # 2루타
+    three_b = models.FloatField()  # 3루타
+    home_runs = models.FloatField()  # 홈런
+    total_bases = models.FloatField()  # 총 베이스
+    rbi = models.FloatField()  # 타점
+    stolen_bases = models.FloatField()  # 도루
+    caught_stealing = models.FloatField()  # 도루 실패
+    walks = models.FloatField()  # 볼넷
+    hit_by_pitch = models.FloatField()  # 몸에 맞는 볼
+    intentional_walks = models.FloatField()  # 고의 볼넷
+    strikeouts = models.FloatField()  # 삼진
+    grounded_into_double_play = models.FloatField()  # 병살 타구
+    sacrifice_hits = models.FloatField()  # 희생타
+    sacrifice_flies = models.FloatField()  # 희생플라이
+    batting_average = models.FloatField()  # 타율
+    on_base_percentage = models.FloatField()  # 출루율
+    slugging_percentage = models.FloatField()  # 장타율
+    on_base_plus_slugging = models.FloatField()  # OPS
+    runs_per_effective_pa = models.FloatField()  # 유효 타석당 득점
+    wrc_plus = models.FloatField()  # wRC+
+
+    class Meta:
+        verbose_name = "팀 통계"
+        verbose_name_plural = "팀 통계"
+
+    def __str__(self):
+        return f"{self.year} {self.team} - {self.rank}위"
