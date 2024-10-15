@@ -109,3 +109,23 @@ class TeamRank(models.Model):
         verbose_name_plural = "Team Records"
         ordering = ["rank"]  # 순위 기준으로 정렬
         db_table = "data_teamrank"  # 테이블 이름을 명시적으로 설정
+
+class WeatherData(models.Model):
+    base_date = models.CharField(max_length=8)  # YYYYMMDD
+    base_time = models.CharField(max_length=4)  # HHMM
+    location = models.CharField(max_length=50)  # 지점 이름 추가
+    temperature = models.FloatField()           # 기온 (TMP)
+    humidity = models.FloatField()              # 습도 (REH)
+    wind_speed = models.FloatField()            # 풍속 (WSD)
+    wind_direction = models.CharField(max_length=10)  # 풍향 (VEC)
+    rain_status = models.CharField(max_length=10)     # 강수 상태 (PTY)
+    rain_probability = models.FloatField(null=True, blank=True)  # 강수 확률 (POP)
+    sky_status = models.CharField(max_length=10, null=True, blank=True)  # 하늘 상태 (SKY)
+    precipitation = models.FloatField(null=True, blank=True)  # 강수량 (PCP)
+    min_temperature = models.FloatField(null=True, blank=True)  # 일 최저기온 (TMN)
+    max_temperature = models.FloatField(null=True, blank=True)  # 일 최고기온 (TMX)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.location} ({self.base_date} {self.base_time}) - 온도: {self.temperature}℃, 습도: {self.humidity}%, 풍향: {self.wind_direction}, 강수 상태: {self.rain_status}"
+

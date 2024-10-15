@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <div id="navbar"></div>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>선수 목록</title>
-    <link rel="stylesheet" href="styles.css"> <!-- 필요한 경우 CSS 파일 추가 -->
+    
+    
     <style>
         #pagination-container a {
             margin: 0 5px;
@@ -29,6 +32,10 @@
     <div id="players-container"></div> <!-- 선수 정보를 표시할 컨테이너 -->
     <div id="pagination-container"></div> <!-- 페이지네이션 컨테이너 -->
 
+
+    <!-- Footer 요소 추가 -->
+    <div id="footer"></div>
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
     <script src="../js/common.js"></script>
     <script src="../js/data_players.js"></script>
