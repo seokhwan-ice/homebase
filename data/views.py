@@ -176,6 +176,18 @@ class SportsNewsListAPIView(APIView):
         )  # 페이지네이션된 응답 반환
 
 
+# 경기 기록 조회 뷰 (GET)
+class GameRecordListView(APIView):
+    pagination_class = CustomPagination
+
+    def get(self, request):
+        games = GameRecord.objects.all()
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(games, request)
+        serializer = GameRecordSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
+
 # 선수 기록 조회 뷰 (GET)
 class PlayerRecordListView(APIView):
     def get(self, request, player_number):
@@ -191,30 +203,6 @@ class PlayerRecordListView(APIView):
             player_records, many=True
         )  # many=True로 설정
         return Response(serializer.data)
-
-
-# 경기 기록 조회 뷰 (GET)
-class GameRecordListView(APIView):
-    pagination_class = CustomPagination
-
-    def get(self, request):
-        games = GameRecord.objects.all()
-        paginator = self.pagination_class()
-        result_page = paginator.paginate_queryset(games, request)
-        serializer = GameRecordSerializer(result_page, many=True)
-        return paginator.get_paginated_response(serializer.data)
-
-
-# 팀 순위 조회 뷰 (GET)
-class TeamRankListView(APIView):
-    pagination_class = CustomPagination
-
-    def get(self, request, *args, **kwargs):
-        teams = TeamRank.objects.all()
-        paginator = self.pagination_class()
-        result_page = paginator.paginate_queryset(teams, request)
-        serializer = TeamRankSerializer(result_page, many=True)
-        return paginator.get_paginated_response(serializer.data)
 
 
 # 전체 선수 정보 조회 뷰 (GET)
@@ -241,6 +229,18 @@ class PlayerNumberAPIView(APIView):
             return Response(
                 {"error": "선수를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND
             )  # 실패 응답
+
+
+# 팀 순위 조회 뷰 (GET)
+class TeamRankListView(APIView):
+    pagination_class = CustomPagination
+
+    def get(self, request, *args, **kwargs):
+        teams = TeamRank.objects.all()
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(teams, request)
+        serializer = TeamRankSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
 
 # 팀 상대전적 조회 뷰 (GET)
