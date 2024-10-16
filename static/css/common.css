@@ -43,7 +43,7 @@
 .sidebar {
     position: fixed;
     left: 0;
-    width: 250px;
+    width: 300px;
     height: calc(100%);
     padding-top: 30px;
     background-color: #fdfdfd;

@@ -1,36 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>선수상세정보</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios CDN -->
-    <style>
-        /* 테이블 스타일 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-    </style>
+    <title>선수 정보</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="data_player_rival.js" defer></script>
 </head>
 <body>
     <div id="navbar"></div>
-    <h1>선수 정보</h1>
-    <div id="player-info-section"> <!-- 선수 정보 표시를 위한 요소 -->
-        <!-- 여기에서 JavaScript로 선수 정보가 동적으로 표시됨 -->
-    </div>
-
-    <h2>선수 기록</h2>
+    <div id="player-info-section"></div>
     <table id="player-records-table">
         <thead>
             <tr>
                 <th>이름</th>
-                <th>상대팀</th>
+                <th>상대 팀</th>
                 <th>PA</th>
                 <th>ePA</th>
                 <th>AB</th>
@@ -58,15 +42,9 @@
                 <th>WPA</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- 선수 기록이 여기에 추가됩니다. -->
-        </tbody>
+        <tbody></tbody>
     </table>
 
-    <div>
-        <button id="prev-page" onclick="changePage(-1)">이전</button>
-        <button id="next-page" onclick="changePage(1)">다음</button>
-    </div>
 
   <div id="footer"></div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

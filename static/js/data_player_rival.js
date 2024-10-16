@@ -1,27 +1,27 @@
 // 기본 URL 설정
-const baseURL = 'https://statiz.sporki.com';
+const baseURL = 'https://statiz.sporki.com'; // Django 서버의 기본 URL
 
 async function fetchPlayerData() {
     const urlParams = new URLSearchParams(window.location.search); // URL에서 쿼리 파라미터 가져오기
-    const player_Number = urlParams.get('player_number'); // player_number 가져오기
+    const player_Number = parseInt(urlParams.get('player_number'), 10); // player_number를 정수로 변환
 
     console.log('선수 번호:', player_Number); // 선수 번호 확인
 
-    // player_number가 null인 경우 예외 처리
-    if (!player_Number) {
-        console.error('선수 번호가 없습니다.'); // 오류 메시지 로그
+    // player_Number가 유효한지 검사
+    if (isNaN(player_Number)) {
+        console.error('유효하지 않은 선수 번호입니다.'); // 오류 메시지 로그
         return; // 함수 종료
     }
 
     try {
         // 1. 선수 기본 정보 가져오기 (DB에서)
-        const playerInfoResponse = await axios.get(`data/players/${player_Number}`); // 선수 기본 정보 API 호출
+        const playerInfoResponse = await axios.get(`data/players/${player_Number}/`); // 선수 기본 정보 API 호출
         const playerInfo = playerInfoResponse.data; // 응답 데이터
 
         console.log('선수 기본 정보:', playerInfo); // 선수 기본 정보 확인
 
         // 2. 선수 라이벌 기록 가져오기
-        const playerRivalResponse = await axios.get(`data/players_rival/${player_Number}`); // 선수 라이벌 기록 API 호출
+        const playerRivalResponse = await axios.get(`data/players_rival/${player_Number}/`); // 선수 라이벌 기록 API 호출
         const playerRivalRecords = playerRivalResponse.data; // 응답 데이터
 
         console.log('선수 라이벌 기록:', playerRivalRecords); // 선수 라이벌 기록 확인
@@ -32,7 +32,7 @@ async function fetchPlayerData() {
         playerInfoSection.innerHTML = `
             <img src="${playerImage}" alt="프로필 이미지">
             <h3>${playerInfo.name}</h3>
-            <p>팀: ${playerInfo.team || '-'}</p>
+            <p>팀: ${playerInfo.team_name || '-'}</p>
             <p>포지션: ${playerInfo.position || '-'}</p>
             <p>타격 손: ${playerInfo.batter_hand || '-'}</p>
             <p>출생일: ${playerInfo.birth_date || '-'}</p>

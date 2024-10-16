@@ -20,7 +20,6 @@ from .models import (
     TeamDetail,
 )
 from data.data_weather import data_weatherforecast
-from .models import TeamRank, PlayerRecord, GameRecord, Players, SportsNews
 from .serializers import (
     PlayerRecordSerializer,
     GameRecordSerializer,
@@ -29,6 +28,9 @@ from .serializers import (
     SportsNewsListSerializer,
     TeamRecordSerializer,
     TeamDetailSerializer,
+    TeamRankGetSerializer,
+    TeamRecordGetSerializer,
+    TeamDetailGetSerializer,
 )
 
 
@@ -207,18 +209,6 @@ class GameRecordListView(APIView):
         return paginator.get_paginated_response(serializer.data)
 
 
-# 팀 순위 조회 뷰 (GET)
-class TeamRankListView(APIView):
-    pagination_class = CustomPagination
-
-    def get(self, request, *args, **kwargs):
-        teams = TeamRank.objects.all()
-        paginator = self.pagination_class()
-        result_page = paginator.paginate_queryset(teams, request)
-        serializer = TeamRankSerializer(result_page, many=True)
-        return paginator.get_paginated_response(serializer.data)
-
-
 # 전체 선수 정보 조회 뷰 (GET)
 class PlayersListAPIView(APIView):
     pagination_class = CustomPagination
@@ -229,7 +219,7 @@ class PlayersListAPIView(APIView):
         result_page = paginator.paginate_queryset(players, request)
         serializer = PlayersSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)  # 성공 응답
-\
+
 
 # google News API 이용
 class WeatherDataAPIView(APIView):
@@ -262,6 +252,18 @@ class PlayerNumberAPIView(APIView):
             )  # 실패 응답
 
 
+# 팀 순위 조회 뷰 (GET)
+class TeamRankListView(APIView):
+    pagination_class = CustomPagination
+
+    def get(self, request, *args, **kwargs):
+        teams = TeamRank.objects.all()
+        paginator = self.pagination_class()
+        result_page = paginator.paginate_queryset(teams, request)
+        serializer = TeamRankSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
+
 # 팀 상대전적 조회 뷰 (GET)
 class TeamRivalGetAPIView(APIView):
     def get(self, request, *args, **kwargs):
@@ -286,3 +288,64 @@ class TeamDetailGetListView(APIView):
         team_details = TeamDetail.objects.all()
         serializer = TeamDetailSerializer(team_details, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class TeamRankDetailGetView(APIView):
+    def get(self, request, team_number, *args, **kwargs):
+        """특정 팀의 순위 정보 반환"""
+        try:
+            team_rank = TeamRank.objects.get(
+                team_number=team_number
+            )  # get()으로 단일 객체 가져오기
+            serializer = TeamRankGetSerializer(team_rank)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except TeamRank.DoesNotExist:
+            return Response(
+                {"error": "팀을 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+# 팀 상대전적 조회 뷰 (GET)
+class TeamRivalDetailGetAPIView(APIView):
+    def get(self, request, team_number, *args, **kwargs):
+        """특정 팀의 상대전적 정보 반환"""
+        try:
+            rival_records = TeamRecord.objects.filter(
+                team_number=team_number
+            )  # team_number로 필터링
+            if not rival_records.exists():
+                return Response(
+                    {"error": "상대 전적을 찾을 수 없습니다."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            serializer = TeamRecordGetSerializer(rival_records, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+# 팀 상세기록 조회 뷰 (GET)
+class TeamDetailDetailGetView(APIView):
+    def get(self, request, team_number, *args, **kwargs):
+        """특정 팀의 상세 통계 데이터 반환"""
+        try:
+            team_details = TeamDetail.objects.filter(
+                team_number=team_number
+            )  # team_number로 필터링
+            if not team_details.exists():
+                return Response(
+                    {"error": "팀 상세 정보를 찾을 수 없습니다."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            serializer = TeamDetailGetSerializer(team_details, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
