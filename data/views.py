@@ -19,6 +19,8 @@ from .models import (
     TeamRecord,
     TeamDetail,
 )
+from data.data_weather import data_weatherforecast
+from .models import TeamRank, PlayerRecord, GameRecord, Players, SportsNews
 from .serializers import (
     PlayerRecordSerializer,
     GameRecordSerializer,
@@ -227,6 +229,23 @@ class PlayersListAPIView(APIView):
         result_page = paginator.paginate_queryset(players, request)
         serializer = PlayersSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)  # 성공 응답
+\
+
+# google News API 이용
+class WeatherDataAPIView(APIView):
+    def post(self, request):  # 실제 API 키로 변경
+
+        try:
+            total_record = data_weatherforecast()  # 크롤링 함수 호출
+
+            return Response(
+                {"message": f"{total_record} 기상 데이터가 저장되었습니다."},
+                status=status.HTTP_201_CREATED,
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 # 특정 선수 정보 조회 뷰 (GET)

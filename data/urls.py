@@ -15,6 +15,7 @@ from .views import (
     TeamDetailGetListView,
     TeamRivalGetAPIView,
     PlayerNumberAPIView,
+    WeatherDataAPIView,
 )
 
 urlpatterns = [
@@ -45,4 +46,7 @@ urlpatterns = [
     path("news/", SportsNewsListAPIView.as_view(), name="sports-news-list"),
     path("teamrival/", TeamRivalGetAPIView.as_view(), name="players-api"),
     path("teamdetail/", TeamDetailGetListView.as_view(), name="players-api"),
+
+    # 기상예보
+    path("weatherforecast/", WeatherDataAPIView.as_view(), name="weather-forcast" ),
 ]
