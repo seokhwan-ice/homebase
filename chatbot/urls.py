@@ -1,8 +1,7 @@
-# urls.py
-
 from django.urls import path
-from .views import ConversationAPIView
+from .views import ChatbotAPIView
 
 urlpatterns = [
-    path('api/conversations/', ConversationAPIView.as_view(), name='conversation-list-create'),
+    # 대화 기록 API
+    path("conversations/", ChatbotAPIView.as_view(), name="conversations"),
 ]
