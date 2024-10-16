@@ -13,43 +13,56 @@
 
     <div class="container">
         <br>
-        <h1>여기가 메인 페이지</h1>
 
         <!-- data -->
+        <h2>최신 뉴스</h2>
         <section id="latest-news">
-            <h2>뉴스 TOP</h2>
-            <h5>(최신 뉴스)</h5>
             <ul id="news-list"></ul>
-            <h5>(댓글 많은 뉴스- 아직 구현 안했어...)</h5>
         </section>
 
+        <h2>팀 랭킹</h2>
         <section id="team-rank">
-            <h2>팀 랭킹</h2>
-            <ul id="team-rank-list"></ul>
+            <table class="rank-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>구단</th>
+                        <th>승률</th>
+                        <th>기록</th>
+                        <th>경기수</th>
+                        <th>승차</th>
+                    </tr>
+                </thead>
+                <tbody id="team-rank-list"></tbody>
+            </table>
         </section>
 
         <!-- community(free) -->
-        <section id="community-free">
-            <h2>자유 게시판 TOP</h2>
-            <h5>(조회수 많은 게시글)</h5>
-            <ul id="top-viewed-free"></ul>
-            <h5>(댓글 많은 게시글)</h5>
-            <ul id="top-commented-free"></ul>
+        <h2>자유 게시판</h2>
+        <section id="main-free" class="free-board">
+            <div class="free-section">
+                <h5>조회수 TOP 3</h5>
+                <ul id="top-viewed-free" class="free-list"></ul>
+            </div>
+            <div class="free-section">
+                <h5>댓글수 TOP 3</h5>
+                <ul id="top-commented-free" class="free-list"></ul>
+            </div>
         </section>
 
         <!-- community(live) -->
-        <section id="community-live">
-            <h2>인증 게시판 TOP</h2>
-            <h5>(좋아요 많은 게시글)</h5>
-            <ul id="top-liked-live"></ul>
-            <h5>(댓글 많은 게시글)</h5>
-            <ul id="top-commented-live"></ul>
+        <h2>직관 게시판</h2>
+        <section id="main-live">
+            <h5>좋아요 TOP 3</h5>
+            <ul id="top-liked-live" class="live-list"></ul>
+            <h5>댓글수 TOP 3</h5>
+            <ul id="top-commented-live" class="live-list"></ul>
         </section>
 
         <!-- chat -->
-        <section id="chat">
-            <h2>실시간 채팅방 TOP</h2>
-            <ul id="top-participated-chatrooms"></ul>
+        <h2>실시간 채팅방 TOP</h2>
+        <section id="main-chat">
+            <ul id="top-participated-chatrooms" class="chatroom-list"></ul>
         </section>
     </div>
 

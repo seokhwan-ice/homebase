@@ -1,27 +1,331 @@
-/* 메인 페이지 */
-#latest-news, #team-rank, #community-free, #community-live, #chat {
+#latest-news, #team-rank, #main-free, #main-live, #main-chat {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
     border: 1px solid black;
 }
 
-h1 {
-    margin-bottom: 20px;
+/* -------------뉴스----------------- */
+
+#news-list {
+    display: flex;
+    justify-content: space-between;  /* 균등한 간격 */
+    list-style-type: none;
+    padding: 0;
+}
+
+#news-list li {
+    width: 31%;
+    margin: 0 5px;
     text-align: center;
 }
 
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+#news-list img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-button:hover {
-    background-color: #0056b3;
+#news-list h3 {
+    font-weight: 500;
+    font-size: 17px;
+    margin-top: 15px;
+    color: #000000;
+    transition: transform 0.3s ease;
+}
+
+#news-list p {
+    font-size: 16px;
+    color: #6a6a6a;
+    margin-bottom: 8px;
+    transition: transform 0.3s ease;
+}
+
+#news-list a {
+    text-decoration: none;
+}
+
+#news-list li:hover img {
+    transform: scale(1.07);
+}
+
+#news-list li:hover h3, #news-list li:hover p {
+    transform: scale(1.07);
+}
+
+/* -------------팀 랭킹----------------- */
+.rank-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.rank-table th, .rank-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.rank-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.rank-table td {
+    font-size: 14px;
+}
+
+/* -------------자유 게시판----------------- */
+
+.free-board {
+    display: flex;
+    justify-content: space-between;
+}
+
+.free-section {
+    width: 48%; /* 두 섹션이 각각 화면의 절반을? */
+}
+
+.free-list {
+    list-style: none; /* 리스트 앞의 동그라미 없애기 */
+    padding: 0;
+}
+
+.free-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.free-list a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.free-list .author-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.free-list .author {
+    color: #555;
+}
+
+.free-list .meta-info {
+    display: flex;
+    gap: 10px;
+}
+
+.free-list .meta-info i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+/* -------------직관 게시판----------------- */
+
+.live-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.live-list li {
+    position: relative;
+    width: 250px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    background-color: #fff;
+    border: 1px solid #acacac;
+    border-radius: 10px;
+}
+
+.live-list li:hover {
+    transform: scale(1.07);
+}
+
+.live-list li img {
+    width: 100%;
+    object-fit: cover;
+    border: 1px solid #535353;
+}
+
+.live-list .profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1.5px solid #acacac;
+}
+
+.profile-section .author {
+    display: flex;
+    align-items: center;
+}
+
+.profile-section .author img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+
+.profile-section .date {
+    font-size: 12px;
+    color: #666;
+}
+
+.live-list .image-section {
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    margin-bottom: 0px;
+    border-bottom: 1.5px solid #acacac;
+}
+
+.live-list .image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.live-list .info-section {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.info-section .team {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.info-section .bottom-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottom-info .stadium {
+    font-size: 14px;
+    color: #666;
+}
+
+.bottom-info .meta-info {
+    display: flex;
+    gap: 10px;
+}
+
+.meta-info i {
+    font-size: 16px;
+}
+
+.meta-info i.fa-heart {
+    font-size: 18px;
+    color: #515151;
+}
+
+.meta-info i.fa-comment {
+    font-size: 18px;
+    color: #515151;
+}
+
+.live-list a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.live-list a:hover {
+    color: inherit;
+}
+
+/* -------------채팅방----------------- */
+
+.chatroom-list {
+    list-style: none;
+    padding: 0;
+}
+
+.chatroom-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.chatroom-list .left-section {
+    display: flex;
+    align-items: center;
+}
+
+.chatroom-list .chatroom-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.chatroom-list .chatroom-info .title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.chatroom-list .chatroom-info .description {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.chatroom-list .right-section {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.chatroom-list .right-section i {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.chatroom-list .right-section .participants {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.chatroom-list .latest-message {
+    font-size: 14px;
+    color: #666;
+    margin-right: 15px;
+}
+
+.chatroom-list li a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1.5px solid #ddd;
+    width: 100%;
+}
+
+.chatroom-list li a:hover {
+    background-color: #f9f9f9;
+}
+
+.chatroom-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
 }
