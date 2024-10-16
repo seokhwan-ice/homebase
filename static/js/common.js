@@ -24,9 +24,11 @@ axios.interceptors.response.use(response => {
 }, async error => {
     console.log("401 에러 발생. 응답 인터셉터 작동 중.");
 
+
     const originalRequest = error.config;  
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;  
+
 
         try {
             console.log("401 에러 -> 토큰 갱신 시도 중.");
@@ -36,8 +38,11 @@ axios.interceptors.response.use(response => {
             if (newAccessToken) {
                 console.log("토큰 갱신 성공. 새로운 액세스 토큰:", newAccessToken);
                 localStorage.setItem('token', newAccessToken);
-                originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;  
-                return axios(originalRequest); 
+ 
+
+                originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                return axios(originalRequest);
+
             }
         } catch (e) {
             console.error("토큰 갱신 실패. 에러:", e);
