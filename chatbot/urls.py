@@ -1,6 +1,8 @@
+# urls.py
+
 from django.urls import path
-from .views import get_info
+from .views import ConversationAPIView
 
 urlpatterns = [
-    path('get-info/', get_info, name='get_info'),
+    path('api/conversations/', ConversationAPIView.as_view(), name='conversation-list-create'),
 ]
