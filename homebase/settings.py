@@ -29,9 +29,9 @@ SECRET_KEY = config.DJANGO_SECRET_KEY
 OPENAI_API_KEY = config.OPENAI_API_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["52.78.79.235","127.0.0.1","localhost"]
 
 
 # Application definition
