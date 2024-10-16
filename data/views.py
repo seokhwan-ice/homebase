@@ -229,6 +229,20 @@ class PlayersListAPIView(APIView):
         return paginator.get_paginated_response(serializer.data)  # 성공 응답
 
 
+# 특정 선수 정보 조회 뷰 (GET)
+class PlayerNumberAPIView(APIView):
+
+    def get(self, request, player_number):
+        try:
+            player = Players.objects.get(player_number=player_number)
+            serializer = PlayersSerializer(player)
+            return Response(serializer.data, status=status.HTTP_200_OK)  # 성공 응답
+        except Players.DoesNotExist:
+            return Response(
+                {"error": "선수를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND
+            )  # 실패 응답
+
+
 # 팀 상대전적 조회 뷰 (GET)
 class TeamRivalGetAPIView(APIView):
     def get(self, request, *args, **kwargs):

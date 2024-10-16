@@ -14,6 +14,7 @@ from .views import (
     TeamDetailAPIView,
     TeamDetailGetListView,
     TeamRivalGetAPIView,
+    PlayerNumberAPIView,
 )
 
 urlpatterns = [
@@ -36,6 +37,11 @@ urlpatterns = [
     path("games/", GameRecordListView.as_view(), name="game-list"),
     path("teamrank/", TeamRankListView.as_view(), name="team-rank-list"),
     path("players/", PlayersListAPIView.as_view(), name="players-api"),
+    path(
+        "players/<str:player_number>/",
+        PlayerNumberAPIView.as_view(),
+        name="players-api",
+    ),
     path("news/", SportsNewsListAPIView.as_view(), name="sports-news-list"),
     path("teamrival/", TeamRivalGetAPIView.as_view(), name="players-api"),
     path("teamdetail/", TeamDetailGetListView.as_view(), name="players-api"),
