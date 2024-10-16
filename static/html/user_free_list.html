@@ -6,11 +6,7 @@
     <title>자유게시판 작성글</title>
 </head>
 <body>
-    <!-- 상단 메뉴 -->
-    <div>
-        <button id="mypage-button">mypage</button>
-        <button id="signout-button">signout</button>
-    </div>
+    <div id="navbar"></div>
 
         <!-- 프로필 섹션 -->
         <div>
@@ -20,15 +16,15 @@
             <button disabled style="background-color: lightgray;">자게 작성글</button> <!-- 비활성화된 버튼 -->
             <button id="comments-button">작성 댓글</button>
             <button id="saved_posts-button">북마크한 글</button>
-            
-        </div>
-    </div>
+        </div><br>
 
     <!-- 자유게시판 작성글 -->
     <div>
         <h2>자유게시판 작성글</h2>
         <ul id="free-posts-list"></ul> <!-- 작성한 글의 제목 리스트 -->
     </div>
+
+    <div id="footer"></div>
 
     <!-- 외부 스크립트 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

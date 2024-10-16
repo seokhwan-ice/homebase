@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+
+    <div class="container">
+        <!-- Left side profile section -->
+        <div class="profile-left">
+            <img src="https://via.placeholder.com/150" class="profile-image" alt="User Profile Image" id="profileImage">
+            <div class="nickname" id="nickname">my_nickname</div>
+            
+            <div class="buttons">
+                <button id="edit-public-profile">edit profile (public)</button>
+                <button id="edit-profile">edit profile</button>
+            </div>
+            
+            
+            <div class="follower-info">
+                <!-- 팔로워와 팔로잉을 클릭하면 각각의 페이지로 이동 -->
+                <a id="followers-link" href="#"> followers</a> · <a id="following-link" href="#"> following</a>
+            </div>
+
+            <div class="contact-info">
+                <p id="email">email</p>
+                <p id="phone-number">전화번호</p>
+            </div>
+        </div>
+
+        <!-- Right side profile details -->
+        <div class="profile-right">
+            <div class="bio">
+                <h2>소개글(bio)</h2>
+                <p id="bio">소개글 내용</p>
+            </div>
+            <div class="signup-date" id="signup-date">
+                가입일 
+            </div>
+            <div class="stats-container">
+                <div class="stat">
+                    <a id="community-link" href="#">직관게시판 작성글</a>
+                    <div class="stat-number" id="community-count">커뮤작성글 수</div>
+                </div>
+                <div class="stat">
+                    <a id="comment-link" href="#">작성 댓글</a>
+                    <div class="stat-number" id="comment-count">댓글의 수</div>
+                </div>
+                <div class="stat">
+                    <a id="freeboard-link" href="#">자유게시판 작성글</a>
+                    <div class="stat-number" id="freeboard-count">자유게시판 작성글의 수</div>
+                </div>
+                <div class="stat">
+                    <a id="bookmark-link" href="#">북마크한 글</a>
+                    <div class="stat-number" id="liked-count">북마크 한 글의 수</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <!-- 외부 스크립트 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/user_my_profile.js"></script>
+    
+</body>
+</html>
+
+

@@ -15,8 +15,8 @@
         <label for="live_image">이미지(일단은 필수아님):</label><br><br>
         <input type="file" id="live_image" name="live_image"><br><br>
 
-        <label for="review">리뷰:</label><br><br>
-        <textarea id="review" name="review" rows="10" cols="30" required></textarea><br><br>
+        <label for="review">리뷰:</label><br>
+        <textarea id="review" name="review" rows="3" cols="33" required></textarea><br><br>
 
         <label for="game_date">경기날짜:</label>
         <input type="date" id="game_date" name="game_date" required><br><br>
@@ -69,6 +69,8 @@
     </form>
 
     <button onclick="location.href='live_list.html'">목록으로 돌아가기</button>
+
+    <div id="footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
     <script src="../js/common.js"></script>

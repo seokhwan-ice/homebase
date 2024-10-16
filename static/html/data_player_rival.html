@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>선수 기록</title>
+    <title>선수상세정보</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios CDN -->
     <style>
-        /* 테이블 스타일 (예시) */
+        /* 테이블 스타일 */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -19,12 +19,16 @@
     </style>
 </head>
 <body>
+    <div id="navbar"></div>
+    <h1>선수 정보</h1>
+    <div id="player-info-section"> <!-- 선수 정보 표시를 위한 요소 -->
+        <!-- 여기에서 JavaScript로 선수 정보가 동적으로 표시됨 -->
+    </div>
 
-    <h1>선수 기록</h1>
+    <h2>선수 기록</h2>
     <table id="player-records-table">
         <thead>
             <tr>
-
                 <th>이름</th>
                 <th>상대팀</th>
                 <th>PA</th>
@@ -64,6 +68,7 @@
         <button id="next-page" onclick="changePage(1)">다음</button>
     </div>
 
+  <div id="footer"></div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/data_player_rival.js"></script>
