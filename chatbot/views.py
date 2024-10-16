@@ -9,7 +9,9 @@ from .serializers import ConversationSerializer
 from data.models import Players, PlayerRecord, GameRecord, TeamRank
 
 
-def get_openai_response(user_input, data_players=None, data_gamerecord=None):
+def get_openai_response(
+    user_input, data_players=None, data_gamerecord=None, data_teamrank=None
+):
     """
     OpenAI API를 사용해 GPT 모델로 응답 생성 (데이터베이스에서 가져온 정보 포함)
     """
@@ -17,7 +19,7 @@ def get_openai_response(user_input, data_players=None, data_gamerecord=None):
 
     # 데이터베이스에서 가져온 정보가 있으면, 이를 프롬프트에 추가
     player_info = (
-        f"선수 이름: {data_players['name']}, 나이: {data_players['birth_date']}, 포지션: {data_players['position']}, 팀: {data_players['team']}, 지명순위: {data_players['draft_info']},"
+        f"선수 이름: {data_players['name']}, 나이: {data_players['birth_date']}, 포지션: {data_players['position']}, 팀: {data_players['team']}, 지명순위: {data_players['draft_info']}, 활동팀: {data_players['active_team']},"
         if data_players
         else None
     )
@@ -26,6 +28,7 @@ def get_openai_response(user_input, data_players=None, data_gamerecord=None):
         if data_gamerecord
         else None
     )
+    team_rank = f"팀 순위: {data_teamrank['team']}" if data_teamrank else None
 
     # 시스템 메시지와 유저 입력을 포함한 프롬프트 생성
     messages = [
@@ -41,6 +44,9 @@ def get_openai_response(user_input, data_players=None, data_gamerecord=None):
 
     if schedule_info:
         messages.append({"role": "user", "content": f"경기 일정: {schedule_info}"})
+
+    if team_rank:
+        messages.append({"role": "user", "content": f"팀 순위: {team_rank}"})
 
     response = openai.ChatCompletion.create(
         model="gpt-4", messages=messages, max_tokens=200, temperature=0.4
@@ -123,12 +129,44 @@ class ChatbotAPIView(APIView):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
+def get_team_rank(self, user_input):
+    team_name = self.extract_team_name(user_input)
+
+    if team_name:
+        team_rank = TeamRank.objects.filter(team_name=team_name).values(
+            "team_name",
+            "rank",
+            "wins",
+            "draws",
+            "losses",
+        )
+        if team_rank.exists():
+            data = list(team_rank)
+            # 데이터베이스에서 조회한 팀 순위 정보를 OpenAI에 전송
+            ai_response = get_openai_response(user_input, data)
+            return Response(
+                {"ai_response": ai_response, "data": data},
+                status=status.HTTP_200_OK,
+            )
+
+        else:
+            return Response(
+                {"message": f"{team_name} 의 순위 정보를 찾을 수 없습니다."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
     def get_player_profile(self, user_input):
         player_name = self.extract_player_name(user_input)
 
         if player_name:
             player_profile = Players.objects.filter(name=player_name).values(
-                "name", "birth_date", "position", "team", "active_team", "draft_info", "profile_img"
+                "name",
+                "birth_date",
+                "position",
+                "team",
+                "active_team",
+                "draft_info",
+                "profile_img",
             )
 
             if player_profile.exists():
