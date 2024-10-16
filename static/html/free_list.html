@@ -2,23 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>free_list</title>
+    <link rel="stylesheet" href="/static/css/free.css">
 </head>
 
 <body>
-    <div id="navbar"></div>
-    <h1>Free 게시판 목록 페이지</h1>
+    <div id="navbar"></div><br>
+    <h1>자유게시판</h1>
 
-    <!-- 검색 -->
-    <input type="text" id="search-input" placeholder="검색어를 입력하세요">
-    <button id="search-button">검색</button>
+    <section class="content-section">
+        <div class="search-box">
+            <input type="text" placeholder="검색어를 입력하세요" id="search-input">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+            <a href="free_create.html" id="create-button" class="button">글쓰기</a>
+        </div>
 
-    <button onclick="location.href='free_create.html'">등록하기</button>
-    <br><br>
-
-    <ul id="free-list"></ul>
+        <table class="free-table">
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>조회수</th>
+                    <th>닉네임</th>
+                    <th>등록일</th>
+                </tr>
+            </thead>
+            <tbody id="free-list"></tbody>
+        </table>
+    </section>
 
     <div id="footer"></div>
 
