@@ -15,6 +15,7 @@ from . import config
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -214,3 +215,38 @@ ASGI_APPLICATION = "homebase.asgi.application"
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+CELERY_BROKER_URL = "redis://127.0.0.1:8000/0"  # Redis 브로커 예시
+CELERY_BEAT_SCHEDULE = {
+    "crawl-news-every-3-hours": {
+        "task": "data.tasks.crawl_news",
+        "schedule": 3 * 60 * 60,  # 3시간마다 실행
+    },
+    "crawl-player-rival": {
+        "task": "data.tasks.crawl_playerrival_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-players": {
+        "task": "data.tasks.crawl_players_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-schedule": {
+        "task": "data.tasks.crawl_game_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-team": {
+        "task": "data.tasks.fetch_team_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-team-detail": {
+        "task": "data.tasks.fetch_teamdetail_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-team-rank": {
+        "task": "data.tasks.team_rank",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+}
+
+CELERY_TIMEZONE = "Asia/Seoul"  # 한국 시간대 설정

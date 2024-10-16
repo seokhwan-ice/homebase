@@ -8,6 +8,20 @@ from data.models import TeamRank  # 모델 임포트
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "homebase.settings")
 django.setup()
 
+# 각 팀의 고유 번호를 딕셔너리 형태로 저장
+team_numbers = {
+    "KIA": "2002",
+    "두산": "6002",
+    "롯데": "3001",
+    "NC": "11001",
+    "키움": "10001",
+    "삼성": "1001",
+    "한화": "7002",
+    "KT": "12001",
+    "SSG": "9002",
+    "LG": "5002",
+}
+
 
 def team_rank(year=2024):
     # 크롤링할 URL
@@ -20,6 +34,9 @@ def team_rank(year=2024):
 
     # 팀 랭킹 데이터 추출
     teams = []
+
+    # 기존 팀 데이터를 모두 삭제
+    TeamRank.objects.all().delete()  # 기존 데이터 삭제
 
     # 팀 랭킹 데이터가 포함된 table의 tbody 선택
     performance_table = soup.select(".box_cont .table_type03 tbody tr")
@@ -42,6 +59,11 @@ def team_rank(year=2024):
                 game_diff = float(cells[6].text.strip())  # 승차
                 win_rate = float(cells[7].text.strip())  # 승률
 
+                # 팀 넘버 가져오기
+                team_number = team_numbers.get(
+                    team_name, ""
+                )  # 팀 이름으로 팀 넘버 가져오기
+
                 # 팀 데이터를 데이터베이스에 저장
                 team_rank = TeamRank(
                     rank=rank,
@@ -54,12 +76,15 @@ def team_rank(year=2024):
                     win_rate=win_rate,
                     streak="",  # 이 필드는 크롤링하는 데이터에 맞게 수정하세요
                     last_10_games="",  # 이 필드는 크롤링하는 데이터에 맞게 수정하세요
+                    team_number=team_number,  # 팀 넘버 추가
                 )
 
                 # 저장 및 예외 처리 추가
                 try:
                     team_rank.save()  # 데이터베이스에 저장
-                    print(f"Saved team: {team_name}, Rank: {rank}, Wins: {wins}")
+                    print(
+                        f"Saved team: {team_name}, Rank: {rank}, Wins: {wins}, Team Number: {team_number}"
+                    )
                 except Exception as save_error:
                     print(f"Error saving team: {team_name}. Error: {save_error}")
 
@@ -75,6 +100,7 @@ def team_rank(year=2024):
                         "losses": losses,
                         "game_diff": game_diff,
                         "win_rate": win_rate,
+                        "team_number": team_number,  # 팀 넘버 추가
                     }
                 )
 
@@ -87,10 +113,7 @@ def team_rank(year=2024):
     print("팀 랭킹:")
     for team in teams:
         print(
-            f"순위: {team['rank']}, 팀명: {team['name']}, 로고: {team['logo_url']}, 경기 수: {team['games']}, 승: {team['wins']}, 무: {team['draws']}, 패: {team['losses']}, 승차: {team['game_diff']}, 승률: {team['win_rate']}"
+            f"순위: {team['rank']}, 팀명: {team['name']}, 로고: {team['logo_url']}, 경기 수: {team['games']}, 승: {team['wins']}, 무: {team['draws']}, 패: {team['losses']}, 승차: {team['game_diff']}, 승률: {team['win_rate']}, 팀넘버: {team['team_number']}"
         )
 
     return len(teams)  # 저장된 팀의 수 반환
-
-
-## 데이터  재 크롤링시 데이터 덮어쓰는거 만들기

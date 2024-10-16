@@ -1,4 +1,5 @@
 import requests
+import datetime
 from .models import SportsNews  # SportsNews 모델 임포트
 from homebase.config import API_KEY
 
@@ -9,10 +10,11 @@ api_key = API_KEY
 def news_crawling():
     url = "https://newsapi.org/v2/everything"  # Google News API URL
     params = {
-        "q": "KBO",  # 스포츠 관련 뉴스 검색
+        "q": "KBO OR 프로야구 OR 야구 OR 투수 OR 타자",  # 스포츠 관련 뉴스 검색
         "apiKey": api_key,  # API 키 사용
         "language": "ko",  # 한국어 뉴스
-        "pageSize": 30,  # 가져올 뉴스 기사 수
+        "pageSize": 100,  # 가져올 뉴스 기사 수
+        "sortBy": "publishedAt",  # 최신순으로 정렬
     }
 
     try:
@@ -33,19 +35,21 @@ def news_crawling():
             content = article.get("content")  # 기사 내용
             image_url = article.get("urlToImage")
 
-            # SportsNews 모델 인스턴스 생성
-            news_item = SportsNews(
-                title=title,
-                author=author,  # 기자 이름 저장
-                description=description,
+            # 중복 확인: URL을 기준으로 중복된 기사를 건너뜀
+            news_item, created = SportsNews.objects.get_or_create(
                 url=url,
-                published_at=published_at,
-                content=content,  # 기사 내용 저장
-                image_url=image_url,
+                defaults={
+                    "title": title,
+                    "author": author,
+                    "description": description,
+                    "published_at": published_at,
+                    "content": content,
+                    "image_url": image_url,
+                },
             )
-            # 데이터베이스에 저장
-            news_item.save()
-            total_saved += 1  # 저장된 기사 수 증가
+
+            if created:  # 새롭게 생성된 경우에만 저장된 기사 수 증가
+                total_saved += 1
 
         return total_saved  # 총 저장된 기사 수 반환
 

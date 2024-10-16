@@ -60,3 +60,4 @@ function displayNews(articles) {
         newsList.appendChild(newsItem);
     });
 }
+
