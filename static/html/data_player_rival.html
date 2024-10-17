@@ -4,17 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>선수 정보</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="data_player_rival.js" defer></script>
+    <link rel="stylesheet" href="../css/data_player_rival.css">  <!-- CSS 파일 경로 -->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun Dodum&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="navbar"></div>
-    <div id="player-info-section"></div>
+    <h1>Player Info</h1>
+
+    <div id="player-info-section">
+        <!-- 선수 프로필 이미지 테이블 -->
+        <table id="player-image-table">
+            <tr>
+                <td id="player-image">
+                    <!-- JavaScript에서 선수 이미지가 삽입될 부분 -->
+                </td>
+            </tr>
+        </table>
+
+        <!-- 선수 정보 테이블 -->
+        <table id="player-info-table">
+            <tr>
+                <td id="player-info">
+                    <!-- JavaScript에서 선수 정보가 삽입될 부분 -->
+                </td>
+            </tr>
+        </table>
+    </div>
     <table id="player-records-table">
         <thead>
             <tr>
                 <th>이름</th>
-                <th>상대 팀</th>
                 <th>PA</th>
                 <th>ePA</th>
                 <th>AB</th>
@@ -44,11 +63,15 @@
         </thead>
         <tbody></tbody>
     </table>
-
-
-  <div id="footer"></div>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/data_player_rival.js"></script>
+ <!-- 페이지네이션 버튼 -->
+    <div id="pagination">
+        <button id="prev-page" disabled>이전</button>
+        <span id="page-info">페이지 1</span>
+        <button id="next-page">다음</button>
+    </div>
+    <div id="footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/data_player_rival.js"></script>
 </body>
 </html>

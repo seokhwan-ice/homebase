@@ -15,6 +15,7 @@ const teams = [
 // 팀 데이터를 HTML에 동적으로 추가하는 함수
 function displayTeams() {
     const container = document.getElementById('team-container');
+    container.innerHTML = ''; // 기존 내용을 지웁니다.
 
     // 각 팀 정보를 순회하며 HTML 구조 생성
     teams.forEach(team => {
@@ -24,12 +25,12 @@ function displayTeams() {
 
         // 팀 카드에 링크 추가 (팀 넘버를 URL 쿼리 파라미터로 사용)
         const teamLink = document.createElement('a');
-        teamLink.href = `data_team.html?team_number=${team.team_number}`;  // 팀 넘버를 쿼리 파라미터로 사용
+        teamLink.href = `data_team.html?team_number=${team.team_number}`; // 팀 넘버를 쿼리 파라미터로 사용
         teamLink.classList.add('team-link');
 
         // 팀 로고 이미지 추가
         const teamLogo = document.createElement('img');
-        teamLogo.src = `/static/images/${team.logo}`;  // 이미지 경로
+        teamLogo.src = `/static/images/${team.logo}`; // 이미지 경로
         teamLogo.alt = `${team.name} 로고`;
         teamLink.appendChild(teamLogo); // 링크에 이미지 추가
 
