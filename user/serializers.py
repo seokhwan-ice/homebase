@@ -78,12 +78,14 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
         for live_image in user_live_image:
             if live_image.live_image:
-                images.append({
-                    "id": live_image.id,
-                    "url": live_image.live_image.url,
-                    "title": live_image.review,  # 또는 다른 필드
-                    "created_at": live_image.created_at.strftime("%Y-%m-%d %H:%M")
-                })
+                images.append(
+                    {
+                        "id": live_image.id,
+                        "url": live_image.live_image.url,
+                        "title": live_image.review,  # 또는 다른 필드
+                        "created_at": live_image.created_at.strftime("%Y-%m-%d %H:%M"),
+                    }
+                )
         return images
 
     class Meta:
@@ -153,14 +155,18 @@ class UserProfileliveViewSerializer(serializers.ModelSerializer):
         article_data = []
 
         for live in user_live_articles:
-            article_data.append({
-                "id": live.id,
-                "live_image": live.live_image.url if live.live_image else None,  # 이미지 URL
-                "review": live.review,  # 경기 리뷰
-                "created_at": live.created_at.strftime("%Y-%m-%d %H:%M"),
-                "updated_at": live.updated_at.strftime("%Y-%m-%d %H:%M"),
-            })
-        
+            article_data.append(
+                {
+                    "id": live.id,
+                    "live_image": (
+                        live.live_image.url if live.live_image else None
+                    ),  # 이미지 URL
+                    "review": live.review,  # 경기 리뷰
+                    "created_at": live.created_at.strftime("%Y-%m-%d %H:%M"),
+                    "updated_at": live.updated_at.strftime("%Y-%m-%d %H:%M"),
+                }
+            )
+
         return article_data
 
     class Meta:
@@ -173,19 +179,26 @@ class UserProfileliveViewSerializer(serializers.ModelSerializer):
         ]
 
 
-
 class FollowingListSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
     follower_count = serializers.SerializerMethodField()
     following_list = serializers.SerializerMethodField()
 
     def get_following_list(self, obj):
-        following = obj.followings.all()
-        nicknames = []
+        followings = obj.followings.all()
+        followings_data = []
 
-        for following_users in following:
-            nicknames.append(following_users.nickname)
-        return nicknames
+        for following in followings:
+            followings_data.append(
+                {
+                    "username": following.username,
+                    "nickname": following.nickname,
+                    "profile_image": (
+                        following.profile_image if following.profile_image else None
+                    ),
+                }
+            )
+        return followings_data
 
     def get_following_count(self, obj):
         return obj.followings.count()
@@ -215,11 +228,19 @@ class FollowerslistSerializer(serializers.ModelSerializer):
 
     def get_followers_list(self, obj):
         followers = obj.followers.all()
-        nicknames = []
+        followers_data = []
 
         for follower in followers:
-            nicknames.append(follower.nickname)
-        return nicknames
+            followers_data.append(
+                {
+                    "username": follower.username,
+                    "nickname": follower.nickname,
+                    "profile_image": (
+                        follower.profile_image if follower.profile_image else None
+                    ),
+                }
+            )
+        return followers_data
 
     def get_following_count(self, obj):
         return obj.followings.count()
@@ -251,7 +272,7 @@ class CommentsListSerializer(serializers.ModelSerializer):
 
         for comment in comments:
             comments_data = {
-                "id":comment.content_object.id,
+                "id": comment.content_object.id,
                 "content": comment.content,
                 "article_type": self.get_article_type(comment),
                 "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M:"),

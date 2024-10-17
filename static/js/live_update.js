@@ -17,6 +17,13 @@ const getLiveDetailForUpdate = async () => {
         document.getElementById('seat').value = live.seat || "";
         document.getElementById('review').value = live.review;
 
+        // 기존 이미지를 미리보기에 설정
+        if (live.live_image) {
+            const imageField = document.getElementById('image_preview');
+            imageField.src = live.live_image;
+            imageField.style.display = 'block';
+        }
+
     } catch (error) {
         console.error("Error:", error);
         alert("글 불러오기 실패");
@@ -24,6 +31,21 @@ const getLiveDetailForUpdate = async () => {
 };
 
 getLiveDetailForUpdate();
+
+// 이미지 업로드 시 새로운 미리보기 설정 함수
+function previewImage(event) {
+    const reader = new FileReader();
+    const imageField = document.getElementById('image_preview');
+
+    reader.onload = function() {
+        imageField.src = reader.result; // 새로운 이미지로 미리보기를 설정
+        imageField.style.display = 'block';
+    };
+
+    if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
+    }
+}
 
 const form = document.getElementById('update-form');
 form.addEventListener('submit', async function(event) {
@@ -41,3 +63,4 @@ form.addEventListener('submit', async function(event) {
         alert('글 수정 실패');
     }
 });
+

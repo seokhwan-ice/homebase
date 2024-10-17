@@ -18,7 +18,7 @@ const loadChatrooms = async (searchQuery = '') => {
         // 채팅방 목록 렌더링
         rooms.forEach(room => {
             const li = document.createElement('li');
-            const defaultImage = '../images/chatroom_default.jpg';  // 디폴트 이미지
+            const defaultImage = '../images/baseball.png';  // 디폴트 이미지
 
             li.innerHTML = `
                 <img src="${room.image || defaultImage}" alt="채팅방대표사진" class="chatroom-image">

@@ -1,0 +1,189 @@
+/* 전체 컨테이너 스타일 */
+.content-section {
+    margin: 20px auto;
+    padding: 50px;
+    border: 1px solid black;
+    background-color: white;
+    box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* 검색 및 정렬 섹션 */
+.search-section {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+/* 기본 검색창 레이아웃 */
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 검색 드롭다운 메뉴와 날짜 입력 */
+.select-option, .date-input {
+    padding: 10px;
+    border: 1px solid #333;
+    background-color: #ebeef1;
+    border-radius: 5px;
+}
+
+/* 검색 버튼 스타일 */
+.search-btn {
+    margin-left:20px;
+    padding: 10px 20px;
+    background-color: #6c6c6c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.search-btn:hover {
+    background-color: #333;
+}
+
+/* 정렬 및 등록하기 버튼 섹션 */
+.sort-create {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* 등록하기 버튼 */
+.create-btn {
+    margin-left: 50px;
+    padding: 10px 30px;
+    background-color: #6c6c6c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.create-btn:hover {
+    background-color: #333;
+}
+
+/* 카드 목록 */
+.live-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px 10px;
+    justify-content: space-between;
+    padding: 10px;
+    list-style: none;
+}
+
+.live-list li {
+    background-color: #fff;
+    border: 1px solid #606060;
+    width: calc(33.33% - 20px);
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+}
+
+.live-list li:hover {
+    transform: scale(1.05);
+}
+
+.live-list img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #606060;
+    border-top: 1px solid #606060;
+}
+
+.live-list .profile-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+}
+
+.profile-section .author {
+    display: flex;
+    align-items: center;
+}
+
+.profile-section .author img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 8px;
+    margin-left: 3px;
+    border: 1px solid #3c3c3c;
+}
+
+.profile-section .nickname {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.profile-section .date {
+    font-size: 14px;
+    color: #6b6c6c;
+    margin-right: 3px;
+}
+
+.live-list .info {
+    padding: 15px;
+    text-align: left;
+}
+
+.live-list .info h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.live-list .info .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.info .stadium {
+    font-size: 16px;
+    color: #6b6c6c;
+    margin-bottom: 0;
+}
+
+.meta i {
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.meta i.fa-heart {
+    color: #f06262;
+}
+
+.meta i.fa-comment {
+    color: #5c8fb6;
+}
+
+/* 링크 밑줄 제거 및 파란색 강조 제거 */
+a {
+    text-decoration: none !important;
+    color: #1b1b1b !important;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.meta .icon-container {
+    display: flex;
+    gap: 15px;
+    font-size: 16px;
+    margin-bottom: 0;
+}

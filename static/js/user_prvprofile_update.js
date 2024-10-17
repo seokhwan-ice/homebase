@@ -63,19 +63,6 @@ document.getElementById('profile-button').addEventListener('click', () => {
     window.location.href = `user_pubprofile_update.html?username=${username}`;
 });
 
-// mypage 버튼 클릭 시 페이지 이동 설정
-document.getElementById('mypage-button').addEventListener('click', () => {
-    window.location.href = `user_main_profile.html?username=${username}`;
-});
-
-// sign-out버튼
-document.getElementById('signout-button').addEventListener('click', () => {
-    // 로그아웃 후 메인 페이지로 리디렉션
-    localStorage.removeItem('access_token');  // 토큰 제거
-    localStorage.removeItem('refresh_token');
-    alert('로그아웃 완료!');
-    window.location.href = '/';  // 로그아웃 후 메인 페이지로 이동
-});
 
 // 페이지 로드 시 프로필 데이터 불러오기
 getProfileDetailForUpdate();
