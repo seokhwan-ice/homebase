@@ -1,0 +1,84 @@
+body {
+    font-family: 'Gowun Dodum', sans-serif; /* 구글 폰트 적용 */
+    background-color: #f9f9f9; /* 부드러운 배경색 */
+    color: #333; /* 글자색 */
+    margin: 0;
+    padding: 20px; /* 전체 패딩 */
+}
+
+h1 {
+    margin-top: 40px; /* 상단과의 간격 */
+    text-align: center; /* 중앙 정렬 */
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    font-size: 36px; /* 글씨 크기 */
+    color: #333; /* 글씨 색상 */
+}
+
+#player-info-section {
+    font-family: 'Gowun Dodum', sans-serif; /* 구글 폰트 적용 */
+    display: flex; /* 플렉스 박스 */
+    align-items: center; /* 수직 정렬 */
+    margin-bottom: 20px; /* 아래 여백 */
+}
+
+#player-image-table,
+#player-info-table {
+    border: none; /* 테두리 제거 */
+}
+
+#player-image {
+    width: 100px; /* 이미지 크기 */
+    height: auto; /* 자동 높이 조절 */
+}
+
+#player-image img {
+    width: 200%; /* 이미지가 테이블의 폭에 맞게 조정 */
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+#player-info {
+    padding-left: 300px; /* 이미지와 정보 사이의 여백 */
+}
+
+#player-info h3 {
+    margin: 0; /* 제목 마진 제거 */
+    font-size: 24px; /* 제목 크기 */
+}
+
+#player-info p {
+    margin: 5px 0; /* 단락 마진 */
+    font-size: 16px; /* 단락 크기 */
+}
+
+#player-records-table {
+    width: 150%; /* 테이블 너비 */
+    border-collapse: collapse; /* 테두리 합치기 */
+    margin-top: 20px; /* 위 여백 */
+    background-color: #fff; /* 테이블 배경색 */
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    font-family: 'Gowun Dodum', sans-serif; /* 구글 폰트 적용 */
+}
+
+#player-records-table th, #player-records-table td {
+    padding: 10px; /* 셀 패딩 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    border-bottom: 1px solid #ddd; /* 셀 구분선 */
+}
+
+#player-records-table th {
+    background-color: #f8eaf7; /* 헤더 배경색 */
+    color: #0c0000; /* 헤더 글자색 */
+}
+
+#player-records-table tr:hover {
+    background-color: #f0f0f0; /* 마우스 오버 시 색상 */
+}
+
+#footer {
+    text-align: center; /* 푸터 중앙 정렬 */
+    margin-top: 30px; /* 위 여백 */
+    font-size: 14px; /* 푸터 글자 크기 */
+    color: #888; /* 푸터 글자색 */
+}

@@ -12,10 +12,13 @@ from .views import (
     SportsNewsListAPIView,
     TeamRivalAPIView,
     TeamDetailAPIView,
-    TeamDetailGetListView,
     TeamRivalGetAPIView,
     PlayerNumberAPIView,
     WeatherDataAPIView,
+    TeamDetailGetListView,
+    TeamDetailDetailGetView,
+    TeamRivalDetailGetAPIView,
+    TeamRankDetailGetView,
 )
 
 urlpatterns = [
@@ -46,7 +49,21 @@ urlpatterns = [
     path("news/", SportsNewsListAPIView.as_view(), name="sports-news-list"),
     path("teamrival/", TeamRivalGetAPIView.as_view(), name="players-api"),
     path("teamdetail/", TeamDetailGetListView.as_view(), name="players-api"),
-
+    path(
+        "teamrank/<str:team_number>/",
+        TeamRankDetailGetView.as_view(),
+        name="team-rank-detail",
+    ),
+    path(
+        "teamrival/<str:team_number>/",
+        TeamRivalDetailGetAPIView.as_view(),
+        name="team-rival-detail",
+    ),
+    path(
+        "teamdetail/<str:team_number>/",
+        TeamDetailDetailGetView.as_view(),
+        name="team-detail",
+    ),
     # 기상예보
-    path("weatherforecast/", WeatherDataAPIView.as_view(), name="weather-forcast" ),
+    path("weatherforecast/", WeatherDataAPIView.as_view(), name="weather-forcast"),
 ]
