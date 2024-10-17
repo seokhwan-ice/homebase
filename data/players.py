@@ -58,7 +58,7 @@ def crawl_players_data():
                 )
                 con = profile.find("div", class_="con").find_all("span")
 
-                team = con[0].text.strip() if len(con) > 0 else "정보 없음"
+                team_name = con[0].text.strip() if len(con) > 0 else "정보 없음"
                 position = con[1].text.strip() if len(con) > 1 else "정보 없음"
                 batter_hand = con[2].text.strip() if len(con) > 2 else "정보 없음"
 
@@ -95,11 +95,11 @@ def crawl_players_data():
                 # 필수 정보가 모두 있는지 확인
                 if (
                     name == "정보 없음"
-                    or team == "정보 없음"
+                    or team_name == "정보 없음"
                     or position == "정보 없음"
                 ):
                     print(
-                        f"선수 정보가 누락되었습니다: {name}, 팀: {team}, 포지션: {position}"
+                        f"선수 정보가 누락되었습니다: {name}, 팀: {team_name}, 포지션: {position}"
                     )
                     continue
 
@@ -107,7 +107,7 @@ def crawl_players_data():
                 player = Players(
                     player_number=player_number,
                     name=name,
-                    team=team,
+                    team_name=team_name,
                     position=position,
                     batter_hand=batter_hand,
                     birth_date=birth_date,
@@ -122,16 +122,8 @@ def crawl_players_data():
 
                 # 결과 출력
                 print(
-                    f"선수 이름: {name}, 팀: {team}, 포지션: {position}, 생년월일: {birth_date}, 출신학교: {school}, "
+                    f"선수 이름: {name}, 팀: {team_name}, 포지션: {position}, 생년월일: {birth_date}, 출신학교: {school}, "
                     f"신인지명: {draft_info}, 활약연도: {active_years}, 활약팀: {active_team}, 이미지 URL: {profile_img}"
                 )
 
     return total_records  # 저장된 선수 기록의 개수 반환
-
-
-# 중복된 크롤링에 대해서 덮어쓰기 하지 않는 부분 수정해야함@@@@
-# 이미지 저장 하는걸 어떻게해야...?
-
-# 팀안에 선수별로 정리하려면??
-## 자바스크립트로 for문 돌면서 tag생성하면 됨.
-## or if문으로 작성하는 방법도 있음.

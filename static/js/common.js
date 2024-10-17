@@ -23,7 +23,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     return response;
 }, async error => {
-    console.log("401 에러 발생. 응답 인터셉터 작동 중.");
+    console.log("응답에 에러 있음. Axios 응답 인터셉터 작동 중.");
 
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
