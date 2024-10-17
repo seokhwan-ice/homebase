@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=2),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,  # 토큰갱신후 블랙리스트 적용
     "BLACKLIST_AFTER_ROTATION": True,  # 사용자가 로그인할 때마다 `last_login` 필드 업데이트

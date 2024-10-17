@@ -5,7 +5,8 @@
 // Bootstrap, FontAwesome, Google Fonts, Axios
 
 // Axios 기본 URL 설정
-axios.defaults.baseURL = 'http://52.78.79.235/api/';
+axios.defaults.baseURL = 'http://3.36.120.140/api/';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 
 // Axios 요청 인터셉터: 헤더에 토큰 자동 추가
 axios.interceptors.request.use(config => {
@@ -24,18 +25,20 @@ axios.interceptors.response.use(response => {
 }, async error => {
     console.log("401 에러 발생. 응답 인터셉터 작동 중.");
 
-    if (error.response && error.response.status === 401) {
+    const originalRequest = error.config;
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
         try {
             console.log("401 에러 -> 토큰 갱신 시도 중.");
-
             const response = await refreshAccessToken();
 
             const newAccessToken = response.data.access;
             if (newAccessToken) {
                 console.log("토큰 갱신 성공. 새로운 액세스 토큰:", newAccessToken);
                 localStorage.setItem('token', newAccessToken);
-                error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                return axios(error.config);
+                originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                return axios(originalRequest);
             }
         } catch (e) {
             console.error("토큰 갱신 실패. 에러:", e);
@@ -134,7 +137,7 @@ function loadCommonHead() {
     // Common CSS
     const commonCSS = document.createElement('link');
     commonCSS.rel = 'stylesheet';
-    commonCSS.href = '../css/common.css';
+    commonCSS.href = '/static/css/common.css';
     head.appendChild(commonCSS);
 }
 
@@ -164,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // navbar 로드 후 이벤트 리스너 등록
-    fetch('../html/navbar.html')
+    fetch('/static/html/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
@@ -212,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // footer
-fetch('../html/footer.html')
+fetch('/static/html/footer.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('footer').innerHTML = data;

@@ -81,3 +81,23 @@ class TeamDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamDetail
         fields = "__all__"
+
+
+class TeamRankGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamRank
+        fields = "__all__"  # 모든 필드 포함
+
+
+# 팀 상대전적 시리얼라이저
+class TeamRecordGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamRecord
+        fields = "__all__"  # 모든 필드 포함
+
+
+# 팀 상세기록 시리얼라이저
+class TeamDetailGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamDetail
+        fields = "__all__"  # 모든 필드 포함

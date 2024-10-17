@@ -2,35 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>free_create</title>
+    <link rel="stylesheet" href="/static/css/free.css">
 </head>
 
 <body>
-    <div id="navbar"></div>
+    <div id="navbar"></div><br>
+    <h1>자유게시판</h1>
 
-    <h1>Free 게시판 등록 페이지</h1>
+    <section class="content-section">
+        <form id="create-form">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" placeholder="30글자 이내로 작성해주세요" required>
+            <br><br>
+            <label for="content">내용</label>
+            <textarea id="content" name="content" placeholder="내용을 입력해주세요" required></textarea>
+            <br><br>
+            <label for="free_image">이미지</label>
+            <input type="file" id="free_image" name="free_image" accept="image/*" onchange="previewImage(event)">
+            <img id="image_preview" src="#" alt="이미지 미리보기">
 
-    <form id="create-form">
-        <label for="title">제목:</label>
-        <input type="text" id="title" name="title" required><br><br>
-
-        <label for="content">내용:</label><br>
-        <textarea id="content" name="content" rows="10" cols="30" required></textarea><br><br>
-
-        <label for="free_image">이미지:</label>
-        <input type="file" id="free_image" name="free_image" accept="image/*" onchange="previewImage(event)"><br><br>
-        <img id="image_preview" src="#" alt="이미지 미리보기" style="display:none; max-width:100px;">
-
-        <button type="submit">등록하기</button>
-        <button onclick="location.href='free_list.html'">목록으로 돌아가기</button>
-    </form>
+            <button type="submit">등록하기</button>
+            <button type="button" onclick="location.href='free_list.html'">목록으로</button>
+        </form>
+    </section>
 
     <div id="footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
-    <script src="../js/common.js"></script>
-    <script src="../js/free_create.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/free_create.js"></script>
 </body>
 </html>

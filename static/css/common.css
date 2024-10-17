@@ -43,7 +43,7 @@
 .sidebar {
     position: fixed;
     left: 0;
-    width: 250px;
+    width: 300px;
     height: calc(100%);
     padding-top: 30px;
     background-color: #fdfdfd;
@@ -79,7 +79,7 @@
 body {
     height: 100%;
     margin-top: 70px;
-    margin-left: 320px;
+    margin-left: 400px;
     margin-right: 70px;
     max-width: 1000px;
     font-family: 'Gowun Dodum', sans-serif;  /* 글씨체 수정 여기서!!! */

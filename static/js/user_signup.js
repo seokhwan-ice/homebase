@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('회원가입 중 오류 발생:', error);
             if (error.response) {
-                alert(`오류 발생: ${error.response.data.message || error.response.data.detail}`);
+                alert(`오류 발생: ${error.response.data.message || error.response.data.detail || '알 수 없는 오류... 하...'}`);
             } else {
                 alert('서버로부터 응답을 받지 못했습니다.');
             }
