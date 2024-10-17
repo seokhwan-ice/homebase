@@ -84,7 +84,7 @@ button {
     width: 100%;
     height: 50px;
     padding: 15px;
-    background-color: #ffd3ee;
+    background-color: #cecece;
     color: white;
     border: none;
     border-radius: 6px;
@@ -93,6 +93,6 @@ button {
 }
 
 button:hover {
-    background-color: #ff77d9;
+    background-color: #7d7d7d;
 }
 

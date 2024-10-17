@@ -25,7 +25,7 @@ form {
     width: 600px; /* 폼 크기를 더 넓게 조정 */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    margin-top: 10px; /* 네브바가 차지한 공간만큼 폼을 아래로 위치 */
+    margin-top: 50px; /* 네브바가 차지한 공간만큼 폼을 아래로 위치 */
     margin-bottom: 30px;
 }
 
@@ -52,7 +52,6 @@ label {
 }
 
 input[type="text"],
-input[type="password"],
 textarea {
     flex: 1; /* 입력 칸이 남은 공간을 채우도록 설정 */
     height: 40px;
