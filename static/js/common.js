@@ -5,7 +5,8 @@
 // Bootstrap, FontAwesome, Google Fonts, Axios
 
 // Axios 기본 URL 설정
-axios.defaults.baseURL = 'http://52.78.79.235/api/';
+// axios.defaults.baseURL = 'http://52.78.79.235/api/';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 
 // Axios 요청 인터셉터: 헤더에 토큰 자동 추가
 axios.interceptors.request.use(config => {
