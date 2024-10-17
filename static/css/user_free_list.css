@@ -41,19 +41,19 @@ button[disabled] {
     cursor: not-allowed;
 }
 
-#free_posts-button, 
+#live_posts-button, 
 #comments-button, 
 #saved_posts-button {
     background-color: #949494;
 }
 
-#free_posts-button:hover, 
+#live_posts-button:hover, 
 #comments-button:hover, 
 #saved_posts-button:hover {
     background-color: #949494;
 }
 
-/* 커뮤니티 작성글 섹션 */
+/* 자유게시판 작성글 섹션 */
 h2 {
     text-align: left;
     font-size: 2em;
@@ -61,47 +61,27 @@ h2 {
     margin-top: 20px;
 }
 
-/* 인스타그램 스타일의 그리드 갤러리 */
-#live-posts-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 각 열의 최소 너비를 150px로 설정 */
-    grid-gap: 10px;
+/* 자유게시판 제목 리스트 */
+#free-posts-list {
     padding: 10px;
     list-style: none;
     margin: 0;
 }
 
-#live-posts-list li {
-    position: relative;
-    overflow: hidden;
+#free-posts-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#live-posts-list li img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 이미지가 잘리지 않고 요소에 맞게 크기 조정 */
-    transition: transform 0.3s ease;
+#free-posts-list li:hover {
+    background-color: #f0f0f0;
 }
-
-#live-posts-list li:hover img {
-    transform: scale(1.1); /* 마우스 오버 시 이미지 확대 */
-}
-
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
-    #live-posts-list {
-        max-width: 100%;
-    }
-
-    #live-posts-list li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    #live-posts-list li img {
-        max-width: 100%;
-        margin-bottom: 10px;
+    #free-posts-list li {
+        font-size: 14px;
     }
 }
