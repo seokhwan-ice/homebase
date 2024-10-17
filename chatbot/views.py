@@ -1,121 +1,226 @@
-# import openai
-# from homebase.config import OPENAI_API_KEY
+import openai
+from homebase import config
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from data.models import Players, PlayerRecord, TeamRank 
-
-# OpenAI API 키 설정
-# openai.api_key = OPENAI_API_KEY
-
-@api_view(['POST'])
-def get_info(request):
-    user_input = request.data.get('user_input')
-
-    if not user_input:
-        return Response({'response': '질문을 입력해주세요.'}, status=400)
-
-    # 팀 이름 목록을 데이터베이스에서 동적으로 가져옴
-    team_names = TeamRank.objects.values_list('team_name', flat=True)
-
-    # "상대전적" 또는 "상대팀" 관련 질문 처리
-    if "상대전적" in user_input or "상대팀" in user_input:
-        player_names = user_input.replace("상대전적", "").replace("상대팀", "").strip().split() 
-        '''
-        질문 예시)
-        문동주 김도영 상대전적
-        '''
+from rest_framework import status
+from django.db.models import Q
+from .models import Conversation
+from .serializers import ConversationSerializer
+from data.models import Players, PlayerRecord, GameRecord, TeamRank
 
 
-        if len(player_names) < 2:
-            return Response({'response': '선수 이름과 상대팀을 모두 입력해주세요.'}, status=400)
+def get_openai_response(
+    user_input, data_players=None, data_gamerecord=None, data_teamrank=None
+):
+    """
+    OpenAI API를 사용해 GPT 모델로 응답 생성 (데이터베이스에서 가져온 정보 포함)
+    """
+    openai.api_key = config.OPENAI_API_KEY
 
-        player_name = player_names[0]
-        opponent_name = player_names[1]
+    # 데이터베이스에서 가져온 정보가 있으면, 이를 프롬프트에 추가
+    player_info = (
+        f"선수 이름: {data_players['name']}, 나이: {data_players['birth_date']}, 포지션: {data_players['position']}, 팀: {data_players['team']}, 지명순위: {data_players['draft_info']}, 활동팀: {data_players['active_team']},"
+        if data_players
+        else None
+    )
+    schedule_info = (
+        f"팀: {data_gamerecord['team_1']} vs {data_gamerecord['team_2']}, 날짜: {data_gamerecord['date']}"
+        if data_gamerecord
+        else None
+    )
+    team_rank = (
+        f"팀 이름: {data_teamrank['team_name']}, 순위: {data_teamrank['rank']}, 승: {data_teamrank['wins']}, 무: {data_teamrank['draws']}, 패: {data_teamrank['losses']}"
+        if data_teamrank
+        else None
+    )
 
-        # 해당 선수와 상대팀에 대한 기록을 필터링
-        player_record = PlayerRecord.objects.filter(name__icontains=player_name, opponent__icontains=opponent_name).first()
+    # 시스템 메시지와 유저 입력을 포함한 프롬프트 생성
+    messages = [
+        {
+            "role": "system",
+            "content": "당신은 한국 야구 전문가 챗봇입니다. 선수들의 통계와 경기 일정에 대한 정보를 200자 이내로 정확하게 답변하세요.",
+        },
+        {"role": "user", "content": user_input},
+    ]
 
-        if player_record:
-            player_rival_info = (
-                f"선수: {player_record.name}, 상대팀: {player_record.opponent}, "
-                f"타석: {player_record.pa}, 타수: {player_record.ab}, "
-                f"안타: {player_record.h}, 홈런: {player_record.hr}, "
-                f"타점: {player_record.rbi}, 타율: {player_record.avg}, OPS: {player_record.ops}"
+    if player_info:
+        messages.append({"role": "user", "content": f"선수 프로필: {player_info}"})
+
+    if schedule_info:
+        messages.append({"role": "user", "content": f"경기 일정: {schedule_info}"})
+
+    if team_rank:
+        messages.append({"role": "user", "content": f"팀 순위: {team_rank}"})
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4", messages=messages, max_tokens=200, temperature=0.4
+    )
+
+    return response.choices[0].message["content"]
+
+
+class ChatbotAPIView(APIView):
+
+
+    def post(self, request, *args, **kwargs):
+        user_input = request.data.get("user_input")
+        if user_input:
+            if "경기 일정" in user_input:
+                return self.get_game_schedule(user_input)
+            elif "상대 전적" in user_input:
+                return self.get_rival_stats(user_input)
+            elif "팀 순위" in user_input:
+                return self.get_team_rank(user_input)
+            elif "선수 프로필" in user_input:
+                return self.get_player_profile(user_input)
+            else:
+                ai_response = get_openai_response(user_input)
+                conversation = Conversation.objects.create(
+                    user_input=user_input, ai_response=ai_response
+                )
+                serializer = ConversationSerializer(conversation)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            {"error": "user_input is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def get_game_schedule(self, user_input):
+        team_name = self.extract_team_name(user_input)
+        if team_name:
+            game_schedules = GameRecord.objects.filter(
+                Q(team_1=team_name) | Q(team_2=team_name)
+            ).values("date", "team_1", "team_2")
+
+            if game_schedules.exists():
+                data = list(game_schedules)
+                # 데이터베이스에서 조회한 경기 일정 정보를 OpenAI에 전달
+                ai_response = get_openai_response(user_input, data)
+                return Response(
+                    {"ai_response": ai_response, "data": data},
+                    status=status.HTTP_200_OK,
+                )
+            else:
+                return Response(
+                    {"message": "요청하신 경기를 찾을 수 없습니다."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        return Response(
+            {"error": "team_name not found in input"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    def get_rival_stats(self, user_input):
+        players = self.extract_players_from_input(user_input)
+        if players and len(players) == 2:
+            player1_stats = PlayerRecord.objects.filter(player__name=players[0])
+            player2_stats = PlayerRecord.objects.filter(player__name=players[1])
+
+            if player1_stats.exists() and player2_stats.exists():
+                stats = self.calculate_rival_stats(player1_stats, player2_stats)
+                # OpenAI에 상대 전적 데이터를 전달
+                ai_response = get_openai_response(user_input, stats)
+                return Response(
+                    {"ai_response": ai_response, "data": stats},
+                    status=status.HTTP_200_OK,
+                )
+            else:
+                return Response(
+                    {"message": "선수 이름을 찾을 수 없습니다."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        return Response(
+            {"error": "선수 이름이 입력되지 않았습니다."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    def get_team_rank(self, user_input):
+        team_name = self.extract_team_name(user_input)
+
+        if team_name:
+            team_rank = TeamRank.objects.filter(team_name=team_name).values(
+                "team_name",
+                "rank",
+                "wins",
+                "draws",
+                "losses",
+            ).first()
+
+            if team_rank:
+                # 데이터베이스에서 조회한 팀 순위 정보를 OpenAI에 전송
+                ai_response = get_openai_response(user_input, data_teamrank=team_rank)
+                return Response(
+                    {"ai_response": ai_response, "data": team_rank},
+                    status=status.HTTP_200_OK,
+                )
+            else:
+                return Response(
+                    {"message": f"{team_name} 의 순위 정보를 찾을 수 없습니다."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+    def get_player_profile(self, user_input):
+        player_name = self.extract_player_name(user_input)
+
+        if player_name:
+            player_profile = Players.objects.filter(name=player_name).values(
+                "name",
+                "birth_date",
+                "position",
+                "team",
+                "active_team",
+                "draft_info",
+                "profile_img",
             )
-            return Response({'response': player_rival_info})
-        else:
-            return Response({'response': f"{player_name} 선수와 {opponent_name} 선수와의 경기 정보가 없습니다."})
 
-    # "팀 정보" 조회를 위한 분기, 팀 이름이 데이터베이스에 있는지 확인
-    elif "팀" in user_input or any(team in user_input for team in team_names):
-        team_name = user_input.strip()  # 공백 제거
-        '''
-        질문 예시)
-        한화, 삼성
-        '''
+            if player_profile.exists():
+                profile_data = list(player_profile)
+                # 선수 프로필 데이터를 OpenAI에 전달
+                ai_response = get_openai_response(user_input, profile_data)
+                return Response(
+                    {"ai_response": ai_response, "data": profile_data},
+                    status=status.HTTP_200_OK,
+                )
+            else:
+                return Response(
+                    {
+                        "message": f"{player_name} 선수의 프로필 정보를 찾을 수 없습니다."
+                    },
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
-        teams = TeamRank.objects.filter(team_name__icontains=team_name)
+        return Response(
+            {"error": "선수 이름이 입력되지 않았습니다."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
-        if teams.exists():
-            team = teams.first()
-            team_info = (
-                f"팀: {team.team_name}, 순위: {team.rank}, "
-                f"경기 수: {team.games_played}, 승리: {team.wins}, "
-                f"패배: {team.losses}, 무승부: {team.draws}, "
-                f"승률: {team.win_rate}, 게임차: {team.games_behind}, "
-                f"연속: {team.streak}, 최근 10경기: {team.last_10_games}"
-            )
-            return Response({'response': team_info})
-        else:
-            return Response({'response': "해당 팀에 대한 정보를 찾을 수 없습니다."})
+    def extract_team_name(self, user_input):
+        """
+        사용자의 입력에서 팀 이름을 추출하는 메소드
+        """
+        team_names = TeamRank.objects.values_list("team_name", flat=True)
+        for team_name in team_names:
+            if team_name in user_input:
+                return team_name
+        return None
 
-    # 선수 프로필 조회
-    else:
-        player = Players.objects.filter(name__icontains=user_input).first()
-        '''
-        질문 예시)
-        문동주
-        '''
+    def extract_players_from_input(self, user_input):
+        player_names = Players.objects.values_list("name", flat=True)
+        players = [name for name in player_names if name in user_input]
+        return players if len(players) == 2 else None
 
-        if player:
-            player_info = (
-                f"이름: {player.name}, 팀: {player.team}, 포지션: {player.position}, "
-                f"타석: {player.batter_hand}, 나이: {player.birth_date}, "
-                f"학교: {player.school}, 드래프트 정보: {player.draft_info}, "
-                f"활동 팀: {player.active_team}, 프로필 이미지: {player.profile_img}"
-            )
-            return Response({'response': player_info})
-        else:
-            return Response({'response': "해당 선수에 대한 정보를 찾을 수 없습니다."})
+    def calculate_rival_stats(self, player1_stats, player2_stats):
+        player1_games = player1_stats.values(
+            "game__opponent", "goals", "assists", "points"
+        )
+        player2_games = player2_stats.values(
+            "game__opponent", "goals", "assists", "points"
+        )
 
-
-# @api_view(['POST'])
-# def get_player_info(request):
-#     # 요청에서 선수 이름 받기
-#     name = request.data.get('player_name')
-
-#     if not name:
-#         return Response({'response': '선수 이름을 입력해주세요.'}, status=400)
-
-#     # 데이터베이스에서 해당 선수 정보 검색 (get() 사용)
-#     try:
-#         player = Players.objects.get(name__icontains=name)  # 대소문자 구분 없이 검색
-#         player_info = (
-#             f"이 선수는 {player.name}이고, 팀은 {player.team}, "
-#             f"포지션은 {player.position}, 타석은 {player.batter_hand} 입니다."
-#         )
-#     except Players.DoesNotExist:
-#         return Response({'response': '해당 선수에 대한 정보를 찾을 수 없습니다.'}, status=404)
-
-#     # OpenAI API 호출에 선수 정보를 프롬프트로 전달
-#     try:
-#         response = openai.Completion.create(
-#             engine="text-davinci-003",
-#             prompt=f"선수 정보: {player_info}. 이 선수에 대해 자세히 설명해주세요.",
-#             max_tokens=100,
-#             temperature=0.7
-#         )
-#         openai_response = response.choices[0].text.strip()
-#         return Response({'response': openai_response})
-#     except Exception as e:
-#         return Response({'response': 'OpenAI API 호출에 실패했습니다.', 'error': str(e)}, status=500)
+        stats = {
+            "player1": player1_stats.first().player.name,
+            "player2": player2_stats.first().player.name,
+            "player1_games": player1_games,
+            "player2_games": player2_games,
+        }
+        return stats

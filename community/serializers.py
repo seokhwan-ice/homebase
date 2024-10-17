@@ -46,7 +46,7 @@ class FreeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Free
-        fields = ["id", "author", "title", "views", "comments_count"]
+        fields = ["id", "author", "title", "views", "comments_count", "created_at"]
 
 
 class FreeDetailSerializer(serializers.ModelSerializer):

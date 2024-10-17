@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.db import transaction
-from community.models import Free, Live, Comment, Like
+from community.models import Free, Live, Comment
 from chat.models import ChatRoom, ChatParticipant
 
 User = get_user_model()
@@ -15,49 +15,74 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **kwargs):
 
+        # 유저네임 리스트
+        usernames = [
+            "Spino",
+            "Allo",
+            "Tyranno",
+            "Brachio",
+            "Elasmo",
+            "Mosa",
+            "Raptor",
+            "Ankylo",
+            "Stego",
+            "Trice",
+        ]
+
         # 유저 10
         users = []
-        for i in range(10):
+        for i, username in enumerate(usernames):
             user = User.objects.create_user(
-                username=f"username{i}",
+                username=username,
                 password="password123",
-                nickname=f"Kinggoddino{i}",
+                nickname=f"{username}_nickname",
                 name=f"User{i}",
             )
             users.append(user)
             self.stdout.write(self.style.SUCCESS(f"User {user.username} created!"))
 
+        # 팔로우
+        for user in users:
+            others = [u for u in users if u != user]
+            following_count = random.randint(0, 5)
+            following_users = random.sample(others, following_count)
+            for follow in following_users:
+                user.followings.add(follow)
+            self.stdout.write(
+                self.style.SUCCESS(f"{user.username} followed {following_count} users!")
+            )
+
         # free 10 + 댓글 30
-        free_posts = []
+        free_articles = []
         for i in range(10):
-            free_post = Free.objects.create(
+            free_article = Free.objects.create(
                 title=f"Sample Free Title {i}",
                 content=f"This is a sample free {i}.",
                 author=random.choice(users),
                 views=random.randint(0, 50),
             )
-            free_posts.append(free_post)
-            self.stdout.write(self.style.SUCCESS(f"Free {free_post.title} created!"))
+            free_articles.append(free_article)
+            self.stdout.write(self.style.SUCCESS(f"Free {free_article.title} created!"))
 
         for i in range(30):
-            free_post = random.choice(free_posts)
+            free_article = random.choice(free_articles)
             comment = Comment.objects.create(
                 author=random.choice(users),
-                content=f"This is a comment {i} on Free {free_post.id}.",
-                content_type=ContentType.objects.get_for_model(free_post),
-                object_id=free_post.id,
+                content=f"This is a comment {i} on Free {free_article.id}.",
+                content_type=ContentType.objects.get_for_model(free_article),
+                object_id=free_article.id,
             )
-            free_post.update_comments_count()
+            free_article.update_comments_count()
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"Comment {comment.id} created on Free {free_post.id}!"
+                    f"Comment {comment.id} created on Free {free_article.id}!"
                 )
             )
 
         # live 10 + 댓글 30
-        live_posts = []
+        live_articles = []
         for i in range(10):
-            live_post = Live.objects.create(
+            live_article = Live.objects.create(
                 review=f"Sample review for live community {i}.",
                 game_date=timezone.now(),
                 home_team=random.choice([team[0] for team in Live.TEAM_CHOICES]),
@@ -66,21 +91,21 @@ class Command(BaseCommand):
                 author=random.choice(users),
                 likes_count=random.randint(0, 50),
             )
-            live_posts.append(live_post)
-            self.stdout.write(self.style.SUCCESS(f"Live {live_post.id} created!"))
+            live_articles.append(live_article)
+            self.stdout.write(self.style.SUCCESS(f"Live {live_article.id} created!"))
 
         for i in range(30):
-            live_post = random.choice(live_posts)
+            live_article = random.choice(live_articles)
             comment = Comment.objects.create(
                 author=random.choice(users),
-                content=f"This is a comment {i} on Live {live_post.id}.",
-                content_type=ContentType.objects.get_for_model(live_post),
-                object_id=live_post.id,
+                content=f"This is a comment {i} on Live {live_article.id}.",
+                content_type=ContentType.objects.get_for_model(live_article),
+                object_id=live_article.id,
             )
-            live_post.update_comments_count()
+            live_article.update_comments_count()
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"Comment {comment.id} created on Live {live_post.id}!"
+                    f"Comment {comment.id} created on Live {live_article.id}!"
                 )
             )
 
@@ -108,11 +133,7 @@ class Command(BaseCommand):
                 )
             )
 
-        self.stdout.write(self.style.SUCCESS("Database seeding completed!"))
+        self.stdout.write(self.style.SUCCESS("Database seeding completed!!!!!"))
 
         print("\n\n" + "-" * 50)
-        print(
-            self.style.SUCCESS(
-                "이제 테스트 할 때마다 샘플 노가다 안해도 된다. test code 만들줄 알았으면 이런일도 없었겠지"
-            )
-        )
+        print(self.style.SUCCESS("또 추가하고 싶은 샘플 있우면 말해주세요"))

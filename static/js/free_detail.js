@@ -1,13 +1,11 @@
 
-// // 자유게시판 글 상세 (free_detail)
-
-const params = new URLSearchParams(location.search); // URL 파라미터 찾는 객체 만들어서
-const freeId = params.get('id');  // id 파라미터 값 가져오기
+const params = new URLSearchParams(location.search);
+const freeId = params.get('id');
 
 // 댓글 목록 가져오기 함수
 const getComments = (comments) => {
     const commentsList = document.getElementById('comments-list');
-    commentsList.innerHTML = '';  // 기존 댓글 초기화
+    commentsList.innerHTML = '';
 
     comments.forEach(comment => {
         const commentItem = document.createElement('div');
@@ -133,23 +131,25 @@ const getFreeDetail = async () => {
         const response = await axios.get(`community/free/${freeId}/`);
         const free = response.data;
 
-        // html 파일에서 만든 form 에 데이터 채우기
         document.getElementById('free-title').textContent = free.title;
         document.getElementById('free-author').textContent = free.author.nickname;
+        document.getElementById('free-created-at').textContent = new Date(free.created_at).toLocaleString();
+        document.getElementById('free-updated-at').textContent = new Date(free.updated_at).toLocaleString();
         document.getElementById('free-content').textContent = free.content;
         document.getElementById('free-views').textContent = free.views;
         document.getElementById('free-comments-count').textContent = free.comments_count;
-        // 날짜도 백엔드에서 수정한 다음에 데이터 한번에 불러오면 좋겠다
-        document.getElementById('free-created-at').textContent = new Date(free.created_at).toLocaleString();
-        document.getElementById('free-updated-at').textContent = new Date(free.updated_at).toLocaleString();
 
-        // 프로필 이미지 : null인 경우 처리작업 추가해야할거같다.. 일단 텍스트로
-        const profileImage = free.author.profile_image ? `<img src="${free.author.profile_image}" alt="프로필 이미지" width="50">` : "이미지 없음";
-        document.getElementById('free-profile-image').innerHTML = profileImage;
+        const profileImage = document.getElementById('free-profile-image');
+        if (free.author.profile_image) {
+            profileImage.src = free.author.profile_image;
+            profileImage.style.display = 'block';
+        }
 
-        // 게시글 이미지 : null인 경우 처리작업 추가해야할거같다.. 일단 텍스트로
-        const freeImage = free.free_image ? `<img src="${free.free_image}" alt="게시글 이미지" width="200">` : "이미지 없음";
-        document.getElementById('free-image').innerHTML = freeImage;
+        const freeImage = document.getElementById('free-image');
+        if (free.free_image) {
+            freeImage.src = free.free_image;
+            freeImage.style.display = 'block';
+        }
 
         // 댓글 목록 불러오기
         getComments(free.comments);
@@ -224,14 +224,15 @@ document.getElementById('bookmark-button').addEventListener('click', async funct
 
     try {
         const response = await axios.post(`community/free/${freeId}/toggle_bookmark/`);
+        const bookmarkIcon = document.getElementById('bookmark-icon');
 
         // 북마크 상태에 따라 버튼 텍스트 변경 >>> 나중에 아이콘으로 바꾸쟈
         if (response.status === 201) {
-            alert('글이 북마크되었습니다!');
-            document.getElementById('bookmark-button').textContent = '북마크 취소하기';
+            alert('글을 북마크했습니다!!!');
+            bookmarkIcon.classList.add('active');
         } else if (response.status === 204) {
-            alert('북마크가 취소되었습니다!');
-            document.getElementById('bookmark-button').textContent = '북마크하기';
+            alert('북마크를 취소했습니다!');
+            bookmarkIcon.classList.remove('active');
         }
 
     } catch (error) {

@@ -66,6 +66,9 @@ def crawl_playerrival_data():
                 # 상대 경로를 절대 경로로 변경
                 player_url = f"{base_url}{href_value}"
 
+                # 선수 넘버 추출 (player_url에서 p_no 값을 추출)
+                player_number = player_url.split("p_no=")[-1]  # URL에서 선수 넘버 추출
+
                 # 선수의 rival 페이지에서 테이블 내용 크롤링
                 player_response = requests.get(player_url)
                 player_soup = BeautifulSoup(player_response.text, "html.parser")
@@ -78,16 +81,21 @@ def crawl_playerrival_data():
 
                 # 테이블의 내용을 리스트로 저장
                 if table:
-                    rows = table.find_all("tr")
+                    rows = table.find_all("tr")[1:]
                     for row in rows:
                         cols = row.find_all("td")
                         cols = [ele.text.strip() for ele in cols]
+
+                        # opponent 값이 비어 있으면 건너뛰기
+                        if not cols or not cols[0]:
+                            continue  # opponent 값이 없으면 건너뜀
 
                         # 데이터베이스에 저장 (중복 확인)
                         player_record, created = PlayerRecord.objects.get_or_create(
                             name=f"{a.text}",  # 팀 로고와 선수 이름 결합
                             opponent=cols[0] if len(cols) > 0 else "",  # 상대 이름
                             defaults={
+                                "player_number": player_number,
                                 "team_logo_url": team_logo,  # 팀 로고 URL
                                 "pa": (
                                     safe_convert_to_int(cols[1]) if len(cols) > 1 else 0

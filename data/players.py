@@ -37,6 +37,8 @@ def crawl_players_data():
             a_tags = div.find_all("a")
             for a in a_tags:
                 player_url = f"{base_url}{a['href']}"
+                # 선수 번호 추출 (p_no 값 추출)
+                player_number = a["href"].split("p_no=")[-1]
                 player_response = requests.get(player_url)
                 player_soup = BeautifulSoup(player_response.text, "html.parser")
                 profile = player_soup.find("div", class_="in_box")
@@ -103,6 +105,7 @@ def crawl_players_data():
 
                 # 데이터베이스에 저장
                 player = Players(
+                    player_number=player_number,
                     name=name,
                     team=team,
                     position=position,
@@ -128,3 +131,7 @@ def crawl_players_data():
 
 # 중복된 크롤링에 대해서 덮어쓰기 하지 않는 부분 수정해야함@@@@
 # 이미지 저장 하는걸 어떻게해야...?
+
+# 팀안에 선수별로 정리하려면??
+## 자바스크립트로 for문 돌면서 tag생성하면 됨.
+## or if문으로 작성하는 방법도 있음.

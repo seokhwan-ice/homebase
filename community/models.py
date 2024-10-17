@@ -15,7 +15,7 @@ class TimeStamp(models.Model):
 
 
 class Free(TimeStamp):
-    title = models.CharField(max_length=25)
+    title = models.CharField(max_length=30)
     content = models.TextField()
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,

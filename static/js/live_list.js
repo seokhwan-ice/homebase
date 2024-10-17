@@ -1,6 +1,4 @@
 
-// 직관인증게시판 글 목록 (live_list)
-
 const filterSearch = document.getElementById('filter-search');
 const sortSearch = document.getElementById('sort-search');
 
@@ -37,19 +35,40 @@ const renderLiveList = (liveList) => {
     liveList.forEach(live => {
         const liveItem = document.createElement('li');
 
-        // 이미지에 대한건 백엔드에서 수정할게요 디폴트 이미지 설정하는걸로
-        const profileImage = live.author.profile_image ? `<img src="${live.author.profile_image}" alt="프로필 이미지" width="50">` : "이미지 없음";
-        const liveImage = live.live_image ? `<img src="${live.live_image}" alt="게시글 이미지" width="100">` : "이미지 없음";
+        // 프로필 이미지
+        const profileImage = live.author.profile_image ?
+            `<img src="${live.author.profile_image}" alt="프로필 이미지" width="30">` :
+            '<i class="fa-solid fa-circle-user"></i>';
+
+        // live_image
+        const liveImage = live.live_image ?
+            `<img src="${live.live_image}" alt="경기 이미지" width="100%">` :
+            `<img src="/static/images/live_image.png" alt="기본 이미지" width="100%">`;
+
+        const formattedDate = new Date(live.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
 
         liveItem.innerHTML = `
-            <a href="live_detail.html?id=${live.id}">[${live.id}] ${live.home_team} vs ${live.away_team}</a>
-            <br>경기장: ${live.stadium}
-            <br>작성자: ${live.author.nickname} ${profileImage}
-            <br>게시일: ${new Date(live.created_at).toLocaleString()}
-            <br>${liveImage}
-            <br>좋아요 수: ${live.likes_count}
-            <br>댓글 수: ${live.comments_count}<hr>
-        `;  // 이미지 추가, 작성일자 추가, 제목 수정
+            <a href="live_detail.html?id=${live.id}" class="card-link">
+                <div class="profile-section">
+                    <div class="author">
+                        ${profileImage}
+                        <span class="nickname">${live.author.nickname}</span>
+                    </div>
+                    <span class="date">${formattedDate}</span>
+                </div>
+                ${liveImage}
+                <div class="info">
+                    <h2>${live.home_team} vs ${live.away_team}</h2>
+                    <div class="meta">
+                        <p class="stadium">${live.stadium}</p>
+                        <div class="icon-container">
+                            <span><i class="fa-solid fa-heart"></i> ${live.likes_count}</span>
+                            <span><i class="fa-solid fa-comment"></i> ${live.comments_count}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        `;
         liveListContainer.appendChild(liveItem);
     });
 };

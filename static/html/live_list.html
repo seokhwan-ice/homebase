@@ -5,67 +5,71 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>live_list</title>
+    <link rel="stylesheet" href="/static/css/live_list.css">
 </head>
 
 <body>
-    <div id="navbar"></div>
-    <h1>Live 게시판 목록 페이지</h1>
+    <div id="navbar"></div><br>
+    <h1>직관인증 게시판</h1>
 
-    <!-- 등록 -->
-    <button onclick="location.href='live_create.html'">등록하기</button>
-    <button onclick="location.href='user.html'">로그인화면으로</button><hr>
+    <section class="content-section">
+        <section class="search-section">
 
-    <!-- 필터링 검색 -->
-    <form id="filter-search">
+            <div class="sort-create">
+                <label for="sort-search">정렬:</label>
+                <select id="sort-search" class="select-option">
+                    <option value="">최신순</option>
+                    <option value="hot">인기순</option>
+                </select>
+                <button onclick="location.href='live_create.html'" class="create-btn">글쓰기!</button>
+            </div>
 
-        <label for="stadium">경기장:</label>
-        <select id="stadium">
-            <option value="">전체</option>
-            <option value="잠실">잠실 야구장</option>
-            <option value="수원">수원 KT 위즈파크</option>
-            <option value="문학">인천 SSG 랜더스필드</option>
-            <option value="창원">창원 NC 파크</option>
-            <option value="광주">광주 기아 챔피언스필드</option>
-            <option value="사직">사직 야구장</option>
-            <option value="대구">대구 삼성 라이온즈파크</option>
-            <option value="대전">대전 한밭 야구장</option>
-            <option value="고척">고척 스카이돔</option>
-        </select>
+            <form id="filter-search" class="search-form">
+                <label for="stadium">경기장:</label>
+                <select id="stadium" class="select-option">
+                    <option value="">전체</option>
+                    <option value="잠실">잠실 야구장</option>
+                    <option value="수원">수원 KT위즈파크</option>
+                    <option value="문학">인천 SSG랜더스필드</option>
+                    <option value="창원">창원 NC파크</option>
+                    <option value="광주">광주 기아챔피언스필드</option>
+                    <option value="사직">사직 야구장</option>
+                    <option value="대구">대구 삼성라이온즈파크</option>
+                    <option value="대전">대전 한밭야구장</option>
+                    <option value="고척">고척 스카이돔</option>
+                </select>
 
-        <label for="team">팀:</label>
-        <select id="team">
-            <option value="">전체</option>
-            <option value="LG 트윈스">LG 트윈스</option>
-            <option value="KT 위즈">KT 위즈</option>
-            <option value="SSG 랜더스">SSG 랜더스</option>
-            <option value="NC 다이노스">NC 다이노스</option>
-            <option value="두산 베어스">두산 베어스</option>
-            <option value="KIA 타이거즈">KIA 타이거즈</option>
-            <option value="롯데 자이언츠">롯데 자이언츠</option>
-            <option value="삼성 라이온즈">삼성 라이온즈</option>
-            <option value="한화 이글스">한화 이글스</option>
-            <option value="키움 히어로즈">키움 히어로즈</option>
-        </select>
-        <br><br>
+                <label for="team">팀:</label>
+                <select id="team" class="select-option">
+                    <option value="">전체</option>
+                    <option value="LG 트윈스">LG 트윈스</option>
+                    <option value="KT 위즈">KT 위즈</option>
+                    <option value="SSG 랜더스">SSG 랜더스</option>
+                    <option value="NC 다이노스">NC 다이노스</option>
+                    <option value="두산 베어스">두산 베어스</option>
+                    <option value="KIA 타이거즈">KIA 타이거즈</option>
+                    <option value="롯데 자이언츠">롯데 자이언츠</option>
+                    <option value="삼성 라이온즈">삼성 라이온즈</option>
+                    <option value="한화 이글스">한화 이글스</option>
+                    <option value="키움 히어로즈">키움 히어로즈</option>
+                </select>
+                <br><br>
 
-        <label for="game-date">경기날짜:</label>
-        <input type="date" id="game-date" name="game-date">
+                <label for="game-date">날짜:</label>
+                <input type="date" id="game-date" name="game-date" class="date-input">
+                <button type="submit" class="search-btn">검색</button>
+            </form>
+        </section>
 
-        <button type="submit">검색</button>
-    </form>
-    <br>
+        <hr>
+        <ul id="live-list" class="live-list"></ul>
 
-    <!-- 정렬 -->
-    <label for="sort-search">정렬:</label>
-    <select id="sort-search">
-        <option value="">최신순</option>
-        <option value="hot">인기순</option>
-    </select>
+    </section>
 
-    <ul id="live-list"></ul>
+    <div id="footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
-    <script src="../js/common.js"></script>
-    <script src="../js/live_list.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/live_list.js"></script>
 </body>
 </html>
