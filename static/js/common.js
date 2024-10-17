@@ -5,8 +5,8 @@
 // Bootstrap, FontAwesome, Google Fonts, Axios
 
 // Axios 기본 URL 설정
-// axios.defaults.baseURL = 'http://52.78.79.235/api/';
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+axios.defaults.baseURL = 'http://3.36.120.140/api/';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 
 // Axios 요청 인터셉터: 헤더에 토큰 자동 추가
 axios.interceptors.request.use(config => {
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // navbar 로드 후 이벤트 리스너 등록
-    fetch('../html/navbar.html')
+    fetch('/static/html/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // footer
-fetch('../html/footer.html')
+fetch('/static/html/footer.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('footer').innerHTML = data;
