@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로필 수정</title>
+    <link rel="stylesheet" href="../css/user_pubprofile_update.css">
 </head>
 <body>
 
@@ -13,17 +14,17 @@
         <div class="profile-update">
             <h2>프로필 수정</h2>
             <form id="profile-update-form">
-                <label for="profile_image">프로필 이미지</label>
+                <label for="profile_image">프로필 이미지:</label>
                 <input type="file" id="profile_image" name="profile_image" accept="image/*"><br><br>
                 <img id="profile_image_preview" src="#" alt="프로필 미리보기" style="display:none; width: 150px; height: 150px;"><br><br>
 
-                <label for="nickname">닉네임</label>
+                <label for="nickname">닉네임:</label>
                 <input type="text" id="nickname" name="nickname" placeholder="닉네임 입력" required><br><br>
 
-                <label for="bio">소개</label>
+                <label for="bio">소개:</label>
                 <textarea id="bio" name="bio" placeholder="자기소개를 입력하세요"></textarea><br><br>
 
-                <button type="submit">프로필 수정</button>
+                <button type="submit">프로필 수정</button> <br><br>
                 <button type="button" id="cancel-button">취소</button>
             </form>
         </div>

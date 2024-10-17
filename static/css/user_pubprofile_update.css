@@ -1,0 +1,89 @@
+/* 전체 페이지 설정 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column; /* 세로로 정렬 */
+    height: 100vh; /* 화면 전체 높이를 사용 */
+}
+
+
+.navbar img {
+    width: 40px; /* 로고 크기 조정 */
+    margin-left: 10px;
+}
+
+/* 폼 스타일 */
+form {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    padding: 20px;
+    width: 600px; /* 폼 크기를 더 넓게 조정 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 50px; /* 네브바가 차지한 공간만큼 폼을 아래로 위치 */
+    margin-bottom: 30px;
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: left;
+    color: #000000;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+/* 레이블과 입력 필드 가로 배치 */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    width: 110px; /* 레이블 너비 고정 */
+}
+
+input[type="text"],
+textarea {
+    flex: 1; /* 입력 칸이 남은 공간을 채우도록 설정 */
+    height: 40px;
+    padding: 5px;
+    border: 2px solid #cccccc;
+    border-radius: 2px;
+    box-sizing: border-box;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 16px;
+    padding: 12px;
+    border: 2px solid #000000;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* 버튼 스타일 */
+button {
+    width: 100%;
+    height: 50px;
+    padding: 15px;
+    background-color: #cecece;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+button:hover {
+    background-color: #7d7d7d;
+}
