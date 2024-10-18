@@ -1,0 +1,87 @@
+/* 기본 레이아웃 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* 프로필 섹션 스타일 */
+#profile-image {
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+
+#nickname {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #949494;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #949494;
+}
+
+button[disabled] {
+    background-color: lightgray;
+    cursor: not-allowed;
+}
+
+#live_posts-button, 
+#comments-button, 
+#saved_posts-button {
+    background-color: #949494;
+}
+
+#live_posts-button:hover, 
+#comments-button:hover, 
+#saved_posts-button:hover {
+    background-color: #949494;
+}
+
+/* 자유게시판 작성글 섹션 */
+h2 {
+    text-align: left;
+    font-size: 2em;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* 자유게시판 제목 리스트 */
+#free-posts-list {
+    padding: 10px;
+    list-style: none;
+    margin: 0;
+}
+
+#free-posts-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#free-posts-list li:hover {
+    background-color: #f0f0f0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    #free-posts-list li {
+        font-size: 14px;
+    }
+}
