@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // navbar 로드 후 이벤트 리스너 등록
-    fetch('../html/navbar.html')
+    fetch('/static/html/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // footer
-fetch('../html/footer.html')
+fetch('/static/html/footer.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('footer').innerHTML = data;
