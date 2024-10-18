@@ -123,11 +123,6 @@ class TeamRecord(models.Model):
     losses = models.IntegerField()
     win_rate = models.FloatField()
 
-    # class Meta:
-    #     unique_together = (
-    #         ("team_number", "team_name", "rival"),
-    #     )  # team_name과team_number rival의 조합을 고유하게 설정
-
     def __str__(self):
         return f"{self.team_name} vs {self.rival}"
 

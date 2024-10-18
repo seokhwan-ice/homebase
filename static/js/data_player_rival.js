@@ -18,19 +18,19 @@ async function fetchPlayerData() {
 
     try {
         // 1. 선수 기본 정보 가져오기 (DB에서)
-        const playerInfoResponse = await axios.get(`data/players/${player_Number}/`); // 선수 기본 정보 API 호출
+        const playerInfoResponse = await axios.get(`data/players/${player_Number}`); // 선수 기본 정보 API 호출
         const playerInfo = playerInfoResponse.data; // 응답 데이터
 
         console.log('선수 기본 정보:', playerInfo); // 선수 기본 정보 확인
 
         // 2. 선수 라이벌 기록 가져오기
-        const playerRivalResponse = await axios.get(`data/players_rival/${player_Number}/`); // 선수 라이벌 기록 API 호출
+        const playerRivalResponse = await axios.get(`data/players_rival/${player_Number}`); // 선수 라이벌 기록 API 호출
         totalRecords = playerRivalResponse.data; // 응답 데이터
 
         console.log('선수 라이벌 기록:', totalRecords); // 선수 라이벌 기록 확인
 
         // 선수 정보 표시하는 코드 추가
-        const playerImage = `${baseURL}${playerInfo.profile_img || '/path/to/default-image.jpg'}`; // 이미지 URL 절대 경로로 변환
+        const playerImage = `${baseURL}${playerInfo.profile_img}`; // 이미지 URL 절대 경로로 변환
         document.querySelector("#player-image").innerHTML = `<img src="${playerImage}" alt="프로필 이미지">`;
 
         document.querySelector("#player-info").innerHTML = `
