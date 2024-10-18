@@ -12,7 +12,36 @@ const teams = [
     { name: "KT", logo: "12001.png"}
 ];
 
+// 페이지 로드 시 모든 팀 로고를 상단에 표시
 document.addEventListener('DOMContentLoaded', () => {
+    const teamLogosContainer = document.getElementById('team-logos');
+
+    // 모든 팀 로고를 상단에 추가
+    teams.forEach(team => {
+        const logo = document.createElement('img');
+        logo.src = `/static/images/${team.logo}`;
+        logo.alt = team.name;
+
+        // 로고 클릭 시 해당 팀의 정보 페이지로 이동 및 로고 크기 조정
+        logo.addEventListener('click', () => {
+            const teamNumber = team.logo.split('.')[0]; // 로고 파일명에서 팀 번호 추출
+
+            // 모든 로고에서 선택된 클래스를 제거
+            document.querySelectorAll('#team-logos img').forEach(img => {
+                img.classList.remove('selected-logo');
+            });
+
+            // 클릭된 로고에 선택된 클래스를 추가
+            logo.classList.add('selected-logo');
+
+            // 팀 데이터 페이지로 이동
+            window.location.href = `data_team.html?team_number=${teamNumber}`;
+        });
+
+        teamLogosContainer.appendChild(logo);
+    });
+
+    // 기존 로직 - URL에서 team_number 파라미터를 받아서 처리
     const urlParams = new URLSearchParams(window.location.search);
     const teamNumber = urlParams.get('team_number');
 
@@ -23,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// 팀 데이터 불러오기 함수 (기존 코드)
 function fetchTeamData(teamNumber) {
     if (!teamNumber) {
         alert('팀 번호를 입력해 주세요.');
@@ -44,6 +74,7 @@ function fetchTeamData(teamNumber) {
     });
 }
 
+// 팀 순위 가져오기 (기존 코드)
 function fetchTeamRank(teamNumber) {
     return axios.get(`data/teamrank/${teamNumber}/`).then(response => {
         const data = response.data;
@@ -55,26 +86,26 @@ function fetchTeamRank(teamNumber) {
     });
 }
 
+// 팀 라이벌 기록 가져오기 (기존 코드)
 function fetchTeamRivalRecords(teamNumber) {
     return axios.get(`data/teamrival/${teamNumber}/`).then(response => response.data);
 }
 
+// 팀 세부 정보 가져오기 (기존 코드)
 function fetchTeamDetails(teamNumber) {
     return axios.get(`data/teamdetail/${teamNumber}/`).then(response => response.data);
 }
 
+// 팀 순위 표시 (이름만 출력되도록 수정)
 function displayTeamRank(rankData) {
     const rankDiv = document.getElementById('team-rank');
-    const teamLogo = document.getElementById('team-logo');
     const teamName = document.getElementById('team-name');
 
     const team = teams.find(t => t.logo === `${rankData.team_number}.png`);
     if (team) {
-        teamLogo.src = `/static/images/${team.logo}`;
-        teamName.innerText = team.name;
+        teamName.innerText = team.name;  // 팀 이름만 표시
     } else {
-        teamLogo.src = `/static/images/default_logo.png`;
-        teamName.innerText = "알 수 없는 팀";
+        teamName.innerText = "알 수 없는 팀";  // 이름을 알 수 없을 때 처리
     }
 
     // 표로 출력
@@ -104,9 +135,9 @@ function displayTeamRank(rankData) {
     `;
 }
 
+// 팀 라이벌 기록 표시 (기존 코드)
 function displayRivalRecords(rivalData) {
     const rivalDiv = document.getElementById('team-rival');
-
 
     if (rivalData.error) {
         rivalDiv.innerHTML += `<p>${rivalData.error}</p>`;
@@ -140,9 +171,9 @@ function displayRivalRecords(rivalData) {
     rivalDiv.innerHTML += tableHTML;
 }
 
+// 팀 세부 정보 표시 (기존 코드)
 function displayTeamDetails(detailData) {
     const detailDiv = document.getElementById('team-details');
-
 
     if (detailData.error) {
         detailDiv.innerHTML += `<p>${detailData.error}</p>`;

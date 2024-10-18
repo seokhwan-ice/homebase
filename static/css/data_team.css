@@ -17,6 +17,24 @@ h1 {
     text-align: center; /* h1도 중앙 정렬 */
 }
 
+/* 기본 로고 스타일 */
+#team-logos img {
+    width: 80px; /* 기본 크기 */
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s; /* 애니메이션 효과 */
+}
+
+/* 마우스 오버 시 커지는 스타일 */
+#team-logos img:hover {
+    transform: scale(1.25); /* 25% 확대 */
+}
+
+/* 선택된 팀의 로고 크기 조절하는 클래스 */
+.selected-logo {
+    transform: scale(1.25); /* 25% 확대 */
+}
+
 /* 팀 순위 섹션 스타일 */
 #team-rank {
     background-color: #fff;
