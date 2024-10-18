@@ -40,6 +40,7 @@ const getReplies = (replies, parentId) => {
 const createCommentItem = (comment) => {
     const commentItem = document.createElement('div');
     commentItem.classList.add('comment-item');
+
     commentItem.innerHTML = `
         <div class="comment-header">
             <div class="comment-author-info">
@@ -48,14 +49,16 @@ const createCommentItem = (comment) => {
             </div>
             <span class="comment-time">${new Date(comment.created_at).toLocaleString()}</span>
         </div>
-        <p class="comment-content">${comment.content}</p>
-        <div class="comment-buttons">
-            <button class="reply-button" data-id="${comment.id}">답글</button>
-            <button class="update-button" data-id="${comment.id}">수정</button>
-            <button class="delete-button" data-id="${comment.id}">삭제</button>
+        <div class="comment-body">
+            <div class="comment-content">${comment.content}</div>
+            <div class="comment-buttons">
+                <button class="reply-button" data-id="${comment.id}">답글</button>
+                <button class="update-button" data-id="${comment.id}">수정</button>
+                <button class="delete-button" data-id="${comment.id}">삭제</button>
+            </div>
         </div>
+        <hr class="comment-hr">
         <div class="reply-list" id="reply-list-${comment.id}"></div>
-        <hr>
     `;
     return commentItem;
 };
