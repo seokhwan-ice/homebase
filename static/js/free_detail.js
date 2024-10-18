@@ -151,6 +151,18 @@ const getFreeDetail = async () => {
             freeImage.style.display = 'block';
         }
 
+        // 북마크 상태 반영
+        const bookmarkIcon = document.getElementById('bookmark-icon');
+        const bookmarkText = document.getElementById('bookmark-text');
+
+        if (free.is_bookmarked) {
+            bookmarkIcon.classList.add('active');
+            bookmarkText.classList.add('active');
+        } else {
+            bookmarkIcon.classList.remove('active');
+            bookmarkText.classList.remove('active');
+        }
+
         // 댓글 목록 불러오기
         getComments(free.comments);
 
@@ -218,21 +230,23 @@ document.getElementById('delete-button').addEventListener('click', async functio
 });
 
 // 북마트 토글
-document.getElementById('bookmark-button').addEventListener('click', async function() {
+document.getElementById('bookmark-icon').addEventListener('click', async function() {
 
     if (!checkSignin()) return;
 
     try {
         const response = await axios.post(`community/free/${freeId}/toggle_bookmark/`);
         const bookmarkIcon = document.getElementById('bookmark-icon');
+        const bookmarkText = document.getElementById('bookmark-text');
 
-        // 북마크 상태에 따라 버튼 텍스트 변경 >>> 나중에 아이콘으로 바꾸쟈
         if (response.status === 201) {
-            alert('글을 북마크했습니다!!!');
+            alert('이 글을 북마크할게요!!!!!');
             bookmarkIcon.classList.add('active');
+            bookmarkText.classList.add('active');
         } else if (response.status === 204) {
-            alert('북마크를 취소했습니다!');
+            alert('이 글을 북마크하기 싫어졌음.');
             bookmarkIcon.classList.remove('active');
+            bookmarkText.classList.remove('active');
         }
 
     } catch (error) {

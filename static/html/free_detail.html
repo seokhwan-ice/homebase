@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>free_detail</title>
-    <link rel="stylesheet" href="/static/css/free.css">
+    <link rel="stylesheet" href="/static/css/free_detail.css">
 </head>
 
 <body>
@@ -18,24 +18,26 @@
                 <button id="update-button">수정하기</button>
                 <button id="delete-button">삭제하기</button>
             </div>
-            <div class="bookmark-section">
-                <button id="bookmark-button" class="bookmark">
-                    <i id="bookmark-icon" class="fa-solid fa-bookmark"></i>
-                </button>
+
+            <hr><br>
+
+            <div class="author-and-bookmark">
+                <div class="author-section">
+                    <img id="free-profile-image" alt="프로필 이미지">
+                    <span id="free-author"></span>
+                </div>
+                <div class="bookmark-section">
+                    <i id="bookmark-icon" class="fa-solid fa-bookmark bookmark-icon"></i>
+                    <span id="bookmark-text">붘</span>
+                </div>
             </div>
         </div>
-        <br>
+
         <div id="free-detail">
-            <div class="author-section">
-                <img id="free-profile-image" alt="프로필 이미지">
-                <span id="free-author"></span>
-            </div>
             <h2 id="free-title"></h2>
+            <img id="free-image" alt="게시글 이미지">
+            <p id="free-content"></p>
         </div>
-
-        <img id="free-image" alt="게시글 이미지">
-
-        <p id="free-content"></p><br>
 
         <div class="meta-info">
             <div class="left-info">
@@ -43,11 +45,13 @@
                 <span><i class="fa-solid fa-comment"></i><span id="free-comments-count"></span></span>
             </div>
             <div class="right-info">
-                <p>등록:  <span id="free-created-at"></span></p>
-                <p>수정:  <span id="free-updated-at"></span></p>
+                <p>등록: <span id="free-created-at"></span></p>
+                <p>수정: <span id="free-updated-at"></span></p>
             </div>
         </div>
+
         <hr><br>
+
         <h3>댓글</h3>
         <div id="comments-list"></div>
         <form id="comment-form">

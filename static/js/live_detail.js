@@ -299,7 +299,7 @@ document.getElementById('like-button').addEventListener('click', async function(
             likeIcon.classList.add('active');
             likeText.classList.add('active');
         } else if (response.status === 204) {
-            alert('이제 이 글을 더이상 좋아하지 않음');
+            alert('이제 이 글을 더이상 좋아하지 않음.');
             likeIcon.classList.remove('active');
             likeText.classList.remove('active');
         }

@@ -1,0 +1,184 @@
+/* ----------테두리------------- */
+.content-section {
+    margin: 20px auto;
+    padding: 50px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------버튼------------- */
+.action-buttons {
+    display: flex;
+    gap: 30px;
+}
+
+.action-buttons button {
+    background-color: #807f7f;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.action-buttons button:hover {
+    background-color: #333;
+}
+
+/* ----------작성자------------- */
+.author-and-bookmark {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.author-section {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+
+#free-profile-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 1px solid #5a5a5a;
+}
+
+/* ----------북마크------------- */
+.bookmark-section {
+    display: flex;
+    align-items: center;
+}
+
+.bookmark-icon {
+    font-size: 45px;
+    color: #aaa9a9;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.bookmark-icon:hover {
+    transform: scale(1.4);
+    color: #f5b800;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.bookmark-icon.active {
+    color: #f5b800;
+}
+
+#bookmark-text {
+    font-size: 22px;
+    color: #666;
+}
+
+#bookmark-text.active {
+    color: #f49211;
+}
+
+/* ----------메타정보------------- */
+.meta-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.left-info {
+    display: flex;
+    align-items: center;
+}
+
+.left-info span {
+    margin-right: 20px;
+    font-size: 25px;
+}
+
+.left-info i {
+    margin-right: 10px;
+    font-size: 27px;
+    color: #494949;
+}
+
+.right-info {
+    text-align: right;
+}
+
+.right-info p {
+    margin: 0;
+    font-size: 15px;
+    color: #6e6d6d;
+}
+
+/* ----------글제목------------- */
+#free-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* ----------글이미지------------- */
+#free-image {
+    max-width: 60%;
+    max-height: 500px;
+    border: 1px solid #555555;
+    object-fit: contain;
+}
+
+/* ----------댓글------------- *//* 댓글 아이템 스타일 */
+.comment-item {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-reply {
+    margin-left: 20px; /* 대댓글 들여쓰기 */
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between; /* 작성자 정보 왼쪽, 작성 시간 오른쪽 */
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.comment-author-info {
+    display: flex;
+    align-items: center;
+}
+
+.comment-profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px; /* 프로필 이미지와 닉네임 사이 간격 */
+}
+
+.comment-author {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #999;
+}
+
+.comment-content {
+    margin: 0;
+    padding-left: 50px; /* 프로필 이미지 밑에 정렬되도록 */
+    font-size: 14px;
+    line-height: 1.5;
+}

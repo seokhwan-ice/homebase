@@ -63,13 +63,21 @@ class FreeViewSet(BaseViewSet):
             )  # TODO: 쿼리호출결과 확인해보고 감당안되면 제목만 검색하자요
         return queryset
 
-    # 조회수 카운트
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
+
+        # 조회수 카운트
         instance.views += 1
         instance.save()
+
+        # 북마크 상태 확인
+        user = request.user
+        is_bookmarked = self.get_bookmark_status(user, instance)
+
         serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        data = serializer.data
+        data["is_bookmarked"] = is_bookmarked
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class LiveFilter(filters.FilterSet):
