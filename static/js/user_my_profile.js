@@ -49,9 +49,9 @@ async function getUserProfile() {
         const freeboardCountElement = document.getElementById('freeboard-count');
         const likedCountElement = document.getElementById('liked-count');
         
-        communityCountElement.textContent = `${data.article_count}개`;
+        communityCountElement.textContent = `${data.live_article_count}개`;
         commentCountElement.textContent = `${data.comment_count}개`;
-        freeboardCountElement.textContent = `${data.article_count}개`; 
+        freeboardCountElement.textContent = `${data.free_article_count}개`; 
         likedCountElement.textContent = `${data.bookmark_count}개`;
 
         // 링크 설정
