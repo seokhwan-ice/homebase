@@ -20,11 +20,10 @@ async function fetchPlayersData(page = 1) {
             const playerDiv = document.createElement('div');
             playerDiv.className = 'player';
 
-            // 이미지 URL 절대 경로로 변환
             const playerImage = `${baseURL}${player.profile_img}`;
             if (player.profile_img) {
                 playerDiv.innerHTML = `
-                    <img src="${playerImage}" alt="${player.name} 프로필 이미지" onerror="this.onerror=null; this.src='path/to/default-image.jpg';" />
+                    <img src="${playerImage}" alt="${player.name} 프로필 이미지" onerror="this.onerror=null;" />
                     <h2 class="player-name" data-player-id="${player.id}" data-player-number="${player.player_number}">${player.name}</h2>
                     <p>팀: ${player.team_name}</p>
                 `;

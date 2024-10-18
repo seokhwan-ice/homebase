@@ -267,13 +267,17 @@ document.getElementById('like-button').addEventListener('click', async function(
 
     try {
         const response = await axios.post(`community/live/${liveId}/toggle_like_article/`);
-        // 나중에 아이콘으로 바꾸쟈
+        const likeIcon = document.getElementById('like-button');
+        const likeText = document.getElementById('like-text');
+
         if (response.status === 201) {
-            alert('좋아요 성공!');
-            document.getElementById('like-button').textContent = '좋아요 취소하기';
+            alert('이 글을 좋아할게요!!!!');
+            likeIcon.classList.add('active');
+            likeText.classList.add('active');
         } else if (response.status === 204) {
-            alert('좋아요 취소!');
-            document.getElementById('like-button').textContent = '좋아요 누르기';
+            alert('이제 이 글을 더이상 좋아하지 않음');
+            likeIcon.classList.remove('active');
+            likeText.classList.remove('active');
         }
         getLiveDetail(); // 좋아요 수 업데이트 (방금 내가 누른 좋아요 반영)
 

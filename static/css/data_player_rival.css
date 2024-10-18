@@ -38,7 +38,7 @@ h1 {
 }
 
 #player-info {
-    padding-left: 300px; /* 이미지와 정보 사이의 여백 */
+    padding-left: 150px; /* 이미지와 정보 사이의 여백 */
 }
 
 #player-info h3 {

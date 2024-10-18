@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>팀 정보</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- static 태그 사용 -->
-</head>
+    <link rel="stylesheet" href="/static/css/data_players.css" >  <!-- CSS 파일 경로 --></head>
 <body>
     <div id="navbar"></div>
     <div class="container">
         <div id="team-info">
-            <img id="team-logo" src="{% static 'images/default_logo.png' %}" alt="팀 로고" style="width:100px;height:auto;">
+            <img id="team-logo" alt="팀 로고" style="width:100px;height:auto;">
             <h1 id="team-name"></h1>
         </div>
 
@@ -21,7 +20,7 @@
 
     <div id="footer"></div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/data_team.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/data_team.js"></script>
 </body>
 </html>
