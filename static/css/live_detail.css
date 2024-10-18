@@ -26,38 +26,25 @@
     background-color: #333;
 }
 
-/* 북마크 아이콘 */
-.bookmark-icon {
-    position: absolute;
-    right: 20px;
-    font-size: 50px;
-    color: #aaa9a9;
-    cursor: pointer;
-}
-
-.bookmark-icon:hover {
-    transform: scale(1.2);
-    color: #f5b800;
-}
-
-.bookmark-icon.active {
-    color: #f5b800;
-}
-
-/* 프로필 섹션 */
 .profile-section {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    position: relative;
+    justify-content: space-between;
 }
 
 .profile-section img {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: 1px solid #4a4a4a;
     margin-right: 15px;
+}
+
+.profile-section div {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* 프로필과 닉네임 부분이 오른쪽으로 밀리지 않게 확장 */
 }
 
 .profile-section p {
@@ -67,7 +54,33 @@
     color: #333;
 }
 
-/* 리뷰 */
+/* 북마크 아이콘 */
+.bookmark-icon {
+    margin-right: 10px;
+    font-size: 50px;
+    color: #aaa9a9;
+    cursor: pointer;
+}
+
+.bookmark-icon:hover {
+    transform: scale(1.4);
+    color: #f5b800;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.bookmark-icon.active {
+    color: #f5b800;
+}
+
+#bookmark-text {
+    font-size: 22px;
+    color: #666;
+}
+
+#bookmark-text.active {
+    color: #e87d30;
+}
+
 .main-content {
     display: flex;
     gap: 30px;
@@ -78,7 +91,7 @@
     max-width: 50%;
     max-height: 400px;
     border: 1px solid #555555;
-    object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞게 조정 */
+    object-fit: contain;
 }
 
 .game-info {
@@ -102,7 +115,6 @@
     font-size: 0.9rem;
     color: #999;
 }
-
 
 #comments-list {
     margin-top: 20px;
@@ -143,7 +155,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    align-self: flex-end; /* 버튼이 오른쪽에 정렬되도록 설정 */
+    align-self: flex-end;
 }
 
 #comment-form button:hover {
@@ -151,7 +163,6 @@
 }
 
 @media screen and (max-width: 600px) {
-    /* 화면 너비가 600px 이하일 때 적용 */
     .main-content {
         flex-direction: column;
         align-items: center;
@@ -162,27 +173,26 @@
     }
 }
 
-
 .icon {
-    font-size: 20px;
+    font-size: 25px;
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #666; /* 아이콘 색상 설정 */
+    color: #666;
 }
 
 .icon i {
-    font-size: 25px;
+    font-size: 44px;
 }
 
 .heart:hover {
-    transform: scale(1.8);
-    color: #e32b2b;
+    transform: scale(1.5);
+    color: #ef5656;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .heart.active {
-    color: #e32b2b;
+    color: #ef5656;
 }
 
 .heart {
@@ -190,7 +200,7 @@
 }
 
 #like-text {
-    font-size: 16px;
+    font-size: 18px;
     color: #666;
 }
 

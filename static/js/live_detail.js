@@ -177,6 +177,27 @@ const getLiveDetail = async () => {
         document.getElementById('comment-count').innerText = live.comments_count;
         document.getElementById('live-created-at').innerText = new Date(live.created_at).toLocaleString();
 
+        // 좋아요, 북마크 상태 반영
+        const likeIcon = document.getElementById('like-button');
+        const likeText = document.getElementById('like-text');
+        if (live.is_liked) {
+            likeIcon.classList.add('active');
+            likeText.classList.add('active');
+        } else {
+            likeIcon.classList.remove('active');
+            likeText.classList.remove('active');
+        }
+
+        const bookmarkIcon = document.querySelector('.bookmark-icon');
+        const bookmarkText = document.getElementById('bookmark-text');
+        if (live.is_bookmarked) {
+            bookmarkIcon.classList.add('active');
+            bookmarkText.classList.add('active');
+        } else {
+            bookmarkIcon.classList.remove('active');
+            bookmarkText.classList.remove('active');
+        }
+
         // 댓글 목록 불러오기
         getComments(live.comments);
 
@@ -246,13 +267,16 @@ document.querySelector('.bookmark-icon').addEventListener('click', async functio
     try {
         const response = await axios.post(`community/live/${liveId}/toggle_bookmark/`);
         const bookmarkIcon = document.querySelector('.bookmark-icon');
+        const bookmarkText = document.getElementById('bookmark-text');
 
         if (response.status === 201) {
-            alert('글이 북마크되었습니다!');
-            bookmarkIcon.classList.add('active'); // 노란색 활성화
+            alert('이 글을 북마크할게요!!!!!');
+            bookmarkIcon.classList.add('active');
+            bookmarkText.classList.add('active');
         } else if (response.status === 204) {
-            alert('북마크가 취소되었습니다!');
-            bookmarkIcon.classList.remove('active'); // 회색으로 변경
+            alert('이 글을 북마크하기 싫어졌음.');
+            bookmarkIcon.classList.remove('active');
+            bookmarkText.classList.remove('active');
         }
     } catch (error) {
         console.error("Error:", error);
@@ -271,7 +295,7 @@ document.getElementById('like-button').addEventListener('click', async function(
         const likeText = document.getElementById('like-text');
 
         if (response.status === 201) {
-            alert('이 글을 좋아할게요!!!!');
+            alert('이 글을 좋아할게요!!!!!');
             likeIcon.classList.add('active');
             likeText.classList.add('active');
         } else if (response.status === 204) {

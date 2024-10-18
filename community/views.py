@@ -121,6 +121,21 @@ class LiveViewSet(BaseViewSet, LikeMixin):
             ).order_by("-hot")
         return queryset
 
+    # 좋아요, 북마크 상태 확인
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+
+        is_liked = self.get_like_status(user, instance)
+        is_bookmarked = self.get_bookmark_status(user, instance)
+
+        serializer = self.get_serializer(instance)
+        data = serializer.data
+        data["is_liked"] = is_liked
+        data["is_bookmarked"] = is_bookmarked
+
+        return Response(data, status=status.HTTP_200_OK)
+
 
 class MainView(views.APIView):
     def get(self, request):
