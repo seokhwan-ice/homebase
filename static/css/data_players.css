@@ -8,12 +8,6 @@ h1 {
     color: #333; /* 글씨 색상 */
 }
 
-/* 기본 body 스타일 */
-body {
-    font-family: Jua, sans-serif;
-    margin: 20px;
-    padding-top: 40px; /* 전체 상단에 여백 추가 */
-}
 
 /* 팀 로고 스타일 */
 #team-logos {
@@ -75,11 +69,35 @@ body {
     margin-top: 20px;
 }
 
+/* 페이지네이션 컨테이너 스타일 */
+#pagination-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px;
+}
+
 /* 페이지네이션 링크 스타일 */
 #pagination-container a {
     margin: 0 5px;
     text-decoration: none;
-    color: blue;
+    color: #070202; /* 기본 글씨 색상 */
+    background-color: #f8eaf7; /* 기본 배경 색상 */
+    padding: 10px 15px; /* 내부 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s, transform 0.3s; /* 부드러운 변환 효과 */
+}
+
+/* 페이지네이션 링크 호버 스타일 */
+#pagination-container a:hover {
+    background-color: #0056b3; /* 호버 시 배경 색상 */
+    transform: scale(1.05); /* 약간 커지게 */
+}
+
+/* 현재 페이지 강조 스타일 */
+#pagination-container a.active {
+    background-color: #28a745; /* 활성 페이지 배경 색상 */
+    color: white; /* 활성 페이지 글씨 색상 */
+    font-weight: bold; /* 글씨 두껍게 */
 }
 
 #pagination-container a.active {

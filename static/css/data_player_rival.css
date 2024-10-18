@@ -1,10 +1,3 @@
-body {
-    font-family: 'Gowun Dodum', sans-serif; /* 구글 폰트 적용 */
-    background-color: #f9f9f9; /* 부드러운 배경색 */
-    color: #333; /* 글자색 */
-    margin: 0;
-    padding: 20px; /* 전체 패딩 */
-}
 
 h1 {
     margin-top: 40px; /* 상단과의 간격 */
@@ -80,11 +73,36 @@ h1 {
     background-color: #f0f0f0; /* 마우스 오버 시 색상 */
 }
 
-#pagination {
-    text-align: center; /* 페이지네이션 중앙 정렬 */
-    margin-top: 20px; /* 위 여백 */
+/* 페이지네이션 컨테이너 스타일 */
+#pagination-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px;
 }
 
+/* 페이지네이션 링크 스타일 */
+#pagination-container a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #070202; /* 기본 글씨 색상 */
+    background-color: #f8eaf7; /* 기본 배경 색상 */
+    padding: 10px 15px; /* 내부 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s, transform 0.3s; /* 부드러운 변환 효과 */
+}
+
+/* 페이지네이션 링크 호버 스타일 */
+#pagination-container a:hover {
+    background-color: #0056b3; /* 호버 시 배경 색상 */
+    transform: scale(1.05); /* 약간 커지게 */
+}
+
+/* 현재 페이지 강조 스타일 */
+#pagination-container a.active {
+    background-color: #f8c7f6; /* 활성 페이지 배경 색상 */
+    color: white; /* 활성 페이지 글씨 색상 */
+    font-weight: bold; /* 글씨 두껍게 */
+}
 #footer {
     text-align: center; /* 푸터 중앙 정렬 */
     margin-top: 30px; /* 위 여백 */

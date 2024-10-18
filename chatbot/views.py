@@ -61,7 +61,6 @@ def get_openai_response(
 
 class ChatbotAPIView(APIView):
 
-
     def post(self, request, *args, **kwargs):
         user_input = request.data.get("user_input")
         if user_input:
@@ -138,13 +137,17 @@ class ChatbotAPIView(APIView):
         team_name = self.extract_team_name(user_input)
 
         if team_name:
-            team_rank = TeamRank.objects.filter(team_name=team_name).values(
-                "team_name",
-                "rank",
-                "wins",
-                "draws",
-                "losses",
-            ).first()
+            team_rank = (
+                TeamRank.objects.filter(team_name=team_name)
+                .values(
+                    "team_name",
+                    "rank",
+                    "wins",
+                    "draws",
+                    "losses",
+                )
+                .first()
+            )
 
             if team_rank:
                 # 데이터베이스에서 조회한 팀 순위 정보를 OpenAI에 전송

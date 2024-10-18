@@ -1,0 +1,78 @@
+h1 {
+    text-align: center; /* 중앙 정렬 */
+    margin: 20px 0; /* 상하 여백 추가 (필요에 따라 조정) */
+}
+
+#newsList {
+    list-style-type: none; /* 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+    display: flex; /* Flexbox 사용 */
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    justify-content: space-between; /* 아이템 간격 조정 */
+}
+
+.news-item {
+    border: 1px solid #ccc; /* 테두리 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    padding: 10px; /* 내부 여백 */
+    margin-bottom: 20px; /* 아래 요소와의 간격 */
+    width: 30%; /* 각 아이템의 너비를 30%로 설정하여 3개씩 배치 */
+    box-sizing: border-box; /* 테두리와 패딩을 포함한 너비 계산 */
+    transition: box-shadow 0.3s; /* 그림자 효과 */
+}
+
+.news-item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 */
+}
+
+/* 이미지 스타일 */
+.news-item img {
+    max-width: 100%; /* 이미지 최대 너비 100% */
+    height: auto; /* 비율에 맞게 높이 자동 조정 */
+    margin-bottom: 10px; /* 이미지와 제목 간 간격 */
+    max-height: 150px; /* 이미지 최대 높이 설정 */
+}
+
+/* 제목 스타일 */
+.news-item h2 {
+    font-size: 30px; /* 제목 글씨 크기 */
+    color: #333; /* 제목 글씨 색상 */
+    margin: 10px 0; /* 제목과 주변 간격 조정 */
+}
+
+/* 페이지네이션 컨테이너 스타일 */
+#pagination-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px;
+}
+
+/* 페이지네이션 링크 스타일 */
+#pagination-container a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #070202; /* 기본 글씨 색상 */
+    background-color: #f8eaf7; /* 기본 배경 색상 */
+    padding: 10px 15px; /* 내부 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s, transform 0.3s; /* 부드러운 변환 효과 */
+}
+
+/* 페이지네이션 링크 호버 스타일 */
+#pagination-container a:hover {
+    background-color: #0056b3; /* 호버 시 배경 색상 */
+    transform: scale(1.05); /* 약간 커지게 */
+}
+
+/* 현재 페이지 강조 스타일 */
+#pagination-container a.active {
+    background-color: #f8c7f6; /* 활성 페이지 배경 색상 */
+    color: white; /* 활성 페이지 글씨 색상 */
+    font-weight: bold; /* 글씨 두껍게 */
+}
+#footer {
+    text-align: center; /* 푸터 중앙 정렬 */
+    margin-top: 30px; /* 위 여백 */
+    font-size: 14px; /* 푸터 글자 크기 */
+    color: #888; /* 푸터 글자색 */
+}

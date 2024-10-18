@@ -1,20 +1,16 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
+h1 {
+    margin-top: 40px; /* 상단과의 간격 */
+    text-align: center; /* 중앙 정렬 */
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    font-size: 36px; /* 글씨 크기 */
+    color: #333; /* 글씨 색상 */
+
 }
 
 .container {
     width: 80%;
     margin: 0 auto;
     padding: 20px;
-}
-
-h1 {
-    font-size: 24px;
-    color: #333;
-    text-align: center; /* h1도 중앙 정렬 */
 }
 
 /* 기본 로고 스타일 */
