@@ -31,7 +31,8 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.36.120.140", "home-base.co.kr"]
+# ALLOWED_HOSTS = ["3.36.120.140","127.0.0.1","localhost"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -171,7 +172,7 @@ SIMPLE_JWT = {
 
 LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
@@ -181,8 +182,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static"
+# STATIC_URL = "/static/"
+# STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "/django_static/"
+STATIC_ROOT = BASE_DIR / "django_static"
 
 # 준호
 # STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -250,3 +253,27 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 CELERY_TIMEZONE = "Asia/Seoul"  # 한국 시간대 설정
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django_error.log'),
+
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
