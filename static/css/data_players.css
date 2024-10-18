@@ -8,12 +8,31 @@ h1 {
     color: #333; /* 글씨 색상 */
 }
 
-
 /* 기본 body 스타일 */
 body {
     font-family: Jua, sans-serif;
     margin: 20px;
     padding-top: 40px; /* 전체 상단에 여백 추가 */
+}
+
+/* 팀 로고 스타일 */
+#team-logos {
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: center; /* 중앙 정렬 */
+    gap: 20px; /* 로고 간의 간격 */
+    padding: 20px 0; /* 상하 패딩 */
+}
+
+/* 팀 로고 이미지 스타일 */
+#team-logos img {
+    width: 80px; /* 기본 로고 크기 */
+    cursor: pointer; /* 클릭 가능한 포인터 표시 */
+    transition: transform 0.3s; /* 부드러운 트랜지션 효과 */
+}
+
+/* 마우스를 올렸을 때 로고 크기 증가 */
+#team-logos img:hover {
+    transform: scale(1.2); /* 로고 크기 증가 */
 }
 
 /* 선수 카드 컨테이너 스타일 */
