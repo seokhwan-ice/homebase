@@ -23,7 +23,7 @@ form.addEventListener('submit', async function (event) {
         localStorage.setItem('username', username);
         alert('로그인 성공!');
 
-        location.href = '../html/index.html';  // 메인 페이지로 이동
+        location.href = 'index.html';  // 메인 페이지로 이동
         
     } catch (error) {
         console.error("Error:", error);

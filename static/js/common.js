@@ -5,8 +5,8 @@
 // Bootstrap, FontAwesome, Google Fonts, Axios
 
 // Axios 기본 URL 설정
-axios.defaults.baseURL = 'http://3.36.120.140/api/';
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+// axios.defaults.baseURL = 'http://3.36.120.140/api/';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
 
 // Axios 요청 인터셉터: 헤더에 토큰 자동 추가
 axios.interceptors.request.use(config => {
@@ -27,6 +27,7 @@ axios.interceptors.response.use(response => {
 
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        console.log("401 에러 발생 -> 토큰 갱신할 준비 중.")
         originalRequest._retry = true;
 
         try {
@@ -35,7 +36,8 @@ axios.interceptors.response.use(response => {
 
             const newAccessToken = response.data.access;
             if (newAccessToken) {
-                console.log("토큰 갱신 성공. 새로운 액세스 토큰:", newAccessToken);
+                console.log("토큰 갱신 성공!! 새로운 액세스 토큰:", newAccessToken);
+                // TODO: 콘솔로그 지우기!!!!!!!!!!!!!!!
                 localStorage.setItem('token', newAccessToken);
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
                 return axios(originalRequest);

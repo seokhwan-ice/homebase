@@ -22,9 +22,9 @@
         <hr><br>
 
         <div class="profile-section">
-            <i class="fa-solid fa-bookmark bookmark-icon"></i>
             <img id="live-profile-image" alt="프로필 이미지" class="profile-img">
             <p id="live-author">작성자 닉네임</p> <!-- 닉네임 -->
+            <i class="fa-solid fa-bookmark bookmark-icon"></i>
         </div>
 
         <div class="main-content">
@@ -39,8 +39,12 @@
         </div>
 
         <div class="action-section">
-            <span class="icon"><i class="fas fa-heart"></i> <span id="like-count">50</span></span>
-            <span class="icon"><i class="fas fa-comment"></i> <span id="comment-count">45</span></span>
+            <span class="icon">
+                <i class="fa-solid fa-heart heart" id="like-button"></i>
+                <span id="like-text">좋아요</span>
+                <span id="like-count"></span>
+            </span>
+            <span class="icon"><i class="fa-solid fa-comment"></i><span id="comment-count"></span></span>
             <p class="creation-date">작성: <span id="live-created-at"></span></p>
         </div>
 

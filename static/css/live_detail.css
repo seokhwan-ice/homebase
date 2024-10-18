@@ -4,11 +4,10 @@
     border: 1px solid black;
     background-color: white;
     box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* 안에 있는 내용이 밖으로 튀어나오지 않도록 */
-    position: relative; /* 북마크 아이콘의 위치를 제어하기 위해 relative 추가 */
+    overflow: hidden;
+    position: relative;
 }
 
-/* 최상단 버튼 그룹 */
 .button-group {
     display: flex;
     gap: 30px;
@@ -45,7 +44,7 @@
     color: #f5b800;
 }
 
-/* 프로필 섹션 스타일 */
+/* 프로필 섹션 */
 .profile-section {
     display: flex;
     align-items: center;
@@ -68,7 +67,7 @@
     color: #333;
 }
 
-/* 경기 정보 및 리뷰 섹션 */
+/* 리뷰 */
 .main-content {
     display: flex;
     gap: 30px;
@@ -83,83 +82,60 @@
 }
 
 .game-info {
-    /* 경기 정보 텍스트 스타일 */
     flex: 1;
-    color: #333; /* 글자 색상을 진한 회색으로 설정 */
+    color: #333;
 }
 
 .game-info p {
-    /* 경기 정보 텍스트의 여백과 글자 크기를 설정합니다. */
     margin-bottom: 10px;
     font-size: 1rem;
 }
 
-/* 좋아요, 댓글, 작성일 섹션 */
 .action-section {
-    /* 좋아요, 댓글 수를 수평으로 정렬하고, 공간을 나눕니다. */
     display: flex;
-    justify-content: space-between; /* 요소들 사이에 여백을 균등하게 분배 */
-    align-items: center; /* 수직으로 가운데 정렬 */
-    margin-top: 20px;
-}
-
-.icon {
-    font-size: 20px;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    color: #666; /* 아이콘 색상 설정 */
-}
-
-.icon i {
-    font-size: 25px;
-    margin-right: 20px;
+    margin-top: 20px;
 }
 
 .creation-date {
-    /* 작성일 텍스트 스타일 설정 */
     font-size: 0.9rem;
-    color: #999; /* 작성일 텍스트를 연한 회색으로 설정 */
+    color: #999;
 }
 
-/* 댓글 스타일 */
+
 #comments-list {
-    /* 댓글 목록의 스타일 설정 */
     margin-top: 20px;
     padding: 10px;
-    border-top: 1px solid #ddd; /* 목록 위에 선을 추가 */
+    border-top: 1px solid #ddd;
 }
 
 .comment-item {
-    /* 각 댓글 항목의 스타일 설정 */
     background-color: #f9f9f9;
-    border: 1px solid #ddd; /* 댓글의 테두리 설정 */
+    border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 약간의 그림자 추가 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 #comment-form {
-    /* 댓글 작성 폼 스타일 설정 */
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* 각 요소 사이 간격 */
+    gap: 10px;
 }
 
 #comment-content {
-    /* 댓글 입력 텍스트 상자 스타일 */
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc; /* 텍스트 상자의 테두리 설정 */
+    border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #f5f5f5;
-    resize: none; /* 사용자가 텍스트 상자의 크기를 변경하지 못하도록 설정 */
+    resize: none;
 }
 
 #comment-form button {
-    /* 댓글 작성 버튼 스타일 */
     padding: 10px 15px;
     font-size: 15px;
     background-color: #007bff;
@@ -171,19 +147,53 @@
 }
 
 #comment-form button:hover {
-    /* 버튼에 마우스를 올렸을 때 배경색을 어둡게 변경 */
     background-color: #0056b3;
 }
 
-/* 반응형 설정 */
 @media screen and (max-width: 600px) {
     /* 화면 너비가 600px 이하일 때 적용 */
     .main-content {
-        flex-direction: column; /* 콘텐츠를 수직으로 배치 */
+        flex-direction: column;
         align-items: center;
     }
 
     .button-group {
-        flex-direction: column; /* 버튼을 수직으로 배치 */
+        flex-direction: column;
     }
+}
+
+
+.icon {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666; /* 아이콘 색상 설정 */
+}
+
+.icon i {
+    font-size: 25px;
+}
+
+.heart:hover {
+    transform: scale(1.8);
+    color: #e32b2b;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.heart.active {
+    color: #e32b2b;
+}
+
+.heart {
+    color: #666;
+}
+
+#like-text {
+    font-size: 16px;
+    color: #666;
+}
+
+#like-text.active {
+    color: red;
 }
