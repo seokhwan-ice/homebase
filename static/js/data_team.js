@@ -68,89 +68,160 @@ function displayTeamRank(rankData) {
     const teamLogo = document.getElementById('team-logo');
     const teamName = document.getElementById('team-name');
 
-    // 팀 로고와 팀 이름 설정
     const team = teams.find(t => t.logo === `${rankData.team_number}.png`);
     if (team) {
-        teamLogo.src = `/static/images/${team.logo}`; // 로고 경로 설정
-        teamName.innerText = team.name; // 팀 이름 설정
+        teamLogo.src = `/static/images/${team.logo}`;
+        teamName.innerText = team.name;
     } else {
-        teamLogo.src = `/static/images/default_logo.png`; // 기본 로고
-        teamName.innerText = "알 수 없는 팀"; // 기본 팀 이름
+        teamLogo.src = `/static/images/default_logo.png`;
+        teamName.innerText = "알 수 없는 팀";
     }
 
+    // 표로 출력
     rankDiv.innerHTML = `
-        <h2>팀 순위</h2>
-        <p>순위: ${rankData.rank}</p>
-        <p>경기 수: ${rankData.games_played}</p>
-        <p>승: ${rankData.wins}</p>
-        <p>무: ${rankData.draws}</p>
-        <p>패: ${rankData.losses}</p>
-        <p>승률: ${rankData.win_rate}</p>
-        <p>최근 10경기 성적: ${rankData.last_10_games}</p>
-        <p>연속 성적: ${rankData.streak}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>순위</th>
+                    <th>경기수</th>
+                    <th>승</th>
+                    <th>무</th>
+                    <th>패</th>
+                    <th>승률</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${rankData.rank}</td>
+                    <td>${rankData.games_played}</td>
+                    <td>${rankData.wins}</td>
+                    <td>${rankData.draws}</td>
+                    <td>${rankData.losses}</td>
+                    <td>${rankData.win_rate}</td>
+                </tr>
+            </tbody>
+        </table>
     `;
 }
 
 function displayRivalRecords(rivalData) {
     const rivalDiv = document.getElementById('team-rival');
-    rivalDiv.innerHTML = '<h2>상대 전적</h2>';
+
 
     if (rivalData.error) {
         rivalDiv.innerHTML += `<p>${rivalData.error}</p>`;
         return;
     }
 
+    let tableHTML = `
+        <table>
+            <tr>
+                <th>상대팀</th>
+                <th>승</th>
+                <th>무</th>
+                <th>패</th>
+                <th>승률</th>
+            </tr>
+    `;
+
     rivalData.forEach(record => {
-        rivalDiv.innerHTML += `
-            <p>상대팀: ${record.rival}</p>
-            <p>승: ${record.wins}, 무: ${record.draws}, 패: ${record.losses}, 승률: ${record.win_rate}</p>
+        tableHTML += `
+            <tr>
+                <td>${record.rival}</td>
+                <td>${record.wins}</td>
+                <td>${record.draws}</td>
+                <td>${record.losses}</td>
+                <td>${record.win_rate}</td>
+            </tr>
         `;
     });
+
+    tableHTML += `</table>`;
+    rivalDiv.innerHTML += tableHTML;
 }
 
 function displayTeamDetails(detailData) {
     const detailDiv = document.getElementById('team-details');
-    detailDiv.innerHTML = '<h2>팀 상세 기록</h2>';
+
 
     if (detailData.error) {
         detailDiv.innerHTML += `<p>${detailData.error}</p>`;
         return;
     }
 
+    let tableHTML = `
+        <table>
+            <tr>
+                <th>Year</th>
+                <th>War</th>
+                <th>oWAR</th>
+                <th>dWAR</th>
+                <th>G</th>
+                <th>PA</th>
+                <th>ePA</th>
+                <th>AB</th>
+                <th>R</th>
+                <th>H</th>
+                <th>2B</th>
+                <th>3B</th>
+                <th>HR</th>
+                <th>TB</th>
+                <th>RBI</th>
+                <th>SB</th>
+                <th>CS</th>
+                <th>BB</th>
+                <th>HP</th>
+                <th>IB</th>
+                <th>SO</th>
+                <th>GDP</th>
+                <th>SH</th>
+                <th>SF</th>
+                <th>AVG</th>
+                <th>OBP</th>
+                <th>SLG</th>
+                <th>OPS</th>
+                <th>R/ePA</th>
+                <th>wRC+</th>
+            </tr>
+    `;
+
     detailData.forEach(detail => {
-        detailDiv.innerHTML += `
-            <p>${detail.year}년 ${detail.team}:</p>
-            <ul>
-                <li>WAR: ${detail.war}</li>
-                <li>oWAR: ${detail.owar}</li>
-                <li>dWAR: ${detail.dwar}</li>
-                <li>경기 수: ${detail.games}</li>
-                <li>타석 수: ${detail.plate_appearances}</li>
-                <li>유효 타석 수: ${detail.effective_pa}</li>
-                <li>타수: ${detail.at_bats}</li>
-                <li>득점: ${detail.runs}</li>
-                <li>안타: ${detail.hits}</li>
-                <li>2루타: ${detail.two_b}</li>
-                <li>3루타: ${detail.three_b}</li>
-                <li>홈런: ${detail.home_runs}</li>
-                <li>총 베이스: ${detail.total_bases}</li>
-                <li>타점: ${detail.rbi}</li>
-                <li>도루: ${detail.stolen_bases}</li>
-                <li>도루 실패: ${detail.caught_stealing}</li>
-                <li>볼넷: ${detail.walks}</li>
-                <li>몸에 맞는 볼: ${detail.hit_by_pitch}</li>
-                <li>고의 볼넷: ${detail.intentional_walks}</li>
-                <li>삼진: ${detail.strikeouts}</li>
-                <li>병살 타구: ${detail.grounded_into_double_play}</li>
-                <li>희생타: ${detail.sacrifice_hits}</li>
-                <li>희생플라이: ${detail.sacrifice_flies}</li>
-                <li>타율: ${detail.batting_average}</li>
-                <li>출루율: ${detail.on_base_percentage}</li>
-                <li>장타율: ${detail.slugging_percentage}</li>
-                <li>OPS: ${detail.on_base_plus_slugging}</li>
-                <li>유효 타석당 득점: ${detail.runs_per_effective_pa}</li>
-                <li>wRC+: ${detail.wrc_plus}</li>
-            </ul>
+        tableHTML += `
+            <tr>
+                <td>${detail.year}</td>
+                <td>${detail.war}</td>
+                <td>${detail.owar}</td>
+                <td>${detail.dwar}</td>
+                <td>${detail.games}</td>
+                <td>${detail.plate_appearances}</td>
+                <td>${detail.effective_pa}</td>
+                <td>${detail.at_bats}</td>
+                <td>${detail.runs}</td>
+                <td>${detail.hits}</td>
+                <td>${detail.two_b}</td>
+                <td>${detail.three_b}</td>
+                <td>${detail.home_runs}</td>
+                <td>${detail.total_bases}</td>
+                <td>${detail.rbi}</td>
+                <td>${detail.stolen_bases}</td>
+                <td>${detail.caught_stealing}</td>
+                <td>${detail.walks}</td>
+                <td>${detail.hit_by_pitch}</td>
+                <td>${detail.intentional_walks}</td>
+                <td>${detail.strikeouts}</td>
+                <td>${detail.grounded_into_double_play}</td>
+                <td>${detail.sacrifice_hits}</td>
+                <td>${detail.sacrifice_flies}</td>
+                <td>${detail.batting_average}</td>
+                <td>${detail.on_base_percentage}</td>
+                <td>${detail.slugging_percentage}</td>
+                <td>${detail.on_base_plus_slugging}</td>
+                <td>${detail.runs_per_effective_pa}</td>
+                <td>${detail.wrc_plus}</td>
+            </tr>
         `;
     });
+
+    tableHTML += `</table>`;
+    detailDiv.innerHTML += tableHTML;
 }
