@@ -1,0 +1,86 @@
+/* 내가 저장(북마크)한 글 페이지 CSS */
+
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* 프로필 섹션 */
+#profile-image {
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    margin-bottom: 10px;
+}
+
+#nickname {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #949494;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button:hover:not([disabled]) {
+    background-color: #949494;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+}
+
+/* 북마크한 글 섹션 */
+h2 {
+    margin: 20px;
+    color: #333;
+}
+
+#bookmark-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px;
+}
+
+#bookmark-list li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #333;
+    cursor: pointer;
+}
+
+#bookmark-list li:hover {
+    background-color: #f1f1f1;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    #profile-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    button {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    #bookmark-list li {
+        padding: 10px;
+    }
+}
