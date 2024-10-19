@@ -168,18 +168,36 @@ const getFreeDetail = async () => {
         document.getElementById('free-views').textContent = free.views;
         document.getElementById('free-comments-count').textContent = free.comments_count;
 
+        // // profile_image
+        // const profileImageElement = document.getElementById('free-profile-image');
+        // profileImageElement.src = free.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        // profileImageElement.alt = '프로필 이미지';
+        //
+        // // free_image
+        // const freeImageElement = document.getElementById('free-image');
+        // if (free.free_image) {
+        //     freeImageElement.src = free.free_image;
+        //     freeImageElement.style.display = 'block';
+        // } else {
+        //     freeImageElement.style.display = 'none';
+        // }
+
         // profile_image
-        const profileImageElement = document.getElementById('free-profile-image');
-        profileImageElement.src = free.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
-        profileImageElement.alt = '프로필 이미지';
+        const profileImage = document.getElementById('free-profile-image');
+        const profileImageUrl = free.author.profile_image.split(',');
+        const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
+        profileImage.src = cleanProfileImage;
+        profileImage.alt = '프로필 이미지';
 
         // free_image
-        const freeImageElement = document.getElementById('free-image');
+        const freeImage = document.getElementById('free-image');
         if (free.free_image) {
-            freeImageElement.src = free.free_image;
-            freeImageElement.style.display = 'block';
+            const freeImageUrl = free.free_image.split(',');
+            const cleanFreeImage = freeImageUrl[0] + freeImageUrl[1].substring(freeImageUrl[1].indexOf('/'));
+            freeImage.src = cleanFreeImage;
+            freeImage.style.display = 'block';
         } else {
-            freeImageElement.style.display = 'none';
+            freeImage.style.display = 'none';
         }
 
         // 북마크 상태 반영
