@@ -1,32 +1,39 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>선수 기록</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios CDN -->
-    <style>
-        /* 테이블 스타일 (예시) */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-    </style>
+    <title>선수 정보</title>
+    <link rel="stylesheet" href="/static/css/data_player_rival.css">  <!-- CSS 파일 경로 -->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun Dodum&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="navbar"></div>
+    <h1>Player Info</h1>
 
-    <h1>선수 기록</h1>
+    <div id="player-info-section">
+        <!-- 선수 프로필 이미지 테이블 -->
+        <table id="player-image-table">
+            <tr>
+                <td id="player-image">
+                    <!-- JavaScript에서 선수 이미지가 삽입될 부분 -->
+                </td>
+            </tr>
+        </table>
+
+        <!-- 선수 정보 테이블 -->
+        <table id="player-info-table">
+            <tr>
+                <td id="player-info">
+                    <!-- JavaScript에서 선수 정보가 삽입될 부분 -->
+                </td>
+            </tr>
+        </table>
+    </div>
     <table id="player-records-table">
         <thead>
             <tr>
-
                 <th>이름</th>
-                <th>상대팀</th>
                 <th>PA</th>
                 <th>ePA</th>
                 <th>AB</th>
@@ -54,18 +61,17 @@
                 <th>WPA</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- 선수 기록이 여기에 추가됩니다. -->
-        </tbody>
+        <tbody></tbody>
     </table>
-
-    <div>
-        <button id="prev-page" onclick="changePage(-1)">이전</button>
-        <button id="next-page" onclick="changePage(1)">다음</button>
+ <!-- 페이지네이션 버튼 -->
+    <div id="pagination">
+        <button id="prev-page" disabled>이전</button>
+        <span id="page-info">페이지 1</span>
+        <button id="next-page">다음</button>
     </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/data_player_rival.js"></script>
+    <div id="footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/data_player_rival.js"></script>
 </body>
 </html>

@@ -157,23 +157,25 @@ const getLiveDetail = async () => {
         const response = await axios.get(`community/live/${liveId}/`);
         const live = response.data;
 
-        // html 파일에서 만든 form 에 데이터 채우기
-        document.getElementById('game-info').textContent = `${live.home_team} vs ${live.away_team}`;
-        document.getElementById('live-author').textContent = live.author.nickname;
-        document.getElementById('live-seat').textContent = live.seat || "정보 없음";
-        document.getElementById('live-stadium').textContent = live.stadium;
-        document.getElementById('live-review').textContent = live.review;
-        document.getElementById('live-likes-count').textContent = live.likes_count;
-        document.getElementById('live-comments-count').textContent = live.comments_count;
-        document.getElementById('live-created-at').textContent = new Date(live.created_at).toLocaleString();
-        document.getElementById('live-game-date').textContent = new Date(live.game_date).toLocaleString();
+        document.getElementById('live-author').innerText = live.author.nickname;
+        document.getElementById('game-teams').innerText = `${live.home_team} vs ${live.away_team}`;
+        document.getElementById('live-stadium').innerText = live.stadium;
+        document.getElementById('live-game-date').innerText = new Date(live.game_date).toLocaleDateString();
+        document.getElementById('live-seat').innerText = live.seat || "정보 없음";
+        document.getElementById('live-review').innerText = live.review;
 
-        // 이미지 처리 >>> 백엔드에서 수정할게요 디폴트 이미지
-        const profileImage = live.author.profile_image ? `<img src="${live.author.profile_image}" alt="프로필 이미지" width="50">` : "이미지 없음";
-        document.getElementById('live-profile-image').innerHTML = profileImage;
+        // live_image
+        const liveImageElement = document.getElementById('live-image');
+        liveImageElement.src = live.live_image || '/static/images/live_image.png';  // 이미지 수정해야돼
 
-        const liveImage = live.live_image ? `<img src="${live.live_image}" alt="게시글 이미지" width="200">` : "이미지 없음";
-        document.getElementById('live-image').innerHTML = liveImage;
+        // profile_image
+        const profileImageElement = document.getElementById('live-profile-image');
+        profileImageElement.src = live.author.profile_image || '/static/images/kinggoddino.jpg';  // 이미지 수정해야돼
+
+        // 좋아요, 댓글 수, 작성일
+        document.getElementById('like-count').innerText = live.likes_count;
+        document.getElementById('comment-count').innerText = live.comments_count;
+        document.getElementById('live-created-at').innerText = new Date(live.created_at).toLocaleString();
 
         // 댓글 목록 불러오기
         getComments(live.comments);
@@ -237,19 +239,20 @@ commentForm.addEventListener('submit', async function(event) {
 });
 
 // 북마트 토글
-document.getElementById('bookmark-button').addEventListener('click', async function() {
+document.querySelector('.bookmark-icon').addEventListener('click', async function() {
 
     if (!checkSignin()) return;
 
     try {
         const response = await axios.post(`community/live/${liveId}/toggle_bookmark/`);
-        // 나중에 아이콘으로 바꾸쟈
+        const bookmarkIcon = document.querySelector('.bookmark-icon');
+
         if (response.status === 201) {
             alert('글이 북마크되었습니다!');
-            document.getElementById('bookmark-button').textContent = '북마크 취소하기';
+            bookmarkIcon.classList.add('active'); // 노란색 활성화
         } else if (response.status === 204) {
             alert('북마크가 취소되었습니다!');
-            document.getElementById('bookmark-button').textContent = '북마크하기';
+            bookmarkIcon.classList.remove('active'); // 회색으로 변경
         }
     } catch (error) {
         console.error("Error:", error);
@@ -264,13 +267,17 @@ document.getElementById('like-button').addEventListener('click', async function(
 
     try {
         const response = await axios.post(`community/live/${liveId}/toggle_like_article/`);
-        // 나중에 아이콘으로 바꾸쟈
+        const likeIcon = document.getElementById('like-button');
+        const likeText = document.getElementById('like-text');
+
         if (response.status === 201) {
-            alert('좋아요 성공!');
-            document.getElementById('like-button').textContent = '좋아요 취소하기';
+            alert('이 글을 좋아할게요!!!!');
+            likeIcon.classList.add('active');
+            likeText.classList.add('active');
         } else if (response.status === 204) {
-            alert('좋아요 취소!');
-            document.getElementById('like-button').textContent = '좋아요 누르기';
+            alert('이제 이 글을 더이상 좋아하지 않음');
+            likeIcon.classList.remove('active');
+            likeText.classList.remove('active');
         }
         getLiveDetail(); // 좋아요 수 업데이트 (방금 내가 누른 좋아요 반영)
 

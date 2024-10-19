@@ -65,12 +65,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (response.status === 201) {
                 alert('회원가입 성공!');
                 console.log('Server response status:', response.status); // 성공 시 응답 상태 코드 출력
-                window.location.href = 'login.html'; // 회원가입 성공 후 로그인 페이지로 리디렉션
+                window.location.href = 'user_signin.html'; // 회원가입 성공 후 로그인 페이지로 리디렉션
             }
         } catch (error) {
             console.error('회원가입 중 오류 발생:', error);
             if (error.response) {
-                alert(`오류 발생: ${error.response.data.message || error.response.data.detail}`);
+                alert(`오류 발생: ${error.response.data.message || error.response.data.detail || '알 수 없는 오류... 하...'}`);
             } else {
                 alert('서버로부터 응답을 받지 못했습니다.');
             }

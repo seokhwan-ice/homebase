@@ -15,6 +15,7 @@ from . import config
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +31,10 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["54.180.133.17","127.0.0.1","localhost"]
+
+# ALLOWED_HOSTS = ["3.36.120.140","127.0.0.1","localhost"]
+ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -107,18 +111,18 @@ WSGI_APPLICATION = "homebase.wsgi.application"
 # }
 
 # 프로젝트 루트 경로에 있는 .env 파일 로드
-load_dotenv(dotenv_path=BASE_DIR / '.env')
+load_dotenv(dotenv_path=BASE_DIR / ".env")
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 if DEBUG:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-else:    
+else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -160,8 +164,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=720),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,  # 토큰갱신후 블랙리스트 적용
     "BLACKLIST_AFTER_ROTATION": True,  # 사용자가 로그인할 때마다 `last_login` 필드 업데이트
 }
@@ -170,7 +174,7 @@ SIMPLE_JWT = {
 
 LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
@@ -180,8 +184,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
+# STATIC_URL = "/static/"
+# STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "/django_static/"
+STATIC_ROOT = BASE_DIR / "django_static"
+
 
 # 준호
 # STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -214,3 +221,62 @@ ASGI_APPLICATION = "homebase.asgi.application"
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+CELERY_BROKER_URL = "redis://127.0.0.1:8000/0"  # Redis 브로커 예시
+CELERY_BEAT_SCHEDULE = {
+    "crawl-news-every-3-hours": {
+        "task": "data.tasks.crawl_news",
+        "schedule": 3 * 60 * 60,  # 3시간마다 실행
+    },
+    "crawl-player-rival": {
+        "task": "data.tasks.crawl_playerrival_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-players": {
+        "task": "data.tasks.crawl_players_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-schedule": {
+        "task": "data.tasks.crawl_game_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-team": {
+        "task": "data.tasks.fetch_team_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-team-detail": {
+        "task": "data.tasks.fetch_teamdetail_data",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+    "crawl-team-rank": {
+        "task": "data.tasks.team_rank",
+        "schedule": crontab(hour=1, minute=0),  # 매일 01:00에 실행
+    },
+}
+
+CELERY_TIMEZONE = "Asia/Seoul"  # 한국 시간대 설정
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django_error.log'),
+
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}

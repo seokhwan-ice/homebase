@@ -1,71 +1,74 @@
 // API에서 선수 데이터를 가져오는 함수
 async function fetchPlayersData(page = 1) {
+    const urlParams = new URLSearchParams(window.location.search); // URL에서 쿼리 파라미터 가져오기
+    const teamName = urlParams.get('team_name'); // 팀 이름 가져오기
+
     try {
-        // 선수 데이터 API 호출
-        const response = await axios.get(`data/players`); // URL 수정
+        // 팀 이름에 따른 선수 데이터 API 호출
+        const response = await axios.get(`data/players?team_name=${encodeURIComponent(teamName)}`);
         const players = response.data.results; // 페이지네이션에 따른 선수 목록
         const totalPages = response.data.total_pages; // 총 페이지 수
-
-        // 데이터를 콘솔에 출력하여 확인
-        console.log('선수 데이터:', players);
 
         const playersContainer = document.getElementById('players-container');
         playersContainer.innerHTML = ''; // 이전 내용 지우기
         const baseURL = 'https://statiz.sporki.com';
 
-        // 선수 정보를 DOM에 추가
-        players.forEach(player => {
+        // 선수 목록을 팀 이름으로 필터링
+        const filteredPlayers = players.filter(player => player.team_name === teamName);
+
+        filteredPlayers.forEach(player => {
             const playerDiv = document.createElement('div');
             playerDiv.className = 'player';
 
-            // 이미지 URL 절대 경로로 변환
-            const playerImage = `${baseURL}${player.profile_img}`; // 절대 경로로 변환
-
-            // 이미지 URL 콘솔에 출력 (디버깅용)
-            console.log('이미지 URL:', playerImage);
-
-            // 선수 정보 표시
-            playerDiv.innerHTML = `
-                <img src="${playerImage}" alt="${player.name} 프로필 이미지" onerror="this.onerror=null; this.src='path/to/default-image.jpg';" />
-                <h2>${player.name}</h2>
-                <p>팀: ${player.team}</p>
-                <p>포지션: ${player.position}</p>
-                <p>타격손: ${player.batter_hand}</p>
-                <p>생년월일: ${player.birth_date ? player.birth_date : '정보 없음'}</p>
-                <p>출신학교: ${player.school ? player.school : '정보 없음'}</p>
-                <p>신인지명: ${player.draft_info ? player.draft_info : '정보 없음'}</p>
-                <p>활약연도: ${player.active_years ? player.active_years : '정보 없음'}</p>
-                <p>활약팀: ${player.active_team ? player.active_team : '정보 없음'}</p>
-            `;
+            const playerImage = `${baseURL}${player.profile_img}`;
+            if (player.profile_img) {
+                playerDiv.innerHTML = `
+                    <img src="${playerImage}" alt="${player.name} 프로필 이미지" onerror="this.onerror=null;" />
+                    <h2 class="player-name" data-player-id="${player.id}" data-player-number="${player.player_number}">${player.name}</h2>
+                    <p>팀: ${player.team_name}</p>
+                `;
+            } else {
+                playerDiv.innerHTML = `
+                    <h2 class="player-name" data-player-id="${player.id}" data-player-number="${player.player_number}">${player.name}</h2>
+                    <p>팀: ${player.team_name}</p>
+                `;
+            }
 
             playersContainer.appendChild(playerDiv);
         });
 
         // 페이지네이션 표시
         displayPagination(page, totalPages);
+
+        // 선수 이름 클릭 이벤트 추가
+        const playerNames = document.querySelectorAll('.player-name');
+        playerNames.forEach(name => {
+            name.addEventListener('click', function () {
+                const playerNumber = this.dataset.playerNumber; // player_number 가져오기
+                console.log('클릭한 선수 번호:', playerNumber); // 선수 번호 확인
+                window.location.href = `data_player_rival.html?player_number=${playerNumber}`; // 상세 페이지로 이동
+            });
+        });
     } catch (error) {
         console.error('선수 데이터를 가져오는 중 오류 발생:', error);
     }
 }
 
-// 페이지네이션 표시 함수
+// 페이지네이션을 표시하는 함수
 function displayPagination(currentPage, totalPages) {
     const paginationContainer = document.getElementById('pagination-container');
     paginationContainer.innerHTML = ''; // 이전 내용 지우기
 
-    for (let i = 1; i <= totalPages; i++) {
+    for (let page = 1; page <= totalPages; page++) {
         const pageLink = document.createElement('a');
-        pageLink.innerText = i;
-        pageLink.href = '#';
-        pageLink.onclick = () => {
-            fetchPlayersData(i); // 클릭 시 해당 페이지 데이터 가져오기
-        };
+        pageLink.href = `?page=${page}`; // 페이지 링크 설정
+        pageLink.textContent = page; // 링크 텍스트 설정
 
-        if (i === currentPage) {
-            pageLink.className = 'active'; // 현재 페이지 표시
+        if (page === currentPage) {
+            pageLink.classList.add('active'); // 현재 페이지 강조
         }
 
-        paginationContainer.appendChild(pageLink);
+        paginationContainer.appendChild(pageLink); // 페이지 링크를 페이지네이션 컨테이너에 추가
     }
 }
 

@@ -37,6 +37,8 @@ def crawl_players_data():
             a_tags = div.find_all("a")
             for a in a_tags:
                 player_url = f"{base_url}{a['href']}"
+                # 선수 번호 추출 (p_no 값 추출)
+                player_number = a["href"].split("p_no=")[-1]
                 player_response = requests.get(player_url)
                 player_soup = BeautifulSoup(player_response.text, "html.parser")
                 profile = player_soup.find("div", class_="in_box")
@@ -56,7 +58,7 @@ def crawl_players_data():
                 )
                 con = profile.find("div", class_="con").find_all("span")
 
-                team = con[0].text.strip() if len(con) > 0 else "정보 없음"
+                team_name = con[0].text.strip() if len(con) > 0 else "정보 없음"
                 position = con[1].text.strip() if len(con) > 1 else "정보 없음"
                 batter_hand = con[2].text.strip() if len(con) > 2 else "정보 없음"
 
@@ -93,18 +95,19 @@ def crawl_players_data():
                 # 필수 정보가 모두 있는지 확인
                 if (
                     name == "정보 없음"
-                    or team == "정보 없음"
+                    or team_name == "정보 없음"
                     or position == "정보 없음"
                 ):
                     print(
-                        f"선수 정보가 누락되었습니다: {name}, 팀: {team}, 포지션: {position}"
+                        f"선수 정보가 누락되었습니다: {name}, 팀: {team_name}, 포지션: {position}"
                     )
                     continue
 
                 # 데이터베이스에 저장
                 player = Players(
+                    player_number=player_number,
                     name=name,
-                    team=team,
+                    team_name=team_name,
                     position=position,
                     batter_hand=batter_hand,
                     birth_date=birth_date,
@@ -119,12 +122,8 @@ def crawl_players_data():
 
                 # 결과 출력
                 print(
-                    f"선수 이름: {name}, 팀: {team}, 포지션: {position}, 생년월일: {birth_date}, 출신학교: {school}, "
+                    f"선수 이름: {name}, 팀: {team_name}, 포지션: {position}, 생년월일: {birth_date}, 출신학교: {school}, "
                     f"신인지명: {draft_info}, 활약연도: {active_years}, 활약팀: {active_team}, 이미지 URL: {profile_img}"
                 )
 
     return total_records  # 저장된 선수 기록의 개수 반환
-
-
-# 중복된 크롤링에 대해서 덮어쓰기 하지 않는 부분 수정해야함@@@@
-# 이미지 저장 하는걸 어떻게해야...?

@@ -4,21 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>계정 설정</title>
+    <link rel="stylesheet" href="/static/css/user_prvprofile_update.css">
 </head>
 <body>
-    <div>
-        <button id="mypage-button">mypage</button>
-        <button id="signout-button">signout</button>
-    </div>
-
-        <!-- 프로필/계정 버튼 -->
-        <div>
-            <button id="profile-button">프로필</button> <!-- JS에서 동적 링크 처리 -->
-            <button disabled style="background-color: lightgray;">계정</button> <!-- 계정 버튼 비활성화 -->
-        </div>
-
+    <div id="navbar"></div>
         <!-- 계정 설정 페이지 -->
         <h2>계정</h2>
+                <!-- 프로필/계정 버튼 -->
+                <div class="top buttons">
+                    <button id="profile-button">프로필</button><!-- JS에서 동적 링크 처리 -->
+                    <button disabled style="background-color: lightgray;">계정</button> <!-- 계정 버튼 비활성화 -->
+                </div>
         <form id="account-form">
             <!-- 기존 이메일 표시 -->
             <label for="current-email">email</label>
@@ -49,11 +45,12 @@
             <button type="button" id="delete-account-button">계정 탈퇴</button>
         </form>
 
+        <div id="footer"></div>
+
         <!-- 외부 스크립트 추가 -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="../js/common.js"></script>
-        <script src="../js/user_prvprofile_update.js"></script>
-    </div>
+        <script src="/static/js/common.js"></script>
+        <script src="/static/js/user_prvprofile_update.js"></script>
 </body>
 </html>
 

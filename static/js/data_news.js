@@ -1,16 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
     // API에서 데이터를 가져와서 표시하는 함수
-    axios.get('data/news/')  // API URL을 정확하게 설정
+    axios.get('data/news/')
         .then(response => {
             console.log('받은 데이터:', response.data);  // 받아온 데이터 로그
-            displayNews(response.data.articles);  // 'articles' 배열을 넘김
+            if (response.data && Array.isArray(response.data.results)) {
+                displayNews(response.data.results);  // 'results' 배열을 넘김
+            } else {
+                console.error('데이터 형식이 올바르지 않음:', response.data);
+                const newsList = document.getElementById("newsList");
+                newsList.innerHTML = '<li>유효한 뉴스 데이터를 찾을 수 없습니다.</li>';
+            }
         })
         .catch(error => {
             console.error('뉴스 데이터를 가져오는 데 실패했습니다.', error);
             const newsList = document.getElementById("newsList");
             newsList.innerHTML = '<li>뉴스 데이터를 가져오는 데 실패했습니다. 나중에 다시 시도해주세요.</li>';
         });
-}); // 이 괄호는 DOMContentLoaded 이벤트 핸들러의 끝입니다.
+});
 
 function displayNews(articles) {
     const newsList = document.getElementById("newsList");
