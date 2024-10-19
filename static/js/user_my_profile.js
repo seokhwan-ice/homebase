@@ -33,7 +33,7 @@ async function getUserProfile() {
 
         // 가입일 설정
         const signupDateElement = document.getElementById('signup-date');
-        signupDateElement.textContent = `가입일: ${data.created_at}`;
+        signupDateElement.textContent = `가입일: ${new Date(data.created_at).toLocaleDateString()}`;
 
         // 팔로워 및 팔로잉 수 설정 및 링크 추가
         const followersLink = document.getElementById('followers-link');
@@ -49,9 +49,9 @@ async function getUserProfile() {
         const freeboardCountElement = document.getElementById('freeboard-count');
         const likedCountElement = document.getElementById('liked-count');
         
-        communityCountElement.textContent = `${data.article_count}개`;
+        communityCountElement.textContent = `${data.live_article_count}개`;
         commentCountElement.textContent = `${data.comment_count}개`;
-        freeboardCountElement.textContent = `${data.article_count}개`; 
+        freeboardCountElement.textContent = `${data.free_article_count}개`; 
         likedCountElement.textContent = `${data.bookmark_count}개`;
 
         // 링크 설정
