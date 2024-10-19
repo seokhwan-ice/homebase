@@ -168,37 +168,37 @@ const getFreeDetail = async () => {
         document.getElementById('free-views').textContent = free.views;
         document.getElementById('free-comments-count').textContent = free.comments_count;
 
-        // // profile_image
-        // const profileImageElement = document.getElementById('free-profile-image');
-        // profileImageElement.src = free.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
-        // profileImageElement.alt = '프로필 이미지';
-        //
-        // // free_image
-        // const freeImageElement = document.getElementById('free-image');
-        // if (free.free_image) {
-        //     freeImageElement.src = free.free_image;
-        //     freeImageElement.style.display = 'block';
-        // } else {
-        //     freeImageElement.style.display = 'none';
-        // }
-
         // profile_image
         const profileImage = document.getElementById('free-profile-image');
-        const profileImageUrl = free.author.profile_image.split(',');
-        const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
-        profileImage.src = cleanProfileImage;
+        profileImage.src = free.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
         profileImage.alt = '프로필 이미지';
 
         // free_image
         const freeImage = document.getElementById('free-image');
         if (free.free_image) {
-            const freeImageUrl = free.free_image.split(',');
-            const cleanFreeImage = freeImageUrl[0] + freeImageUrl[1].substring(freeImageUrl[1].indexOf('/'));
-            freeImage.src = cleanFreeImage;
+            freeImage.src = free.free_image;
             freeImage.style.display = 'block';
         } else {
             freeImage.style.display = 'none';
         }
+
+        // // profile_image
+        // const profileImage = document.getElementById('free-profile-image');
+        // const profileImageUrl = free.author.profile_image.split(',');
+        // const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
+        // profileImage.src = cleanProfileImage;
+        // profileImage.alt = '프로필 이미지';
+        //
+        // // free_image
+        // const freeImage = document.getElementById('free-image');
+        // if (free.free_image) {
+        //     const freeImageUrl = free.free_image.split(',');
+        //     const cleanFreeImage = freeImageUrl[0] + freeImageUrl[1].substring(freeImageUrl[1].indexOf('/'));
+        //     freeImage.src = cleanFreeImage;
+        //     freeImage.style.display = 'block';
+        // } else {
+        //     freeImage.style.display = 'none';
+        // }
 
         // 북마크 상태 반영
         const bookmarkIcon = document.getElementById('bookmark-icon');
@@ -219,6 +219,14 @@ const getFreeDetail = async () => {
         // 작성자 닉네임 클릭 -> 프로필 페이지로 이동
         const authorElement = document.getElementById('free-author');
         authorElement.onclick = () => {
+
+        // Username = null (로그인 안된경우)
+        if (!loggedInUsername) {
+        location.href = `user_other_profile.html?username=${free.author.username}`;
+        return;  // 남의 프로필
+        }
+
+        // 로그인 되어있는 경우
             if (free.author.username === loggedInUsername) {
                 // 내 프로필
                 location.href = `user_my_profile.html?username=${free.author.username}`;

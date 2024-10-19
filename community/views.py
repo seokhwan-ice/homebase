@@ -72,7 +72,12 @@ class FreeViewSet(BaseViewSet):
 
         # 북마크 상태 확인
         user = request.user
-        is_bookmarked = self.get_bookmark_status(user, instance)
+
+        # 로그인 안했을 때 -> 북마크 상태는 False
+        if user.is_anonymous:
+            is_bookmarked = False
+        else:
+            is_bookmarked = self.get_bookmark_status(user, instance)
 
         serializer = self.get_serializer(instance)
         data = serializer.data
@@ -134,8 +139,13 @@ class LiveViewSet(BaseViewSet, LikeMixin):
         instance = self.get_object()
         user = request.user
 
-        is_liked = self.get_like_status(user, instance)
-        is_bookmarked = self.get_bookmark_status(user, instance)
+        # 로그인 안했을 때 -> 북마크 상태는 False
+        if user.is_anonymous:
+            is_liked = False
+            is_bookmarked = False
+        else:
+            is_liked = self.get_like_status(user, instance)
+            is_bookmarked = self.get_bookmark_status(user, instance)
 
         serializer = self.get_serializer(instance)
         data = serializer.data
