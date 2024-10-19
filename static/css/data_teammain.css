@@ -1,4 +1,5 @@
 /* teammain.css */
+
 .team-container {
     display: flex; /* Flexbox 사용 */
     flex-wrap: wrap; /* 줄바꿈 허용 */
@@ -30,9 +31,6 @@ h1 {
     color: #333; /* 글씨 색상 */
 }
 
-body {
-    padding-top: 40px; /* 전체 상단에 여백 추가 */
-}
 
 /* 팀명에 대한 스타일 */
 .team-card p {

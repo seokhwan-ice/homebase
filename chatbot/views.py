@@ -38,7 +38,7 @@ def get_openai_response(
     messages = [
         {
             "role": "system",
-            "content": "당신은 한국 야구 전문가 챗봇입니다. 선수들의 통계와 경기 일정에 대한 정보를 200자 이내로 정확하게 답변하세요.",
+            "content": "당신은 한국 야구 전문가 챗봇입니다. 사용자가 물어보는 질문에 대한 답은 연결된 데이터베이스에 있는 내용을 항상 우선으로 하고, 추가적인 검색을 통해 정확한 답변을 해야 합니다. 답변은 200자 이내로 정확하게 답변하세요.",
         },
         {"role": "user", "content": user_input},
     ]
@@ -60,7 +60,6 @@ def get_openai_response(
 
 
 class ChatbotAPIView(APIView):
-
 
     def post(self, request, *args, **kwargs):
         user_input = request.data.get("user_input")
@@ -138,13 +137,17 @@ class ChatbotAPIView(APIView):
         team_name = self.extract_team_name(user_input)
 
         if team_name:
-            team_rank = TeamRank.objects.filter(team_name=team_name).values(
-                "team_name",
-                "rank",
-                "wins",
-                "draws",
-                "losses",
-            ).first()
+            team_rank = (
+                TeamRank.objects.filter(team_name=team_name)
+                .values(
+                    "team_name",
+                    "rank",
+                    "wins",
+                    "draws",
+                    "losses",
+                )
+                .first()
+            )
 
             if team_rank:
                 # 데이터베이스에서 조회한 팀 순위 정보를 OpenAI에 전송

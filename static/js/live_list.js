@@ -35,15 +35,15 @@ const renderLiveList = (liveList) => {
     liveList.forEach(live => {
         const liveItem = document.createElement('li');
 
-        // 프로필 이미지
-        const profileImage = live.author.profile_image ?
-            `<img src="${live.author.profile_image}" alt="프로필 이미지" width="30">` :
-            '<i class="fa-solid fa-circle-user"></i>';
+        // profile_image
+        const profileImage = document.createElement('img');
+        profileImage.src = live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        profileImage.alt = '프로필 이미지';
 
         // live_image
-        const liveImage = live.live_image ?
-            `<img src="${live.live_image}" alt="경기 이미지" width="100%">` :
-            `<img src="/static/images/live_image.png" alt="기본 이미지" width="100%">`;
+        const liveImage = document.createElement('img');
+        liveImage.src = live.live_image || 'https://via.placeholder.com/300';
+        liveImage.alt = '게시글 이미지';
 
         const formattedDate = new Date(live.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
 
@@ -51,12 +51,12 @@ const renderLiveList = (liveList) => {
             <a href="live_detail.html?id=${live.id}" class="card-link">
                 <div class="profile-section">
                     <div class="author">
-                        ${profileImage}
+                        ${profileImage.outerHTML}
                         <span class="nickname">${live.author.nickname}</span>
                     </div>
                     <span class="date">${formattedDate}</span>
                 </div>
-                ${liveImage}
+                ${liveImage.outerHTML}
                 <div class="info">
                     <h2>${live.home_team} vs ${live.away_team}</h2>
                     <div class="meta">

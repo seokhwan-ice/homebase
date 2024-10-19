@@ -1,0 +1,263 @@
+/* ----------테두리------------- */
+.content-section {
+    margin: 20px auto;
+    padding: 50px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------버튼------------- */
+.action-buttons {
+    display: flex;
+    gap: 30px;
+}
+
+.action-buttons button {
+    background-color: #9a9a9a;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.action-buttons button:hover {
+    background-color: #5a5a5a;
+}
+
+/* ----------작성자------------- */
+.author-and-bookmark {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.author-section {
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+}
+
+#free-profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #505050;
+}
+
+#free-author {
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    color: #454545;
+    transition: font-size 0.3s ease;
+}
+
+#free-author:hover {
+    font-size: 30px
+}
+
+/* ----------북마크------------- */
+.bookmark-section {
+    display: flex;
+    align-items: center;
+}
+
+.bookmark-icon {
+    font-size: 40px;
+    color: #c6c6c6;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.bookmark-icon:hover {
+    transform: scale(1.4);
+    color: #f5b800;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.bookmark-icon.active {
+    color: #f5b800;
+}
+
+#bookmark-text {
+    font-size: 20px;
+    color: #666;
+}
+
+#bookmark-text.active {
+    color: #f49211;
+}
+
+/* ----------메타정보------------- */
+.meta-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.left-info {
+    display: flex;
+    align-items: center;
+}
+
+.left-info span {
+    margin-right: 20px;
+    font-size: 22px;
+}
+
+.left-info i {
+    margin-right: 10px;
+    font-size: 25px;
+    color: #666;
+}
+
+.right-info {
+    text-align: right;
+}
+
+.right-info p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+}
+
+/* ----------글제목------------- */
+#free-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* ----------글이미지------------- */
+#free-image {
+    max-width: 60%;
+    max-height: 500px;
+    border: 1px solid #555555;
+    object-fit: contain;
+}
+
+/* ----------댓글------------- */
+.comment-item {
+    margin-bottom: 1px;
+    padding-bottom: 1px;
+}
+
+.reply-list {
+    margin-left: 40px;
+}
+
+.comment-hr {
+    border: none;
+    border-top: 1px dashed #959595;
+    margin: 10px 0;
+}
+
+/* 헤더 - 작성자,시간 */
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 작성자 */
+.comment-author-info {
+    display: flex;
+    align-items: center;
+}
+
+.comment-profile-image {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 5px;
+    border: 1px solid #454545;
+}
+
+.comment-author {
+    font-size: 15px;
+    color: #333;
+}
+
+/* 시간 */
+.comment-time {
+    font-size: 12px;
+    color: #8c8c8c;
+}
+
+/* 바디 - 내용,버튼 */
+.comment-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 내용 */
+.comment-content {
+    margin-top: 10px;
+    padding-right: 5px;
+    font-size: 14px;
+}
+
+/* 버튼 */
+.comment-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.comment-buttons button {
+    background-color: #eaeaea;
+    border: none;
+    padding: 2px 9px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.comment-buttons button:hover {
+    background-color: #b5b5b5;
+}
+
+/* ----------댓글 입력 박스------------- */
+#comment-form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; /* 세로 정렬 */
+    gap: 10px;
+}
+
+/* 댓글 입력 박스 */
+#comment-content {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #c6c6c6;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+#comment-content:focus {
+    border-color: #616161; /* 포커스 시 테두리 색상 변경 */
+    outline: none;
+}
+
+/* 댓글 작성 버튼 */
+#comment-form button {
+    background-color: #9a9a9a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#comment-form button:hover {
+    background-color: #5a5a5a; /* 호버 시 더 진한 회색 */
+}

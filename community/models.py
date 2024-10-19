@@ -75,9 +75,7 @@ class Live(TimeStamp):
     )
     live_image = models.ImageField(
         upload_to="live/image/%Y/%m/%d/",
-        blank=True,
-        null=True,
-    )  # TODO: 이미지 필수 + 영상필드추가/seat,team필드수정
+    )  # TODO: 영상필드추가/seat,team필드수정
 
     review = models.TextField()
     game_date = models.DateTimeField()

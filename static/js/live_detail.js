@@ -164,21 +164,58 @@ const getLiveDetail = async () => {
         document.getElementById('live-seat').innerText = live.seat || "정보 없음";
         document.getElementById('live-review').innerText = live.review;
 
-        // live_image
-        const liveImageElement = document.getElementById('live-image');
-        liveImageElement.src = live.live_image || '/static/images/live_image.png';  // 이미지 수정해야돼
-
         // profile_image
         const profileImageElement = document.getElementById('live-profile-image');
-        profileImageElement.src = live.author.profile_image || '/static/images/kinggoddino.jpg';  // 이미지 수정해야돼
+        profileImageElement.src = live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        profileImageElement.alt = '프로필 이미지';
+
+        // live_image
+        const liveImageElement = document.getElementById('live-image');
+        liveImageElement.src = live.live_image || 'https://via.placeholder.com/300';
+        liveImageElement.alt = '게시글 이미지';
 
         // 좋아요, 댓글 수, 작성일
         document.getElementById('like-count').innerText = live.likes_count;
         document.getElementById('comment-count').innerText = live.comments_count;
         document.getElementById('live-created-at').innerText = new Date(live.created_at).toLocaleString();
 
+        // 좋아요, 북마크 상태 반영
+        const likeIcon = document.getElementById('like-button');
+        const likeText = document.getElementById('like-text');
+        if (live.is_liked) {
+            likeIcon.classList.add('active');
+            likeText.classList.add('active');
+        } else {
+            likeIcon.classList.remove('active');
+            likeText.classList.remove('active');
+        }
+
+        const bookmarkIcon = document.querySelector('.bookmark-icon');
+        const bookmarkText = document.getElementById('bookmark-text');
+        if (live.is_bookmarked) {
+            bookmarkIcon.classList.add('active');
+            bookmarkText.classList.add('active');
+        } else {
+            bookmarkIcon.classList.remove('active');
+            bookmarkText.classList.remove('active');
+        }
+
         // 댓글 목록 불러오기
         getComments(live.comments);
+
+        // 로그인한 사람 유저네임 가져와
+        const loggedInUsername = localStorage.getItem('username');
+        // 작성자 닉네임 클릭 -> 프로필 페이지로 이동
+        const authorElement = document.getElementById('live-author');
+        authorElement.onclick = () => {
+            if (live.author.username === loggedInUsername) {
+                // 내 프로필
+                location.href = `user_my_profile.html?username=${live.author.username}`;
+            } else {
+                // 남의 프로필
+                location.href = `user_other_profile.html?username=${live.author.username}`;
+            }
+        };
 
     } catch (error) {
         console.error("Error:", error);
@@ -246,13 +283,16 @@ document.querySelector('.bookmark-icon').addEventListener('click', async functio
     try {
         const response = await axios.post(`community/live/${liveId}/toggle_bookmark/`);
         const bookmarkIcon = document.querySelector('.bookmark-icon');
+        const bookmarkText = document.getElementById('bookmark-text');
 
         if (response.status === 201) {
-            alert('글이 북마크되었습니다!');
-            bookmarkIcon.classList.add('active'); // 노란색 활성화
+            alert('이 글을 북마크할게요!!!!!');
+            bookmarkIcon.classList.add('active');
+            bookmarkText.classList.add('active');
         } else if (response.status === 204) {
-            alert('북마크가 취소되었습니다!');
-            bookmarkIcon.classList.remove('active'); // 회색으로 변경
+            alert('이 글을 북마크하기 싫어졌음.');
+            bookmarkIcon.classList.remove('active');
+            bookmarkText.classList.remove('active');
         }
     } catch (error) {
         console.error("Error:", error);
@@ -271,11 +311,11 @@ document.getElementById('like-button').addEventListener('click', async function(
         const likeText = document.getElementById('like-text');
 
         if (response.status === 201) {
-            alert('이 글을 좋아할게요!!!!');
+            alert('이 글을 좋아할게요!!!!!');
             likeIcon.classList.add('active');
             likeText.classList.add('active');
         } else if (response.status === 204) {
-            alert('이제 이 글을 더이상 좋아하지 않음');
+            alert('이제 이 글을 더이상 좋아하지 않음.');
             likeIcon.classList.remove('active');
             likeText.classList.remove('active');
         }

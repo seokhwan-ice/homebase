@@ -8,7 +8,7 @@ from .models import Free, Live, Comment
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["nickname", "profile_image"]
+        fields = ["nickname", "profile_image", "username"]
 
 
 # Comment
@@ -23,7 +23,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_replies(self, instance):
         if instance.replies.exists():
             return CommentSerializer(instance.replies.all(), many=True).data
-        return None
+        return []
 
     # TODO: 프론트가서 확인해보고 free에도 좋아요 기능할거면 이 함수 삭제
     def to_representation(self, instance):
