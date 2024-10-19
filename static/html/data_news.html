@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>뉴스 기사 목록</title>
+    <link rel="stylesheet" href="/static/css/data_news.css"> <!-- CSS 파일 경로 -->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet"> <!-- 폰트 설정 -->
 </head>
 
 <body>
-    <div id="navbar"></div>
-    <ul id="newsList"></ul>
-    <div id="footer"></div>
+    <div id="navbar"></div> <!-- 네비게이션 바 -->
+    <h1>뉴스 기사 목록</h1> <!-- 제목 추가 -->
+    <ul id="newsList"></ul> <!-- 뉴스 기사 목록이 표시될 곳 -->
+    <div id="pagination-container"></div> <!-- 페이지네이션 컨테이너 추가 -->
+    <div id="footer"></div> <!-- 푸터 추가 -->
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
-    <script src="/static/js/common.js"></script>
-    <script src="/static/js/data_news.js"></script>
+    <script src="/static/js/common.js"></script> <!-- 공통 스크립트 -->
+    <script src="/static/js/data_news.js"></script> <!-- 뉴스 데이터 스크립트 -->
 </body>
 </html>

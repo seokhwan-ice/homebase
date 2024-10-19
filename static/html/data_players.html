@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player List</title>
-    <link rel="stylesheet" href="/static/css/data_players.css" >  <!-- CSS 파일 경로 -->
-    <link href="https://fonts.googleapis.com/css2?family=Gowun Dodum&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/data_players.css">  <!-- CSS 파일 경로 -->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="navbar"></div>
     <h1>Player List</h1>
+
+    <!-- 팀 로고를 표시할 컨테이너 -->
+    <div id="team-logos" style="display: flex; justify-content: center; gap: 20px; padding: 20px 0;"></div>
+
     <div id="players-container"></div> <!-- 선수 정보를 표시할 컨테이너 -->
     <div id="pagination-container"></div> <!-- 페이지네이션 컨테이너 -->
 
@@ -19,4 +23,3 @@
     <script src="/static/js/data_players.js"></script>
 </body>
 </html>
-

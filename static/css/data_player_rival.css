@@ -1,10 +1,3 @@
-body {
-    font-family: 'Gowun Dodum', sans-serif; /* 구글 폰트 적용 */
-    background-color: #f9f9f9; /* 부드러운 배경색 */
-    color: #333; /* 글자색 */
-    margin: 0;
-    padding: 20px; /* 전체 패딩 */
-}
 
 h1 {
     margin-top: 40px; /* 상단과의 간격 */
@@ -15,7 +8,6 @@ h1 {
 }
 
 #player-info-section {
-    font-family: 'Gowun Dodum', sans-serif; /* 구글 폰트 적용 */
     display: flex; /* 플렉스 박스 */
     align-items: center; /* 수직 정렬 */
     margin-bottom: 20px; /* 아래 여백 */
@@ -51,20 +43,25 @@ h1 {
     font-size: 16px; /* 단락 크기 */
 }
 
-#player-records-table {
-    width: 150%; /* 테이블 너비 */
-    border-collapse: collapse; /* 테두리 합치기 */
+#player-records-container {
+    overflow-x: auto; /* 가로 스크롤 추가 */
     margin-top: 20px; /* 위 여백 */
+}
+
+#player-records-table {
+    min-width: 800px; /* 테이블 최소 너비 설정 */
+    border-collapse: collapse; /* 테두리 합치기 */
     background-color: #fff; /* 테이블 배경색 */
     border-radius: 10px; /* 둥근 모서리 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    font-family: 'Gowun Dodum', sans-serif; /* 구글 폰트 적용 */
+    table-layout: fixed; /* 테이블 고정 레이아웃 설정 */
 }
 
 #player-records-table th, #player-records-table td {
     padding: 10px; /* 셀 패딩 */
     text-align: center; /* 텍스트 중앙 정렬 */
     border-bottom: 1px solid #ddd; /* 셀 구분선 */
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
 }
 
 #player-records-table th {
@@ -76,6 +73,36 @@ h1 {
     background-color: #f0f0f0; /* 마우스 오버 시 색상 */
 }
 
+/* 페이지네이션 컨테이너 스타일 */
+#pagination-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px;
+}
+
+/* 페이지네이션 링크 스타일 */
+#pagination-container a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #070202; /* 기본 글씨 색상 */
+    background-color: #f8eaf7; /* 기본 배경 색상 */
+    padding: 10px 15px; /* 내부 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s, transform 0.3s; /* 부드러운 변환 효과 */
+}
+
+/* 페이지네이션 링크 호버 스타일 */
+#pagination-container a:hover {
+    background-color: #0056b3; /* 호버 시 배경 색상 */
+    transform: scale(1.05); /* 약간 커지게 */
+}
+
+/* 현재 페이지 강조 스타일 */
+#pagination-container a.active {
+    background-color: #f8c7f6; /* 활성 페이지 배경 색상 */
+    color: white; /* 활성 페이지 글씨 색상 */
+    font-weight: bold; /* 글씨 두껍게 */
+}
 #footer {
     text-align: center; /* 푸터 중앙 정렬 */
     margin-top: 30px; /* 위 여백 */

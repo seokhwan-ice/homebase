@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun Dodum&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div id="navbar"></div>
     <h1>Player Info</h1>
 
@@ -30,45 +31,51 @@
             </tr>
         </table>
     </div>
-    <table id="player-records-table">
-        <thead>
-            <tr>
-                <th>이름</th>
-                <th>PA</th>
-                <th>ePA</th>
-                <th>AB</th>
-                <th>R</th>
-                <th>H</th>
-                <th>2B</th>
-                <th>3B</th>
-                <th>HR</th>
-                <th>TB</th>
-                <th>RBI</th>
-                <th>BB</th>
-                <th>HP</th>
-                <th>IB</th>
-                <th>SO</th>
-                <th>GDP</th>
-                <th>SH</th>
-                <th>SF</th>
-                <th>AVG</th>
-                <th>OBP</th>
-                <th>SLG</th>
-                <th>OPS</th>
-                <th>NP</th>
-                <th>avLI</th>
-                <th>RE24</th>
-                <th>WPA</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
- <!-- 페이지네이션 버튼 -->
-    <div id="pagination">
-        <button id="prev-page" disabled>이전</button>
-        <span id="page-info">페이지 1</span>
-        <button id="next-page">다음</button>
+
+    <!-- 스크롤 가능한 컨테이너 -->
+    <div id="player-records-container">
+        <table id="player-records-table">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>PA</th>
+                    <th>ePA</th>
+                    <th>AB</th>
+                    <th>R</th>
+                    <th>H</th>
+                    <th>2B</th>
+                    <th>3B</th>
+                    <th>HR</th>
+                    <th>TB</th>
+                    <th>RBI</th>
+                    <th>BB</th>
+                    <th>HP</th>
+                    <th>IB</th>
+                    <th>SO</th>
+                    <th>GDP</th>
+                    <th>SH</th>
+                    <th>SF</th>
+                    <th>AVG</th>
+                    <th>OBP</th>
+                    <th>SLG</th>
+                    <th>OPS</th>
+                    <th>NP</th>
+                    <th>avLI</th>
+                    <th>RE24</th>
+                    <th>WPA</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
+
+    <!-- 페이지네이션 버튼 -->
+    <div id="pagination">
+    <div id="pagination-container">
+        <div id="pagination"></div> <!-- 페이지네이션 버튼을 담을 div -->
+    </div>
+    </div>
+
     <div id="footer"></div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/static/js/common.js"></script>
