@@ -168,16 +168,18 @@ const getFreeDetail = async () => {
         document.getElementById('free-views').textContent = free.views;
         document.getElementById('free-comments-count').textContent = free.comments_count;
 
-        const profileImage = document.getElementById('free-profile-image');
-        if (free.author.profile_image) {
-            profileImage.src = free.author.profile_image;
-            profileImage.style.display = 'block';
-        }
+        // profile_image
+        const profileImageElement = document.getElementById('free-profile-image');
+        profileImageElement.src = free.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        profileImageElement.alt = '프로필 이미지';
 
-        const freeImage = document.getElementById('free-image');
+        // free_image
+        const freeImageElement = document.getElementById('free-image');
         if (free.free_image) {
-            freeImage.src = free.free_image;
-            freeImage.style.display = 'block';
+            freeImageElement.src = free.free_image;
+            freeImageElement.style.display = 'block';
+        } else {
+            freeImageElement.style.display = 'none';
         }
 
         // 북마크 상태 반영

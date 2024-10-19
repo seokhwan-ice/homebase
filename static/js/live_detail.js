@@ -164,13 +164,15 @@ const getLiveDetail = async () => {
         document.getElementById('live-seat').innerText = live.seat || "정보 없음";
         document.getElementById('live-review').innerText = live.review;
 
-        // live_image
-        const liveImageElement = document.getElementById('live-image');
-        liveImageElement.src = live.live_image || '/static/images/live_image.png';  // 이미지 수정해야돼
-
         // profile_image
         const profileImageElement = document.getElementById('live-profile-image');
-        profileImageElement.src = live.author.profile_image || '/static/images/kinggoddino.jpg';  // 이미지 수정해야돼
+        profileImageElement.src = live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        profileImageElement.alt = '프로필 이미지';
+
+        // live_image
+        const liveImageElement = document.getElementById('live-image');
+        liveImageElement.src = live.live_image || 'https://via.placeholder.com/300';
+        liveImageElement.alt = '게시글 이미지';
 
         // 좋아요, 댓글 수, 작성일
         document.getElementById('like-count').innerText = live.likes_count;

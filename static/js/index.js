@@ -40,18 +40,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
         // 직관인증 게시판 (Live)
-        const defaultImageLive = '../images/live_image.png';
+        const defaultImageLive = 'https://via.placeholder.com/300';
 
         const topLikedLive = data.top_liked_live;
         const topLikedLiveList = document.getElementById('top-liked-live');
         topLikedLive.forEach(live => {
-            const imageUrl = live.live_image || defaultImageLive; // 기본 이미지 설정
+            const imageUrl = live.live_image || defaultImageLive;
             const li = document.createElement('li');
             li.innerHTML = `
                 <a href="live_detail.html?id=${live.id}">
                     <div class="profile-section">
                         <div class="author">
-                            <img src="${live.author.profile_image || '../images/kinggoddino.jpg'}" alt="${live.author.nickname}">
+                            <img src="${live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png'}" alt="${live.author.nickname}">
                             <span>${live.author.nickname}</span>
                         </div>
                         <span class="date">${new Date(live.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' })}</span>
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="bottom-info">
                             <span class="stadium">${live.stadium}</span>
                             <div class="meta-info">
-                                <span><i class="fas fa-heart"></i> ${live.likes_count}</span>
-                                <span><i class="fas fa-comment"></i> ${live.comments_count}</span>
+                                <span><i class="fa-solid fa-heart"></i> ${live.likes_count}</span>
+                                <span><i class="fa-solid fa-comment"></i> ${live.comments_count}</span>
                             </div>
                         </div>
                     </div>
@@ -77,13 +77,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const topCommentedLive = data.top_commented_live;
         const topCommentedLiveList = document.getElementById('top-commented-live');
         topCommentedLive.forEach(live => {
-            const imageUrl = live.live_image || defaultImageLive; // 기본 이미지 설정
+            const imageUrl = live.live_image || defaultImageLive;
             const li = document.createElement('li');
             li.innerHTML = `
                 <a href="live_detail.html?id=${live.id}">
                     <div class="profile-section">
                         <div class="author">
-                            <img src="${live.author.profile_image || '../images/kinggoddino.jpg'}" alt="${live.author.nickname}">
+                            <img src="${live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png'}" alt="${live.author.nickname}">
                             <span>${live.author.nickname}</span>
                         </div>
                         <span class="date">${new Date(live.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' })}</span>
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         // 채팅방 (Chat)
-        const defaultImageChat = '../images/baseball.png';
+        const defaultImageChat = 'https://i.imgur.com/CcSWvhq.png';
 
         const topChatrooms = data.top_participated_chatrooms;
         const topChatroomList = document.getElementById('top-participated-chatrooms');
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             li.innerHTML = `
                 <a href="${news.url}" target="_blank">
                     <p>${formattedDate}</p>
-                    <img src="${news.image_url}" alt="뉴스 이미지">
+                    <img src="${news.image_url || 'https://via.placeholder.com/200'}" alt="뉴스 이미지">
                     <h3>${news.title}</h3>
                 </a>
             `;
