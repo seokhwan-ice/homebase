@@ -8,7 +8,7 @@ from .models import Free, Live, Comment
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["nickname", "profile_image"]
+        fields = ["nickname", "profile_image", "username"]
 
 
 # Comment

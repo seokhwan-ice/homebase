@@ -194,6 +194,20 @@ const getFreeDetail = async () => {
         // 댓글 목록 불러오기
         getComments(free.comments);
 
+        // 로그인한 사람 유저네임 가져와
+        const loggedInUsername = localStorage.getItem('username');
+        // 작성자 닉네임 클릭 -> 프로필 페이지로 이동
+        const authorElement = document.getElementById('free-author');
+        authorElement.onclick = () => {
+            if (free.author.username === loggedInUsername) {
+                // 내 프로필
+                location.href = `user_my_profile.html?username=${free.author.username}`;
+            } else {
+                // 남의 프로필
+                location.href = `user_other_profile.html?username=${free.author.username}`;
+            }
+        };
+
     } catch (error) {
         console.error("Error:", error);
         alert("글 상세 정보 불러오기 실패");

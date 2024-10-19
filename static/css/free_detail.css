@@ -43,11 +43,23 @@
 }
 
 #free-profile-image {
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    margin-right: 15px;
-    border: 1px solid #5a5a5a;
+    margin-right: 10px;
+    border: 2px solid #505050;
+}
+
+#free-author {
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    color: #454545;
+    transition: font-size 0.3s ease;
+}
+
+#free-author:hover {
+    font-size: 30px
 }
 
 /* ----------북마크------------- */

@@ -37,8 +37,8 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 1px solid #4a4a4a;
-    margin-right: 15px;
+    border: 2px solid #505050;
+    margin-right: 10px;
 }
 
 .profile-section div {
@@ -49,9 +49,16 @@
 
 .profile-section p {
     margin: 0;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
-    color: #333;
+    color: #454545;
+    cursor: pointer;
+    transition: font-size 0.3s ease; /* 애니메이션 추가 */
+}
+
+/* 마우스 올렸을 때 글씨 크기 커지도록 설정 */
+.profile-section p:hover {
+    font-size: 30px !important; /* 강제로 적용 */
 }
 
 /* 북마크 아이콘 */
