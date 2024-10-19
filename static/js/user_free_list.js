@@ -28,14 +28,6 @@ const loadUserProfileAndPosts = async () => {
             postLink.textContent = article.title;  // 제목 표시
             postLink.href = `free_detail.html?id=${article.id}`;  // 게시글 ID로 상세 페이지 링크 설정
             
-            // 이미지가 있는 경우 이미지 미리보기 추가
-            if (article.free_image) {
-                const imagePreview = document.createElement('img');
-                imagePreview.src = article.free_image;
-                imagePreview.alt = article.title;
-                imagePreview.style.width = "50px";  // 이미지 크기 설정
-                listItem.appendChild(imagePreview);
-            }
 
             // 게시글 작성일 표시
             const dateInfo = document.createElement('span');

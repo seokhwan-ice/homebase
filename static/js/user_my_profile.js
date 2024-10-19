@@ -33,7 +33,7 @@ async function getUserProfile() {
 
         // 가입일 설정
         const signupDateElement = document.getElementById('signup-date');
-        signupDateElement.textContent = `가입일: ${data.created_at}`;
+        signupDateElement.textContent = `가입일: ${new Date(data.created_at).toLocaleDateString()}`;
 
         // 팔로워 및 팔로잉 수 설정 및 링크 추가
         const followersLink = document.getElementById('followers-link');
