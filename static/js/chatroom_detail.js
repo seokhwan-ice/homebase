@@ -43,9 +43,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Socket.IO 연결: TODO: 배포 <-> 로컬 바꿔줘야돼요
-    // const socket = io('http://home-base.co.kr:3000');
-    const socket = io('http://127.0.0.1:3000');
+    // Socket.IO 연결
+    let socket;
+    if (location.hostname === 'home-base.co.kr') {
+        socket = io('http://home-base.co.kr:3000');  // 배포 환경
+    } else {
+        socket = io('http://127.0.0.1:3000');  // 로컬 환경
+    }
 
     // 채팅방 입장
     socket.emit('joinRoom', { roomId, userNickname });
