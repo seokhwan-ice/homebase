@@ -159,4 +159,8 @@ function addMessage(message) {
         </div>
     `;
     document.getElementById('messages').appendChild(li);
+
+    // 스크롤 맨 아래로
+    const chatWindow = document.querySelector('.chat-window');
+    chatWindow.scrollTop = chatWindow.scrollHeight;
 }

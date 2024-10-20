@@ -18,10 +18,9 @@ const loadChatrooms = async (searchQuery = '') => {
         // 채팅방 목록 렌더링
         rooms.forEach(room => {
             const li = document.createElement('li');
-            const defaultImage = '/static/images/baseball.png';  // 디폴트 이미지
 
-            // chatroom_image
             const roomImage = room.image ? room.image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
+            const latestMessageTime = timeAgo(room.latest_message_time);
 
             li.classList.add('chatroom-item');
             li.innerHTML = `
@@ -29,7 +28,7 @@ const loadChatrooms = async (searchQuery = '') => {
                 <div class="chatroom-info">
                     <h3 class="chatroom-title">${room.title}</h3>
                     <p class="chatroom-description">${room.description}</p>
-                    <p class="chatroom-last-message">최근 대화: ${room.latest_message_time}</p>
+                    <p class="chatroom-last-message">최근대화 : ${latestMessageTime}</p>
                 </div>
                 <div class="chatroom-participants">
                     <i class="fa-solid fa-user"></i> ${room.participants_count}명
@@ -37,7 +36,8 @@ const loadChatrooms = async (searchQuery = '') => {
             `;
 
             li.addEventListener('click', () => {
-                window.location.href = `chatroom_detail.html?roomId=${room.id}`;
+                if (!checkSignin()) return;
+                location.href = `chatroom_detail.html?roomId=${room.id}`;
             });
 
             chatroomList.appendChild(li);
@@ -71,3 +71,23 @@ document.getElementById('create-chatroom-button').addEventListener('click', () =
     if (!checkSignin()) return;
     location.href = 'chatroom_create.html';
 });
+
+// 시간 계산 함수
+function timeAgo(dateString) {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diffInMs = now - past;
+    const diffInMinutes = Math.floor(diffInMs / 1000 / 60);
+
+    if (diffInMinutes < 1) return '방금 전';
+    if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) return `${diffInHours}시간 전`;
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) return `${diffInDays}일 전`;
+
+    // 7일 이상일 경우 >>> 날짜 표시
+    return past.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+}
