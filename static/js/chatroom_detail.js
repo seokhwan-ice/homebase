@@ -8,10 +8,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const chatroom = response.data;
         console.log('채팅방 정보:', chatroom);
 
+        // chatroom_image
+        const chatroomImage = chatroom.image
+            ? chatroom.image.replace(/.*\/media/, '/media')
+            : 'https://i.imgur.com/CcSWvhq.png';
+
+        document.getElementById('chatroom-image').src = chatroomImage;
         document.getElementById('chatroom-title').textContent = chatroom.title
         document.getElementById('chatroom-description').textContent = chatroom.description
         document.getElementById('participants-count').textContent = chatroom.participants_count || '0';
-        document.getElementById('chatroom-image').src = chatroom.image || '/static/images//baseball.png';
 
         // 현재 유저 === 방장 >>>>> 방 삭제 버튼 표시
         const userId = response.data.user_id;
@@ -111,10 +116,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // 메시지를 추가하는 함수
 function addMessage(message) {
+
+    // profile_image
+    const userProfileImage = message.userProfileImage
+        ? message.userProfileImage.replace(/.*\/media/, '/media')
+        : 'https://i.imgur.com/CcSWvhq.png';
+
     const li = document.createElement('li');
     li.classList.add('message-item');
     li.innerHTML = `
-        <img src="${message.userProfileImage || '/static/images/baseball.png'}" alt="프사" class="message-profile-image">
+        <img src="${userProfileImage}" alt="프사" class="message-profile-image">
         <div class="message-content">
             <span class="message-nickname">${message.userNickname}</span>
             <p class="message-text">${message.message}</p>

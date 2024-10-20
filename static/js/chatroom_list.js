@@ -20,9 +20,12 @@ const loadChatrooms = async (searchQuery = '') => {
             const li = document.createElement('li');
             const defaultImage = '/static/images/baseball.png';  // 디폴트 이미지
 
+            // chatroom_image
+            const roomImage = room.image ? room.image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
+
             li.classList.add('chatroom-item');
             li.innerHTML = `
-                <img src="${room.image || defaultImage}" alt="채팅방 대표 사진" class="chatroom-image">
+                <img src="${roomImage}" alt="채팅방 대표사진" class="chatroom-image">
                 <div class="chatroom-info">
                     <h3 class="chatroom-title">${room.title}</h3>
                     <p class="chatroom-description">${room.description}</p>

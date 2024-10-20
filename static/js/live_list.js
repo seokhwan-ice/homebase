@@ -37,33 +37,13 @@ const renderLiveList = (liveList) => {
 
         // profile_image
         const profileImage = document.createElement('img');
-        profileImage.src = live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        profileImage.src = live.author.profile_image ? live.author.profile_image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
         profileImage.alt = '프로필 이미지';
 
         // live_image
         const liveImage = document.createElement('img');
-        liveImage.src = live.live_image || 'https://via.placeholder.com/300';
+        liveImage.src = live.live_image ? live.live_image.replace(/.*\/media/, '/media') : 'https://via.placeholder.com/300';
         liveImage.alt = '게시글 이미지';
-
-        // // profile_image
-        // const profileImage = document.createElement('img');
-        // if (live.author.profile_image) {
-        //     const profileImageUrl = live.author.profile_image.split(',');
-        //     const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
-        //     profileImage.src = cleanProfileImage;
-        // } else {
-        //     profileImage.src = 'https://i.imgur.com/CcSWvhq.png';
-        // }
-        // profileImage.alt = '프로필 이미지';
-        // profileImage.classList.add('profile-image');
-        //
-        // // live_image
-        // const liveImage = document.createElement('img');
-        // const liveImageUrl = live.live_image.split(',');
-        // const cleanLiveImage = liveImageUrl[0] + liveImageUrl[1].substring(liveImageUrl[1].indexOf('/'));
-        // liveImage.src = cleanLiveImage;
-        // liveImage.alt = '게시글 이미지';
-        // liveImage.classList.add('live-image');
 
         const formattedDate = new Date(live.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
 

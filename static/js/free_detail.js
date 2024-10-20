@@ -41,10 +41,15 @@ const createCommentItem = (comment) => {
     const commentItem = document.createElement('div');
     commentItem.classList.add('comment-item');
 
+    // comment_profile_image
+    const commentProfileImage = comment.author.profile_image
+        ? comment.author.profile_image.replace(/.*\/media/, '/media')
+        : 'https://i.imgur.com/CcSWvhq.png';
+
     commentItem.innerHTML = `
         <div class="comment-header">
             <div class="comment-author-info">
-                <img class="comment-profile-image" src="${comment.author.profile_image}" alt="프로필 이미지">
+                <img class="comment-profile-image" src="${commentProfileImage}" alt="프로필 이미지">
                 <span class="comment-author">${comment.author.nickname}</span>
             </div>
             <span class="comment-time">${new Date(comment.created_at).toLocaleString()}</span>
@@ -169,36 +174,18 @@ const getFreeDetail = async () => {
         document.getElementById('free-comments-count').textContent = free.comments_count;
 
         // profile_image
-        const profileImage = document.getElementById('free-profile-image');
-        profileImage.src = free.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
-        profileImage.alt = '프로필 이미지';
+        const freeProfileImage = document.getElementById('free-profile-image');
+        freeProfileImage.src = free.author.profile_image ? free.author.profile_image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
+        freeProfileImage.alt = '프로필 이미지';
 
         // free_image
         const freeImage = document.getElementById('free-image');
         if (free.free_image) {
-            freeImage.src = free.free_image;
+            freeImage.src = free.free_image.replace(/.*\/media/, '/media');
             freeImage.style.display = 'block';
         } else {
             freeImage.style.display = 'none';
         }
-
-        // // profile_image
-        // const profileImage = document.getElementById('free-profile-image');
-        // const profileImageUrl = free.author.profile_image.split(',');
-        // const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
-        // profileImage.src = cleanProfileImage;
-        // profileImage.alt = '프로필 이미지';
-        //
-        // // free_image
-        // const freeImage = document.getElementById('free-image');
-        // if (free.free_image) {
-        //     const freeImageUrl = free.free_image.split(',');
-        //     const cleanFreeImage = freeImageUrl[0] + freeImageUrl[1].substring(freeImageUrl[1].indexOf('/'));
-        //     freeImage.src = cleanFreeImage;
-        //     freeImage.style.display = 'block';
-        // } else {
-        //     freeImage.style.display = 'none';
-        // }
 
         // 북마크 상태 반영
         const bookmarkIcon = document.getElementById('bookmark-icon');
