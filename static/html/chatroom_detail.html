@@ -2,22 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>chatroom_detail</title>
+    <link rel="stylesheet" href="/static/css/chatroom_detail.css">
 </head>
 
 <body>
-    <div id="navbar"></div>
-    <h1 id="chatroom-title"></h1>
-    <ul id="messages"></ul>
+    <div id="navbar"></div><br>
 
-    <div>
-        <input id="chat-message-input" placeholder="메시지를 입력하세요" autocomplete="off" />
-        <button id="send-button">전송하기</button>
-    </div>
-    <br><br>
-    <button onclick="location.href='chatroom_list.html'">목록으로 돌아가기</button>
+    <section class="chatroom-header">
+        <div class="chatroom-info">
+            <img id="chatroom-image" src="/static/images/baseball.png" alt="채팅방 대표 이미지">
+            <div class="chatroom-details">
+                <h1 id="chatroom-title"></h1>
+                <p id="chatroom-description"></p>
+                <p id="chatroom-participants"><i class="fa-solid fa-user"></i> 참여: <span id="participants-count"></span> 명</p>
+            </div>
+        </div>
+        <button id="back-to-list" class="back-button" onclick="location.href='chatroom_list.html'">채팅방 목록으로</button>
+    </section>
+
+    <section class="content-section">
+        <section class="chat-window">
+            <ul id="messages" class="messages"></ul>
+        </section>
+
+        <div class="chat-input">
+            <input id="chat-message-input" placeholder="메시지를 입력하세요" autocomplete="off">
+            <button id="send-button">전송하기</button>
+        </div>
+    </section>
 
     <div id="footer"></div>
 

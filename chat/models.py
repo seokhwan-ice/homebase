@@ -12,7 +12,7 @@ class TimeStamp(models.Model):
 # 채팅방
 class ChatRoom(TimeStamp):
     title = models.CharField(max_length=20, unique=True)
-    description = models.TextField(blank=True)
+    description = models.CharField(max_length=40, blank=True, null=True)
     image = models.ImageField(upload_to="chat/image/%Y/%m/%d/", null=True, blank=True)
     creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

@@ -77,7 +77,7 @@
     background-color: #fff;
     margin-bottom: 1rem;
     padding: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid #d3d3d3;
     border-radius: 5px;
     transition: transform 0.2s;
     cursor: pointer;
@@ -85,7 +85,7 @@
 
 .chatroom-item:hover {
     transform: scale(1.05);
-    background-color: #fbfbfb;
+    background-color: #d3d3d3;
 }
 
 /* 사진 */
@@ -94,7 +94,7 @@
     height: 75px;
     object-fit: cover;
     border-radius: 50%;
-    border: 1px solid #2c2c2c;
+    border: 1px solid #9f9f9f;
 }
 
 /* 정보 */

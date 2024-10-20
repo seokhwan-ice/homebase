@@ -80,3 +80,4 @@ class ChatRoomDetailSerializer(serializers.ModelSerializer):
             "creator_nickname",
             "participants_count",
         ]
+        # TODO: 생성일이랑 방장 정보 넣을까말까 고민중. 익명성에 이점 있어서 안넣는것도 좋을듯

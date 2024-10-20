@@ -1,7 +1,8 @@
 // Socket.IO 서버 (3000포트에서 실행)
 const io = require('socket.io')(3000, {
     cors: {
-        origin: "http://home-base.co.kr",
+        // origin: "http://home-base.co.kr",
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });
@@ -22,10 +23,12 @@ io.on('connection', (socket) => {
         // 해당 채팅방이 없다면 생성
         if (!chatRooms[roomId]) {
             chatRooms[roomId] = [];
+            console.log(`새로운 채팅방 생성됨: ${roomId}`);
         }
 
         // 클라이언트에게 이전 채팅 내역을 전달
         socket.emit('previousMessages', chatRooms[roomId]);
+        console.log(`이전 메시지 전달 완료: ${chatRooms[roomId].length}개 메시지`);
     });
 
     // 클라이언트가 메시지를 보낼 때 처리
@@ -34,9 +37,11 @@ io.on('connection', (socket) => {
 
         // 해당 채팅방에 메시지를 저장
         chatRooms[roomId].push(chatMessage);
+        console.log(`메시지가 저장완료: ${message}`);
 
         // 채팅방에 있는 모든 클라이언트에게 메시지 전달
         io.to(roomId).emit('receiveMessage', chatMessage);
+        console.log(`메시지가 전송완료: ${message}`);
     });
 
     // 클라이언트 연결 해제 시
