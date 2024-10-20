@@ -19,6 +19,8 @@ from .views import (
     TeamDetailDetailGetView,
     TeamRivalDetailGetAPIView,
     TeamRankDetailGetView,
+    YouTubeVideoCrawlView,
+    YouTubeVideoGetListView,
 )
 
 urlpatterns = [
@@ -32,6 +34,7 @@ urlpatterns = [
     path("players/crawl/", PlayersCreateAPIView.as_view(), name="players-api"),
     path("teamrival/crawl/", TeamRivalAPIView.as_view(), name="players-api"),
     path("teamdetail/crawl/", TeamDetailAPIView.as_view(), name="players-api"),
+    path("youtube/crawl/", YouTubeVideoCrawlView.as_view(), name="youtube-api"),
     # 데이터 조회를 위한 GET 요청용 URL
     path(
         "players_rival/<str:player_number>/",
@@ -66,4 +69,5 @@ urlpatterns = [
     ),
     # 기상예보
     path("weatherforecast/", WeatherDataAPIView.as_view(), name="weather-forcast"),
+    path("youtube/", YouTubeVideoGetListView.as_view(), name="youtube-api"),
 ]

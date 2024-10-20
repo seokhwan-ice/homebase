@@ -166,7 +166,7 @@ class TeamDetail(models.Model):
         verbose_name_plural = "팀 통계"
 
     def __str__(self):
-        return f"{self.year} {self.team} - {self.rank}위"
+        return f"{self.year} {self.team} "
 
 
 class WeatherData(models.Model):
@@ -189,3 +189,14 @@ class WeatherData(models.Model):
 
     def __str__(self):
         return f"{self.location} ({self.base_date} {self.base_time}) - 온도: {self.temperature}℃, 습도: {self.humidity}%, 풍향: {self.wind_direction}, 강수 상태: {self.rain_status}"
+
+
+class Video(models.Model):
+    video_id = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    publish_time = models.DateTimeField()
+    video_url = models.URLField()
+
+    def __str__(self):
+        return self.title
