@@ -155,8 +155,8 @@ function addMessage(message) {
         <div class="message-content">
             <span class="message-nickname">${message.userNickname}</span>
             <p class="message-text">${message.message}</p>
-            <span class="message-time">${message.time}</span>
         </div>
+        <span class="message-time">${message.time}</span>
     `;
     document.getElementById('messages').appendChild(li);
 
