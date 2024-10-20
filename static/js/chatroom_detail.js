@@ -40,6 +40,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         userNickname = response.data.nickname;
         userProfileImage = response.data.profile_image;
         console.log('참여자 닉네임:', userNickname);
+
+        // 참여자 수 바로 업데이트
+        const roomResponse = await axios.get(`chat/chatrooms/${roomId}/`);
+        const participantsCount = roomResponse.data.participants_count;
+        document.getElementById('participants-count').textContent = participantsCount;
+
     } catch (error) {
         console.error('참여자 등록 실패:', error);
         return;
