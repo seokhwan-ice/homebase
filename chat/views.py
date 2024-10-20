@@ -66,6 +66,30 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
             status=200,
         )
 
+    # 채팅방 나가는 API (하.. 이렇게 하는게 맞나..)
+    @action(detail=True, methods=["post"])
+    def leave(self, request, pk=None):
+        room = self.get_object()
+        participant = ChatParticipant.objects.filter(
+            user=request.user, room=room
+        ).first()  # 참여자 찾기
+
+        if participant:
+            participant.delete()
+            return Response(
+                {
+                    "message": "채팅방에서 나갔습니다!",
+                    "nickname": request.user.nickname,
+                },
+                status=200,
+            )
+        return Response(
+            {
+                "message": "참여하지 않은 채팅방",
+            },
+            status=400,
+        )
+
 
 # 채팅 메시지
 # TODO: 페이지네이션 추가하기

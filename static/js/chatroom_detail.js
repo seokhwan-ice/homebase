@@ -92,6 +92,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
+
+    // 채팅방 나가기
+    document.getElementById('leave-chatroom-button').addEventListener('click', async function() {
+    if (confirm('이 채팅방에서 나가시나요???')) {
+        try {
+            const roomId = new URLSearchParams(location.search).get('roomId');
+            await axios.post(`chat/chatrooms/${roomId}/leave/`);
+            alert('채팅방에서 나갔습니다!');
+            location.href = 'chatroom_list.html';
+        } catch (error) {
+            console.error('채팅방 나가기 실패:', error);
+            alert('채팅방 나가기 실패.');
+        }
+    }
+});
 });
 
 // 메시지를 추가하는 함수
