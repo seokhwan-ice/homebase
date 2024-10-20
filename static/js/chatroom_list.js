@@ -47,15 +47,23 @@ const loadChatrooms = async (searchQuery = '') => {
     }
 };
 
-// DOMContentLoaded 이벤트에서 처음 목록 로드
+// 처음 목록 로드
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadChatrooms();  // 전체 채팅방 목록 로드
+    await loadChatrooms();
 });
 
-// 검색 기능 추가
+// 검색
 document.getElementById('search-button').addEventListener('click', async () => {
     const searchInput = document.getElementById('search-input').value;
     await loadChatrooms(searchInput);
+});
+
+// 검색 엔터
+document.getElementById('search-input').addEventListener('keydown', async (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        await loadChatrooms(document.getElementById('search-input').value);
+    }
 });
 
 // 채팅방 생성 버튼 클릭 시

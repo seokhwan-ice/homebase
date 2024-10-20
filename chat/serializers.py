@@ -56,12 +56,6 @@ class ChatRoomListSerializer(serializers.ModelSerializer):
 # 채팅방 Detail
 class ChatRoomDetailSerializer(serializers.ModelSerializer):
     messages = ChatMessageSerializer(many=True, read_only=True)
-    creator_profile_image = serializers.ImageField(
-        source="creator.profile_image", read_only=True
-    )
-    creator_nickname = serializers.ReadOnlyField(
-        source="creator.nickname", read_only=True
-    )
     # 참여자 수
     participants_count = serializers.IntegerField(
         source="participants.count", read_only=True
@@ -79,8 +73,6 @@ class ChatRoomDetailSerializer(serializers.ModelSerializer):
             "description",
             "created_at",
             "messages",
-            "creator_profile_image",
-            "creator_nickname",
             "participants_count",
             "creator_id",
             "user_id",

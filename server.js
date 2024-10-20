@@ -19,10 +19,10 @@ let chatRooms = {};
 io.on('connection', (socket) => {
     console.log('유저가 연결되었습니다!');
 
-    // 클라이언트가 특정 채팅방 입장
+    // 채팅방 입장
     socket.on('joinRoom', ({ roomId, userNickname }) => {
         socket.join(roomId);  // 특정 roomId에 해당하는 채팅방에 사용자 입장
-        console.log(`${userNickname} 님이 ${roomId} 방에 입장했습니다!!`);
+        console.log(`${userNickname} >>> ${roomId} 방에 입장했습니다!!`);
 
         // 해당 채팅방이 없다면 생성
         if (!chatRooms[roomId]) {
@@ -36,20 +36,28 @@ io.on('connection', (socket) => {
     });
 
     // 클라이언트가 메시지를 보낼 때 처리
-    socket.on('sendMessage', ({ roomId, userNickname, message }) => {
-        const chatMessage = { userNickname, message, time: new Date().toLocaleTimeString() };
+    socket.on('sendMessage', ({ roomId, userNickname, message, user_profile_image }) => {
+        console.log('받은 메시지:', { roomId, userNickname, message, user_profile_image });
+
+        const chatMessage = {
+            userNickname,
+            message,
+            time: new Date().toLocaleTimeString(),
+            user_profile_image
+        };
 
         // 해당 채팅방에 메시지를 저장
         chatRooms[roomId].push(chatMessage);
-        console.log(`메시지가 저장완료: ${message}`);
+        console.log(`메시지 저장 완료: ${message}`);
 
         // 채팅방에 있는 모든 클라이언트에게 메시지 전달
         io.to(roomId).emit('receiveMessage', chatMessage);
-        console.log(`메시지가 전송완료: ${message}`);
+        console.log(`메시지 전송 완료: ${message}`);
     });
 
-    // 클라이언트 연결 해제 시
-    socket.on('disconnect', () => {
-        console.log('유저 연결이 해제되었습니다!');
+    // 방 나갈때
+    socket.on('leaveRoom', ({ roomId, userNickname }) => {
+        socket.leave(roomId);
+        console.log(`${userNickname} >>> ${roomId} 방에서 나갔습니다.`);
     });
 });

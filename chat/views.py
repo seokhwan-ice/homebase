@@ -55,6 +55,7 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
                 {
                     "message": "참여 완료!",
                     "nickname": user_serializer.data["nickname"],
+                    "profile_image": user_serializer.data["profile_image"],
                 },
                 status=201,
             )
@@ -62,6 +63,7 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
             {
                 "message": "이미 참여 중입니다!",
                 "nickname": user_serializer.data["nickname"],
+                "profile_image": user_serializer.data["profile_image"],
             },
             status=200,
         )
