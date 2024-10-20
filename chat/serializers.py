@@ -66,6 +66,9 @@ class ChatRoomDetailSerializer(serializers.ModelSerializer):
     participants_count = serializers.IntegerField(
         source="participants.count", read_only=True
     )
+    # 방장에게만 방 삭제 버튼 보이게 만드는중
+    creator_id = serializers.ReadOnlyField(source="creator.id")
+    user_id = serializers.SerializerMethodField()
 
     class Meta:
         model = ChatRoom
@@ -79,5 +82,14 @@ class ChatRoomDetailSerializer(serializers.ModelSerializer):
             "creator_profile_image",
             "creator_nickname",
             "participants_count",
+            "creator_id",
+            "user_id",
         ]
         # TODO: 생성일이랑 방장 정보 넣을까말까 고민중. 익명성에 이점 있어서 안넣는것도 좋을듯
+
+    def get_user_id(self, obj):
+        # 현재 요청을 보낸 사용자의 ID
+        request = self.context.get("request", None)
+        if request and hasattr(request, "user"):
+            return request.user.id
+        return None

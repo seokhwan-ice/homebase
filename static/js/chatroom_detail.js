@@ -13,8 +13,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('participants-count').textContent = chatroom.participants_count || '0';
         document.getElementById('chatroom-image').src = chatroom.image || '/static/images//baseball.png';
 
+        // 현재 유저 === 방장 >>>>> 방 삭제 버튼 표시
+        const userId = response.data.user_id;
+        console.log('현재 유저 ID:', userId);
+        console.log('방장 ID:', chatroom.creator_id);
+
+        if (chatroom.creator_id === userId) {
+            document.getElementById('delete-chatroom-button').style.display = 'block';
+        }
+
     } catch (error) {
-        console.error('채팅방 정보 불러오기 실패함:', error);
+        console.error('채팅방 정보 불러오기 실패:', error);
         alert('채팅방 정보 불러오기 실패..');
         return;
     }
@@ -68,6 +77,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 메시지 수신
     socket.on('receiveMessage', function(message) {
         addMessage(message);
+    });
+
+    // 채팅방 삭제
+    document.getElementById('delete-chatroom-button').addEventListener('click', async function() {
+        if (confirm('이 채팅방을 정말 삭제하시나요????')) {
+            try {
+                await axios.delete(`chat/chatrooms/${roomId}/`);
+                alert('채팅방 삭제 완료!');
+                location.href = 'chatroom_list.html';
+            } catch (error) {
+                console.error('채팅방 삭제 실패:', error);
+                alert('채팅방 삭제 실패.');
+            }
+        }
     });
 });
 

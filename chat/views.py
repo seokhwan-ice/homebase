@@ -1,4 +1,5 @@
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import viewsets, filters
@@ -23,6 +24,11 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
+
+    def perform_destroy(self, instance):
+        if instance.creator != self.request.user:
+            raise PermissionDenied("방장만 삭제할 수 있습니다!")
+        instance.delete()
 
     # 권한 설정
     def get_permissions(self):
