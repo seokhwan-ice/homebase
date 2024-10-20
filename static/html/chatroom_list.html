@@ -6,27 +6,27 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>chatroom_list</title>
 
-    <link rel="stylesheet" href="/static/css/chatroom_list.css"> <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/chatroom_list.css">
 </head>
 
 <body>
-    <div id="navbar"></div>
+    <div id="navbar"></div><br>
     <h1>채팅방 목록 페이지</h1>
 
-    <!-- 검색 기능 추가 -->
-    <div>
-        <input type="text" id="search-input" placeholder="채팅방 검색">
-        <button id="search-button">검색</button>
-    </div>
+    <section class="content-section">
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" class="search-input" placeholder="키워드로 채팅방 검색하기!">
+                <button id="search-button" class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
 
-    <!-- 채팅방 총 개수 표시 -->
-    <p id="rooms-count"></p>
+            <button id="create-chatroom-button" class="create-button">채팅방 만들기!</button>
+        </div>
 
-    <!-- 이동 버튼 -->
-    <button id="create-chatroom-button">채팅방 만들기</button>
+        <p id="rooms-count" class="rooms-count"></p>
 
-    <!-- 채팅방 목록을 렌더링할 공간 -->
-    <ul id="chatroom-list"></ul>
+        <ul id="chatroom-list" class="chatroom-list"></ul>
+    </section>
 
     <div id="footer"></div>
 

@@ -11,7 +11,7 @@ from .models import Free, Live
 from . import serializers
 from chat.models import ChatRoom
 from data.models import SportsNews, TeamRank
-from chat.serializers import ChatRoomSerializer
+from chat.serializers import ChatRoomListSerializer
 from data.serializers import SportsNewsListSerializer, TeamRankSerializer
 
 
@@ -188,7 +188,7 @@ class MainView(views.APIView):
             "top_commented_live": serializers.LiveListSerializer(
                 top_commented_live, many=True
             ).data,
-            "top_participated_chatrooms": ChatRoomSerializer(
+            "top_participated_chatrooms": ChatRoomListSerializer(
                 top_participated_chatrooms, many=True
             ).data,
             "latest_news": SportsNewsListSerializer(latest_news, many=True).data,

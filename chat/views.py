@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import viewsets, filters
 from .models import ChatRoom, ChatMessage, ChatParticipant
-from .serializers import ChatRoomSerializer, ChatMessageSerializer
+from . import serializers
 from user.serializers import UserSerializer
 
 
@@ -11,7 +11,15 @@ from user.serializers import UserSerializer
 class ChatRoomViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ChatRoom.objects.all()
-    serializer_class = ChatRoomSerializer
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.ChatRoomCreateSerializer
+        elif self.action == "list":
+            return serializers.ChatRoomListSerializer
+        elif self.action == "retrieve":
+            return serializers.ChatRoomDetailSerializer
+        return super().get_serializer_class()
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
@@ -54,9 +62,10 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
 
 
 # 채팅 메시지
+# TODO: 페이지네이션 추가하기
 class ChatMessageViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = ChatMessageSerializer
+    serializer_class = serializers.ChatMessageSerializer
     queryset = ChatMessage.objects.all()
 
     def perform_create(self, serializer):

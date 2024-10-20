@@ -1,5 +1,133 @@
-/* chatroom_list.css */
+.content-section {
+    margin: 20px auto;
+    padding: 50px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------검색창, 방만들기버튼------------ */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    width: 70%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #9f9f9f;
+    border-radius: 5px;
+}
+
+.search-button {
+    padding: 0.5rem 1rem;
+    background-color: #686868;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #323232;
+}
+
+.create-button {
+    padding: 0.5rem 1rem;
+    background-color: #686868;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-button:hover {
+    background-color: #323232;
+}
+
+/* ----------채팅방 수------------- */
+.rooms-count {
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4c4c4c;
+    margin-bottom: 2rem;
+}
+
+/* ----------채팅방------------- */
+.chatroom-list {
+    list-style: none;
+    padding: 0;
+}
+
+.chatroom-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.chatroom-item:hover {
+    transform: scale(1.05);
+    background-color: #fbfbfb;
+}
+
+/* 사진 */
 .chatroom-image {
-    width: 100px;  /* 너비 */
-    border-radius: 50px;  /* 이미지 둥근 테두리  */
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #2c2c2c;
+}
+
+/* 정보 */
+.chatroom-info {
+    flex-grow: 1;
+    margin-left: 1rem;
+}
+
+.chatroom-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px;
+    color: #333;
+}
+
+.chatroom-description,
+.chatroom-last-message {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8c8c8c;
+    margin: 0.2rem 0;
+}
+
+
+/* 참여인원 */
+.chatroom-participants {
+    display: flex;
+    align-items: center;
+    color: #515151;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.chatroom-participants i {
+    margin-right: 5px;
 }
