@@ -32,3 +32,9 @@ document.getElementById('search-button').addEventListener('click', () => {
     const searchInput = document.getElementById('search-input').value;
     getFreeList(searchInput);
 });
+
+// 글쓰기 버튼 클릭
+document.getElementById('create-button').addEventListener('click', () => {
+    if (!checkSignin()) return;
+    location.href = 'free_create.html';
+});

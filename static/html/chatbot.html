@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+</head>
+<body>
+    <div id="navbar"></div><br>
+    <h1>AI 챗봇</h1>
+    <div id="chatbot-container">
+        <div id="chatbot-messages">
+            <!-- 이전 메시지와 새 메시지가 여기 표시됩니다 -->
+        </div>
+        <div id="chatbot-input-container">
+            <input type="text" id="chatbot-message-input" placeholder="메시지를 입력하세요...">
+            <button id="chatbot-send-button">전송</button>
+        </div>
+    </div>
+    
+    <div id="footer"></div>
+    <!-- 공통 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script> <!-- Socket.io -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/chatbot.js"></script> <!-- JavaScript 파일 -->
+</body>
+</html>

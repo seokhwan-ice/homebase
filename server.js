@@ -5,9 +5,11 @@ const environment = process.env.NODE_ENV || 'production';
 const io = require('socket.io')(3000, {
     cors: {
         origin: environment === 'production'
-            ? "http://home-base.co.kr"  // 배포 환경
-            : "*",  // 로컬 환경 >>> 나 아직 쓸거라서 남겨둘게요
-        methods: ["GET", "POST"]
+            ? "https://home-base.co.kr"
+            : "*",
+        methods: ["GET", "POST"],
+        credentials: true,  // 콤마가 추가되어야 함
+        allowedHeaders: ["Content-Type", "Authorization"]
     }
 });
 
