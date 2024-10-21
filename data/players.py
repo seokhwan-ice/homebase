@@ -10,7 +10,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "homebase.settings")
 django.setup()
 
 
-def crawl_players_data():
+def crawl_players_data(year=2024):
 
     base_url = "https://statiz.sporki.com"  # 기본 URL 설정
     team_urls = [
@@ -105,6 +105,7 @@ def crawl_players_data():
 
                 # 데이터베이스에 저장
                 player = Players(
+                    year=year,
                     player_number=player_number,
                     name=name,
                     team_name=team_name,

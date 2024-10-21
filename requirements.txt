@@ -96,3 +96,7 @@ websocket-client==1.8.0
 wsproto==1.2.0
 yarl==1.13.1
 zope.interface==7.0.3
+
+celery~=5.4.0
+schedule~=1.2.2
+google-api-python-client~=2.149.0
