@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Socket.IO
-    const socket = io('http://localhost:3000');
+    const socket = io('http://home-base.co.kr:3000');
 
     // 채팅방 입장
     socket.emit('joinRoom', { roomId, userNickname });

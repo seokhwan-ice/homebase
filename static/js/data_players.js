@@ -1,3 +1,36 @@
+// 기존 팀 데이터 배열
+const teams = [
+    { name: "LG", logo: "5002.png" },
+    { name: "KIA", logo: "2002.png" },
+    { name: "롯데", logo: "3001.png" },
+    { name: "한화", logo: "7002.png" },
+    { name: "삼성", logo: "1001.png" },
+    { name: "두산", logo: "6002.png" },
+    { name: "SSG", logo: "9002.png" },
+    { name: "NC", logo: "11001.png"},
+    { name: "키움", logo: "10001.png"},
+    { name: "KT", logo: "12001.png"}
+];
+
+// 페이지 로드 시 팀 로고를 상단에 표시
+document.addEventListener('DOMContentLoaded', () => {
+    const teamLogosContainer = document.getElementById('team-logos');
+
+    // 모든 팀 로고를 상단에 추가
+    teams.forEach(team => {
+        const logo = document.createElement('img');
+        logo.src = `/static/images/${team.logo}`;
+        logo.alt = team.name;
+        logo.style.width = '80px';
+        logo.style.cursor = 'pointer';
+        logo.addEventListener('click', () => {
+            // 팀 이름을 쿼리 파라미터로 전달하여 선수 데이터 페이지로 이동
+            window.location.href = `data_players.html?team_name=${encodeURIComponent(team.name)}`;
+        });
+        teamLogosContainer.appendChild(logo);
+    });
+});
+
 // API에서 선수 데이터를 가져오는 함수
 async function fetchPlayersData(page = 1) {
     const urlParams = new URLSearchParams(window.location.search); // URL에서 쿼리 파라미터 가져오기

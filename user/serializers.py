@@ -21,7 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
-    article_count = serializers.SerializerMethodField()
+    free_article_count = serializers.SerializerMethodField()
+    live_article_count = serializers.SerializerMethodField()
     comment_count = serializers.SerializerMethodField()
     bookmark_count = serializers.SerializerMethodField()
 
@@ -31,11 +32,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_comment_count(self, obj):
         return Comment.objects.filter(author=obj).count()
 
-    def get_article_count(self, obj):
-        free_article = obj.author_free.count()
-        live_article = obj.author_live.count()
-        return free_article + live_article
+    def get_free_article_count(self, obj):
+        return obj.author_free.count()
 
+    def get_live_article_count(self, obj):
+        return obj.author_live.count()
+            
     def get_following_count(self, obj):
         return obj.followings.count()
 
@@ -53,10 +55,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "created_at",
             "following_count",
             "followers_count",
-            "article_count",
             "comment_count",
             "bookmark_count",
             "username",
+            "live_article_count",
+            "free_article_count",
         ]
 
 
@@ -194,7 +197,7 @@ class FollowingListSerializer(serializers.ModelSerializer):
                     "username": following.username,
                     "nickname": following.nickname,
                     "profile_image": (
-                        following.profile_image if following.profile_image else None
+                        following.profile_image.url if following.profile_image else None
                     ),
                 }
             )
@@ -236,7 +239,7 @@ class FollowerslistSerializer(serializers.ModelSerializer):
                     "username": follower.username,
                     "nickname": follower.nickname,
                     "profile_image": (
-                        follower.profile_image if follower.profile_image else None
+                        follower.profile_image.url if follower.profile_image else None
                     ),
                 }
             )

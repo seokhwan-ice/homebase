@@ -4,21 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>팀 정보</title>
-    <link rel="stylesheet" href="/static/css/data_players.css" >  <!-- CSS 파일 경로 --></head>
+    <link rel="stylesheet" href="/static/css/data_team.css">  <!-- CSS 파일 경로 -->
+</head>
 <body>
     <div id="navbar"></div>
+
+    <!-- 상단에 팀 로고들이 들어가는 부분 -->
+    <div id="team-logos" style="display: flex; justify-content: center; gap: 20px; padding: 20px 0;">
+        <!-- JavaScript로 로고가 동적으로 삽입됩니다 -->
+    </div>
+
     <div class="container">
         <div id="team-info">
-            <img id="team-logo" alt="팀 로고" style="width:100px;height:auto;">
             <h1 id="team-name"></h1>
         </div>
+        <h2 id="rank-title">팀 순위</h2>
+        <div id="team-rank" class="team-section1"></div>
 
-        <div id="team-rank"></div>
-        <div id="team-rival"></div>
-        <div id="team-details"></div>
+        <h2 id="rival-title">상대 전적</h2>
+        <div id="team-rival" class="team-section2"></div>
+
+        <h2 id="details-title">팀 상세 기록</h2>
+        <div id="team-details" class="team-section3"></div>
+
     </div>
 
     <div id="footer"></div>
+
+    <!-- External Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/static/js/common.js"></script>
     <script src="/static/js/data_team.js"></script>

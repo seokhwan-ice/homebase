@@ -1,6 +1,6 @@
 // 기본 URL 설정
 const baseURL = 'https://statiz.sporki.com'; // Django 서버의 기본 URL
-const recordsPerPage = 10; // 페이지당 레코드 수
+const recordsPerPage = 11; // 페이지당 레코드 수
 let currentPage = 1; // 현재 페이지
 let totalRecords = []; // 총 레코드를 저장할 배열
 
@@ -89,19 +89,29 @@ function updateRecordsTable() {
 
 // 페이지네이션 업데이트
 function updatePagination() {
-    const paginationContainer = document.getElementById("pagination");
+    const paginationContainer = document.getElementById("pagination-container");
     paginationContainer.innerHTML = ''; // 기존 내용 지우기
 
     const totalPages = Math.ceil(totalRecords.length / recordsPerPage); // 총 페이지 수 계산
 
     for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
+        const pageButton = document.createElement('a');
         pageButton.textContent = i;
         pageButton.classList.add('page-button');
-        pageButton.onclick = () => {
+
+        // 현재 페이지일 경우 active 클래스 추가
+        if (i === currentPage) {
+            pageButton.classList.add('active');
+        }
+
+        pageButton.href = "#"; // 링크 설정
+        pageButton.onclick = (event) => {
+            event.preventDefault(); // 기본 링크 동작 방지
             currentPage = i; // 현재 페이지 업데이트
             updateRecordsTable(); // 테이블 업데이트
+            updatePagination(); // 페이지네이션 업데이트
         };
+
         paginationContainer.appendChild(pageButton);
     }
 }

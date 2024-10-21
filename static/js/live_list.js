@@ -35,28 +35,38 @@ const renderLiveList = (liveList) => {
     liveList.forEach(live => {
         const liveItem = document.createElement('li');
 
-        // 프로필 이미지
-        const profileImage = live.author.profile_image ?
-            `<img src="${live.author.profile_image}" alt="프로필 이미지" width="30">` :
-            '<i class="fa-solid fa-circle-user"></i>';
+        // profile_image
+        const profileImage = document.createElement('img');
+        if (live.author.profile_image) {
+            const profileImageUrl = live.author.profile_image.split(',');
+            const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
+            profileImage.src = cleanProfileImage;
+        } else {
+            profileImage.src = 'https://i.imgur.com/CcSWvhq.png';
+        }
+        profileImage.alt = '프로필 이미지';
+        profileImage.classList.add('profile-image');  // clas 지정
 
         // live_image
-        const liveImage = live.live_image ?
-            `<img src="${live.live_image}" alt="경기 이미지" width="100%">` :
-            `<img src="/static/images/live_image.png" alt="기본 이미지" width="100%">`;
-
+        const liveImage = document.createElement('img');
+        const liveImageUrl = live.live_image.split(',');
+        const cleanLiveImage = liveImageUrl[0] + liveImageUrl[1].substring(liveImageUrl[1].indexOf('/'));
+        liveImage.src = cleanLiveImage;
+        liveImage.alt = '게시글 이미지';
+        liveImage.classList.add('live-image');  // class 지정
+        
         const formattedDate = new Date(live.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
 
         liveItem.innerHTML = `
             <a href="live_detail.html?id=${live.id}" class="card-link">
                 <div class="profile-section">
                     <div class="author">
-                        ${profileImage}
+                        ${profileImage.outerHTML}
                         <span class="nickname">${live.author.nickname}</span>
                     </div>
                     <span class="date">${formattedDate}</span>
                 </div>
-                ${liveImage}
+                ${liveImage.outerHTML}
                 <div class="info">
                     <h2>${live.home_team} vs ${live.away_team}</h2>
                     <div class="meta">

@@ -1,0 +1,195 @@
+h1 {
+    margin-top: 40px; /* 상단과의 간격 */
+    text-align: center; /* 중앙 정렬 */
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    font-size: 36px; /* 글씨 크기 */
+    color: #333; /* 글씨 색상 */
+
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 기본 로고 스타일 */
+#team-logos img {
+    width: 80px; /* 기본 크기 */
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s; /* 애니메이션 효과 */
+}
+
+/* 마우스 오버 시 커지는 스타일 */
+#team-logos img:hover {
+    transform: scale(1.25); /* 25% 확대 */
+}
+
+/* 선택된 팀의 로고 크기 조절하는 클래스 */
+.selected-logo {
+    transform: scale(1.25); /* 25% 확대 */
+}
+
+/* 팀 순위 섹션 스타일 */
+#team-rank {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    padding: 15px;
+    text-align: center; /* 중앙 정렬 */
+}
+
+#team-rank h2 {
+    font-size: 20px;
+    border-bottom: 2px solid #070202;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#team-rank table {
+    width: 100%; /* 테이블을 100% 너비로 설정 */
+    border-collapse: collapse;
+    margin: 0 auto; /* 테이블 중앙 정렬 */
+}
+
+#team-rank th,
+#team-rank td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center; /* 데이터 중앙 정렬 */
+    width: 14.28%; /* 각 열의 너비를 14.28%로 설정 (7열의 경우) */
+}
+
+#team-rank th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#team-rank tr:hover {
+    background-color: #f1f1f1; /* 호버 효과 */
+}
+
+/* 상대 전적 섹션 스타일 */
+#team-rival {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    padding: 15px;
+    text-align: center; /* 중앙 정렬 */
+}
+
+#team-rival h2 {
+    font-size: 20px;
+    border-bottom: 2px solid #070202;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#team-rival table {
+    width: 100%; /* 테이블을 100% 너비로 설정 */
+    border-collapse: collapse;
+    margin: 0 auto; /* 테이블 중앙 정렬 */
+}
+
+#team-rival th,
+#team-rival td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center; /* 데이터 중앙 정렬 */
+    width: 14.28%; /* 각 열의 너비를 14.28%로 설정 (7열의 경우) */
+}
+
+#team-rival th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#team-rival tr:hover {
+    background-color: #f1f1f1; /* 호버 효과 */
+}
+
+/* 팀 상세 정보 섹션 스타일 */
+#team-details {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    padding: 15px;
+    overflow-x: auto; /* 가로 스크롤 추가 */
+    text-align: center; /* 중앙 정렬 */
+}
+
+#team-details h2 {
+    font-size: 20px;
+    border-bottom: 2px solid #070202;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#team-details table {
+    width: 100%; /* 테이블을 100% 너비로 설정 */
+    border-collapse: collapse;
+    table-layout: auto; /* 자동 레이아웃 설정 */
+    margin: 0 auto; /* 테이블 중앙 정렬 */
+}
+
+#team-details th,
+#team-details td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center; /* 데이터 중앙 정렬 */
+    width: 14.28%; /* 각 열의 너비를 14.28%로 설정 (7열의 경우) */
+}
+
+#team-details th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#team-details tr:hover {
+    background-color: #f1f1f1; /* 호버 효과 */
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 20px; /* 작은 화면에서 제목 크기 감소 */
+    }
+
+    #team-rank h2,
+    #team-rival h2,
+    #team-details h2 {
+        font-size: 18px; /* 섹션 제목 크기 감소 */
+    }
+
+    th,
+    td {
+        padding: 6px; /* 테이블 셀 패딩 감소 */
+        font-size: 14px; /* 글자 크기 감소 */
+    }
+
+    .container {
+        padding: 10px; /* 여백 감소 */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 18px; /* 더 작은 화면에서 제목 크기 감소 */
+    }
+
+    #team-rank h2,
+    #team-rival h2,
+    #team-details h2 {
+        font-size: 16px; /* 더 작은 화면에서 섹션 제목 크기 감소 */
+    }
+
+    th,
+    td {
+        padding: 4px; /* 테이블 셀 패딩 추가 감소 */
+        font-size: 12px; /* 글자 크기 추가 감소 */
+    }
+}

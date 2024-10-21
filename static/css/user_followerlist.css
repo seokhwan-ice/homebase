@@ -1,0 +1,96 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+
+/* 프로필 사이드바 */
+.profile-sidebar {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+/* 프로필 이미지 */
+#my-profile-image {
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    margin-bottom: 15px;
+}
+
+/* 닉네임 스타일 */
+#my-nickname {
+    font-size: 1.8em;
+    margin: 10px 0;
+}
+
+/* 팔로워, 팔로잉 수 */
+#followers-count, #following-count {
+    font-size: 1em;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* 팔로워 목록 */
+.followers-list {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 팔로워 목록 제목 */
+.followers-list h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* 팔로워 목록 아이템 */
+#followers-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#followers-list li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+#followers-list li img {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+#followers-list li span {
+    font-size: 1.1em;
+    color: #333;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .profile-sidebar, .followers-list {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    #my-profile-image {
+        width: 80px;
+        height: 80px;
+    }
+}

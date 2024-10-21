@@ -1,7 +1,8 @@
 // Socket.IO 서버 (3000포트에서 실행)
 const io = require('socket.io')(3000, {
     cors: {
-        origin: "*",  // 모든 도메인에서의 접근 허용 (CORS 문제 해결)
+        origin: "http://home-base.co.kr",
+        methods: ["GET", "POST"]  // 모든 도메인에서의 접근 허용 (CORS 문제 해결)
     }
 });
 

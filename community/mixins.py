@@ -116,6 +116,14 @@ class LikeMixin:
         instance.update_likes_count()  # 좋아요수 업데이트
         return Response(data={"detail": "좋아요!"}, status=status.HTTP_201_CREATED)
 
+    def get_like_status(self, user, instance):
+        """좋아요 상태 확인 -> 화면에서 확인할 수 있도록!"""
+        return Like.objects.filter(
+            user=user,
+            content_type=ContentType.objects.get_for_model(instance),
+            object_id=instance.id,
+        ).exists()
+
     @action(detail=True, methods=["post"])
     def toggle_like_article(self, request, pk=None):
         instance = self.get_object()
@@ -157,3 +165,11 @@ class BookmarkMixin:
                 data={"detail": "북마크 취소됨"}, status=status.HTTP_204_NO_CONTENT
             )
         return Response(data={"detail": "북마크!"}, status=status.HTTP_201_CREATED)
+
+    def get_bookmark_status(self, user, instance):
+        """북마크 상태 확인 -> 화면에서 확인할 수 있도록!"""
+        return Bookmark.objects.filter(
+            user=user,
+            content_type=ContentType.objects.get_for_model(instance),
+            object_id=instance.id,
+        ).exists()
