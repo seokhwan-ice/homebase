@@ -23,10 +23,9 @@ const loadUserProfileAndLivePosts = async () => {
         userData.community_live_articles.forEach((article) => {
             const listItem = document.createElement('li');
 
-            // 게시글 이미지와 리뷰 링크 생성
+            // 게시글 이미지와 링크 생성
             const link = document.createElement('a');
             link.href = `live_detail.html?id=${article.id}`;  // 게시글 상세 페이지로 이동하는 링크
-            link.textContent = `${article.review}`;  // 게시글의 리뷰 내용
 
             // 이미지 추가
             if (article.live_image) {
@@ -34,16 +33,16 @@ const loadUserProfileAndLivePosts = async () => {
                 img.src = article.live_image;
                 img.width = 100;  // 이미지 너비 설정
                 img.alt = "Live Image";  // 이미지 대체 텍스트
-                listItem.appendChild(img);  // 리스트 아이템에 이미지 추가
+                link.appendChild(img);  // 링크 안에 이미지 추가
             }
 
             // 날짜 정보 추가
             const timeSpan = document.createElement('span');
-            timeSpan.textContent = ` | ${article.created_at}`;
-            timeSpan.style.marginLeft = '10px';  // 시간과 리뷰 간격 설정
+            timeSpan.textContent = ` (작성일 ${article.created_at})`;
+            timeSpan.style.marginLeft = '10px';  // 시간과 이미지 간격 설정
 
-            listItem.appendChild(link);
-            listItem.appendChild(timeSpan);
+            listItem.appendChild(link);  // 이미지(링크) 추가
+            listItem.appendChild(timeSpan);  // 날짜 추가
             livePostsList.appendChild(listItem);
         });
 

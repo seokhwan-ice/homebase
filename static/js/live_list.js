@@ -85,3 +85,9 @@ sortSearch.addEventListener('change', function() {
 });
 
 getFilteredLiveList();
+
+// 글쓰기 버튼 누르기
+document.getElementById('create-button').addEventListener('click', () => {
+    if (!checkSignin()) return;
+    location.href = 'live_create.html';
+});
