@@ -84,6 +84,31 @@
     border-top: 1px solid #bdbdbd;
 }
 
+/* 기본 body 스타일 */
+body {
+    margin-top: 70px;
+    margin-left: 300px;
+    margin-right: 250px;
+    max-width: 860px;
+    width: 100%;
+    position: relative;
+    left: calc((100% - 860px - 550px) / 2);
+    transition: left 0.3s ease, margin-right 0.3s ease;
+    font-family: 'Gowun Dodum', sans-serif;  /* 글씨체 수정 여기서!!! */
+}
+
+/* 화면이 1500px 이하일 때 */
+@media screen and (max-width: 1500px) {
+    .sidebar-right {
+        display: none;
+    }
+
+    body {
+        margin-right: 0;
+        left: calc((100% - 860px - 300px) / 2);
+    }
+}
+
 /* sidebar-right */
 .sidebar-right {
     position: fixed;
@@ -93,8 +118,8 @@
     padding-top: 30px;
     background-color: #fdfdfd;
     border-left: 1px solid black;
-    display: none;
     transition: opacity 0.3s ease, width 0.3s ease;
+    display: block;
 }
 
 .sidebar-right .nav-link {
@@ -120,29 +145,4 @@
     color: black;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
-}
-
-/* 기본 body 스타일 */
-body {
-    margin-top: 70px;
-    margin-left: 300px;
-    margin-right: 250px;
-    max-width: 860px;
-    width: 100%;
-    position: relative;
-    left: calc((100% - 860px - 550px) / 2);
-    transition: left 0.3s ease, margin-right 0.3s ease;
-    font-family: 'Gowun Dodum', sans-serif;  /* 글씨체 수정 여기서!!! */
-}
-
-/* 화면이 1500px 이하일 때 */
-@media screen and (max-width: 1500px) {
-    .sidebar-right {
-        display: none;
-    }
-
-    body {
-        margin-right: 0;
-        left: calc((100% - 860px - 300px) / 2);
-    }
 }
