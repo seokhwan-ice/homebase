@@ -41,10 +41,15 @@ const createCommentItem = (comment) => {
     const commentItem = document.createElement('div');
     commentItem.classList.add('comment-item');
 
+    // comment_profile_image
+    const commentProfileImage = comment.author.profile_image
+        ? comment.author.profile_image.replace(/.*\/media/, '/media')
+        : 'https://i.imgur.com/CcSWvhq.png';
+
     commentItem.innerHTML = `
         <div class="comment-header">
             <div class="comment-author-info">
-                <img class="comment-profile-image" src="${comment.author.profile_image}" alt="프로필 이미지">
+                <img class="comment-profile-image" src="${commentProfileImage}" alt="프로필 이미지">
                 <span class="comment-author">${comment.author.nickname}</span>
             </div>
             <span class="comment-time">${new Date(comment.created_at).toLocaleString()}</span>
@@ -169,17 +174,17 @@ const getFreeDetail = async () => {
         document.getElementById('free-comments-count').textContent = free.comments_count;
 
         // profile_image
-        const profileImageElement = document.getElementById('free-profile-image');
-        profileImageElement.src = free.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
-        profileImageElement.alt = '프로필 이미지';
+        const freeProfileImage = document.getElementById('free-profile-image');
+        freeProfileImage.src = free.author.profile_image ? free.author.profile_image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
+        freeProfileImage.alt = '프로필 이미지';
 
         // free_image
-        const freeImageElement = document.getElementById('free-image');
+        const freeImage = document.getElementById('free-image');
         if (free.free_image) {
-            freeImageElement.src = free.free_image;
-            freeImageElement.style.display = 'block';
+            freeImage.src = free.free_image.replace(/.*\/media/, '/media');
+            freeImage.style.display = 'block';
         } else {
-            freeImageElement.style.display = 'none';
+            freeImage.style.display = 'none';
         }
 
         // 북마크 상태 반영
@@ -201,6 +206,14 @@ const getFreeDetail = async () => {
         // 작성자 닉네임 클릭 -> 프로필 페이지로 이동
         const authorElement = document.getElementById('free-author');
         authorElement.onclick = () => {
+
+        // Username = null (로그인 안된경우)
+        if (!loggedInUsername) {
+        location.href = `user_other_profile.html?username=${free.author.username}`;
+        return;  // 남의 프로필
+        }
+
+        // 로그인 되어있는 경우
             if (free.author.username === loggedInUsername) {
                 // 내 프로필
                 location.href = `user_my_profile.html?username=${free.author.username}`;

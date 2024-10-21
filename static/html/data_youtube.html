@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Videos</title>
+    <link rel="stylesheet" href="/static/css/data_youtube.css"> <!-- CSS 파일 링크 -->
+</head>
+<body>
+    <div id="navbar"></div>
+    <h1>YouTube 응원가 리스트</h1>
+
+    <!-- 검색 입력 필드 및 버튼 추가 -->
+    <div>
+        <input type="text" id="search-query" placeholder="검색어를 입력하세요">
+        <button id="search-button">검색</button>
+    </div>
+
+    <div id="video-list"></div> <!-- 비디오 목록을 표시할 div -->
+
+    <!-- 페이지네이션 버튼 추가 -->
+    <div id="pagination-container">
+        <div id="page-numbers"></div> <!-- 페이지 번호 버튼들이 추가될 div -->
+        <button id="prev-button">이전</button>
+        <button id="next-button">다음</button>
+    </div>
+
+    <!-- Footer 요소 추가 -->
+    <div id="footer"></div>
+
+    <!-- 외부 스크립트 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/data_youtube.js"></script>
+</body>
+</html>

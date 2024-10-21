@@ -2,32 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>chatroom_create</title>
+    <link rel="stylesheet" href="/static/css/chatroom_create.css">
 </head>
 
 <body>
-    <div id="navbar"></div>
-    <h1>새로운 채팅방 생성 페이지</h1>
+    <div id="navbar"></div><br>
+    <h1>실시간 채팅방 만들기</h1>
 
-    <form id="chatroom-form" enctype="multipart/form-data">
-        <label for="title">채팅방 제목</label>
-        <input type="text" id="title" name="title" placeholder="채팅방 이름(20글자 이내)" required>
-        <br><br>
+    <section class="content-section">
+        <form id="chatroom-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">채팅방 제목</label>
+                <input type="text" id="title" name="title" placeholder="채팅방 이름을 지어주세요 20자 이내!" required>
+            </div>
 
-        <label for="description">채팅방 설명</label>
-        <textarea id="description" name="description" placeholder="채팅방 설명 간단하게(안써두됨)" required></textarea>
-        <br><br>
+            <div class="form-group">
+                <label for="description">채팅방 설명</label>
+                <textarea id="description" name="description" placeholder="채팅방 설명을 40자 이내로 간단하게 적어주세요! 안적어두 됨!"></textarea>
+            </div>
 
-        <label for="image">채팅방 대표 이미지</label>
-        <input type="file" id="image" name="image" accept="image/*">
-        <br><br>
+            <div class="form-group">
+                <label for="image">채팅방 대표 이미지</label>
+                <p class="upload-hint">사진을 업로드하지 않으시면 야구공으로 대체하겠습니다.</p>
+                <input type="file" id="image" name="image" accept="image/*">
+                <div id="image-preview">
+                    <img src="/static/images/baseball.png" alt="디폴트 이미지" class="preview-image" id="preview-image">
+                </div>
+            </div>
 
-        <button type="submit">생성하기</button>
-
-        <button onclick="location.href='chatroom_list.html'">목록으로 돌아가기</button>
-    </form>
+            <div class="form-actions">
+                <button type="submit" class="submit-button">만들기!</button>
+                <button type="button" class="back-button" onclick="location.href='chatroom_list.html'">채팅방 목록으로</button>
+            </div>
+        </form>
+    </section>
 
     <div id="footer"></div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->

@@ -166,12 +166,12 @@ const getLiveDetail = async () => {
 
         // profile_image
         const profileImageElement = document.getElementById('live-profile-image');
-        profileImageElement.src = live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        profileImageElement.src = live.author.profile_image ? live.author.profile_image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
         profileImageElement.alt = '프로필 이미지';
 
         // live_image
         const liveImageElement = document.getElementById('live-image');
-        liveImageElement.src = live.live_image || 'https://via.placeholder.com/300';
+        liveImageElement.src = live.live_image ? live.live_image.replace(/.*\/media/, '/media') : 'https://via.placeholder.com/300';
         liveImageElement.alt = '게시글 이미지';
 
         // 좋아요, 댓글 수, 작성일

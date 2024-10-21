@@ -37,12 +37,12 @@ const renderLiveList = (liveList) => {
 
         // profile_image
         const profileImage = document.createElement('img');
-        profileImage.src = live.author.profile_image || 'https://i.imgur.com/CcSWvhq.png';
+        profileImage.src = live.author.profile_image ? live.author.profile_image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
         profileImage.alt = '프로필 이미지';
 
         // live_image
         const liveImage = document.createElement('img');
-        liveImage.src = live.live_image || 'https://via.placeholder.com/300';
+        liveImage.src = live.live_image ? live.live_image.replace(/.*\/media/, '/media') : 'https://via.placeholder.com/300';
         liveImage.alt = '게시글 이미지';
 
         const formattedDate = new Date(live.created_at).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
