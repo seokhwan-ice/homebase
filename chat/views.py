@@ -1,9 +1,10 @@
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import viewsets, filters
 from .models import ChatRoom, ChatMessage, ChatParticipant
-from .serializers import ChatRoomSerializer, ChatMessageSerializer
+from . import serializers
 from user.serializers import UserSerializer
 
 
@@ -11,10 +12,23 @@ from user.serializers import UserSerializer
 class ChatRoomViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ChatRoom.objects.all()
-    serializer_class = ChatRoomSerializer
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.ChatRoomCreateSerializer
+        elif self.action == "list":
+            return serializers.ChatRoomListSerializer
+        elif self.action == "retrieve":
+            return serializers.ChatRoomDetailSerializer
+        return super().get_serializer_class()
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
+
+    def perform_destroy(self, instance):
+        if instance.creator != self.request.user:
+            raise PermissionDenied("방장만 삭제할 수 있습니다!")
+        instance.delete()
 
     # 권한 설정
     def get_permissions(self):
@@ -41,6 +55,7 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
                 {
                     "message": "참여 완료!",
                     "nickname": user_serializer.data["nickname"],
+                    "profile_image": user_serializer.data["profile_image"],
                 },
                 status=201,
             )
@@ -48,15 +63,41 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
             {
                 "message": "이미 참여 중입니다!",
                 "nickname": user_serializer.data["nickname"],
+                "profile_image": user_serializer.data["profile_image"],
             },
             status=200,
         )
 
+    # 채팅방 나가는 API (하.. 이렇게 하는게 맞나..)
+    @action(detail=True, methods=["post"])
+    def leave(self, request, pk=None):
+        room = self.get_object()
+        participant = ChatParticipant.objects.filter(
+            user=request.user, room=room
+        ).first()  # 참여자 찾기
+
+        if participant:
+            participant.delete()
+            return Response(
+                {
+                    "message": "채팅방에서 나갔습니다!",
+                    "nickname": request.user.nickname,
+                },
+                status=200,
+            )
+        return Response(
+            {
+                "message": "참여하지 않은 채팅방",
+            },
+            status=400,
+        )
+
 
 # 채팅 메시지
+# TODO: 페이지네이션 추가하기
 class ChatMessageViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = ChatMessageSerializer
+    serializer_class = serializers.ChatMessageSerializer
     queryset = ChatMessage.objects.all()
 
     def perform_create(self, serializer):

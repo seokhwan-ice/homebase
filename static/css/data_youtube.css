@@ -1,0 +1,65 @@
+h1 {
+    text-align: center; /* 제목 중앙 정렬 */
+}
+
+#video-list {
+    display: flex;
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    justify-content: space-between; /* 항목 간격을 일정하게 유지 */
+}
+
+.video-item {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    width: calc(33.333% - 20px); /* 3개를 가로로 정렬 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.video-item img {
+    width: 100%; /* 가로로 가득 차게 */
+    height: auto; /* 비율 유지 */
+    border-radius: 8px; /* 모서리 둥글게 */
+}
+
+.video-item h2 {
+    font-size: 25px;
+    font-weight: bold; /* 제목을 굵게 설정 */
+}
+
+.video-item p {
+    margin: 5px 0;
+}
+
+/* 페이지네이션 컨테이너 스타일 */
+#pagination-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px;
+}
+
+/* 페이지네이션 링크 스타일 */
+#pagination-container button {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #070202; /* 기본 글씨 색상 */
+    background-color: #f8eaf7; /* 기본 배경 색상 */
+    padding: 10px 15px; /* 내부 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s, transform 0.3s; /* 부드러운 변환 효과 */
+}
+
+/* 페이지네이션 링크 호버 스타일 */
+#pagination-container button:hover {
+    background-color: #0056b3; /* 호버 시 배경 색상 */
+    transform: scale(1.05); /* 약간 커지게 */
+}
+
+/* 현재 페이지 강조 스타일 */
+#pagination-container button.active {
+    background-color: #f8c7f6; /* 활성 페이지 배경 색상 */
+    color: white; /* 활성 페이지 글씨 색상 */
+    font-weight: bold; /* 글씨 두껍게 */
+}

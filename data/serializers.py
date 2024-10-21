@@ -7,6 +7,7 @@ from .models import (
     SportsNews,
     TeamRecord,
     TeamDetail,
+    Video,
 )
 
 
@@ -101,3 +102,10 @@ class TeamDetailGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamDetail
         fields = "__all__"  # 모든 필드 포함
+
+
+# 유튜브 영상 시리얼라이저
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ["video_id", "title", "description", "publish_time", "video_url"]

@@ -1,4 +1,3 @@
-
 const params = new URLSearchParams(location.search);
 const freeId = params.get('id');
 
@@ -41,10 +40,15 @@ const createCommentItem = (comment) => {
     const commentItem = document.createElement('div');
     commentItem.classList.add('comment-item');
 
+    // comment_profile_image
+    const commentProfileImage = comment.author.profile_image
+        ? comment.author.profile_image.replace(/.*\/media/, '/media')
+        : 'https://i.imgur.com/CcSWvhq.png';
+
     commentItem.innerHTML = `
         <div class="comment-header">
             <div class="comment-author-info">
-                <img class="comment-profile-image" src="${comment.author.profile_image}" alt="프로필 이미지">
+                <img class="comment-profile-image" src="${commentProfileImage}" alt="프로필 이미지">
                 <span class="comment-author">${comment.author.nickname}</span>
             </div>
             <span class="comment-time">${new Date(comment.created_at).toLocaleString()}</span>
@@ -168,19 +172,15 @@ const getFreeDetail = async () => {
         document.getElementById('free-views').textContent = free.views;
         document.getElementById('free-comments-count').textContent = free.comments_count;
 
-        // profile_image 
-        const profileImage = document.getElementById('free-profile-image');
-        const profileImageUrl = free.author.profile_image.split(',');
-        const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
-        profileImage.src = cleanProfileImage;
-        profileImage.alt = '프로필 이미지';
+        // profile_image
+        const freeProfileImage = document.getElementById('free-profile-image');
+        freeProfileImage.src = free.author.profile_image ? free.author.profile_image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
+        freeProfileImage.alt = '프로필 이미지';
 
         // free_image
         const freeImage = document.getElementById('free-image');
         if (free.free_image) {
-            const freeImageUrl = free.free_image.split(',');
-            const cleanFreeImage = freeImageUrl[0] + freeImageUrl[1].substring(freeImageUrl[1].indexOf('/'));
-            freeImage.src = cleanFreeImage;
+            freeImage.src = free.free_image.replace(/.*\/media/, '/media');
             freeImage.style.display = 'block';
         } else {
             freeImage.style.display = 'none';
@@ -205,6 +205,14 @@ const getFreeDetail = async () => {
         // 작성자 닉네임 클릭 -> 프로필 페이지로 이동
         const authorElement = document.getElementById('free-author');
         authorElement.onclick = () => {
+
+        // Username = null (로그인 안된경우)
+        if (!loggedInUsername) {
+        location.href = `user_other_profile.html?username=${free.author.username}`;
+        return;  // 남의 프로필
+        }
+
+        // 로그인 되어있는 경우
             if (free.author.username === loggedInUsername) {
                 // 내 프로필
                 location.href = `user_my_profile.html?username=${free.author.username}`;

@@ -1,4 +1,4 @@
-from homebase.config import API_KEY
+import logging
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,6 +10,7 @@ from data.team_rank import team_rank
 from data.news import news_crawling
 from data.team import fetch_team_data
 from data.teamdetail import fetch_teamdetail_data
+from data.youtube import crawl_youtube_videos
 from .models import (
     TeamRank,
     PlayerRecord,
@@ -18,6 +19,7 @@ from .models import (
     SportsNews,
     TeamRecord,
     TeamDetail,
+    Video,
 )
 from data.data_weather import data_weatherforecast
 from .serializers import (
@@ -31,7 +33,10 @@ from .serializers import (
     TeamRankGetSerializer,
     TeamRecordGetSerializer,
     TeamDetailGetSerializer,
+    VideoSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class CustomPagination(PageNumberPagination):
@@ -161,6 +166,33 @@ class TeamDetailAPIView(APIView):
             return Response(
                 {"error": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+# 유튜브 크롤링 뷰(POST)
+class YouTubeVideoCrawlView(APIView):
+    def post(self, request):
+        query = request.data.get("query", None)  # 요청에서 검색어(query)를 가져옴
+        if not query:
+            return Response(
+                {"error": "검색어(query)가 필요합니다."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            # 크롤링 작업을 실행하여 데이터를 데이터베이스에 저장
+            total_records = crawl_youtube_videos(query)  # 크롤링 함수 호출
+
+            # 정상적으로 응답을 반환
+            return Response(
+                {"message": f"총 {total_records}개의 영상이 저장되었습니다."},
+                status=status.HTTP_201_CREATED,
+            )
+
+        except Exception as e:
+            logger.error(f"크롤링 중 오류 발생: {str(e)}")  # 오류 로그
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
 
@@ -349,3 +381,15 @@ class TeamDetailDetailGetView(APIView):
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
+# 유튜브 영상 조회 뷰(GET)
+class YouTubeVideoGetListView(APIView):
+    def get(self, request):
+        videos = Video.objects.all()  # 모든 비디오 객체를 가져옴
+        serializer = VideoSerializer(
+            videos, many=True
+        )  # 시리얼라이저를 사용하여 직렬화
+        return Response(
+            serializer.data, status=status.HTTP_200_OK
+        )  # 직렬화된 데이터와 함께 응답

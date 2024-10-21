@@ -165,23 +165,14 @@ const getLiveDetail = async () => {
         document.getElementById('live-review').innerText = live.review;
 
         // profile_image
-        const profileImage = document.getElementById('live-profile-image');
-        if (live.author.profile_image) {
-            const profileImageUrl = live.author.profile_image.split(',');
-            const cleanProfileImage = profileImageUrl[0] + profileImageUrl[1].substring(profileImageUrl[1].indexOf('/'));
-            profileImage.src = cleanProfileImage;
-        } else {
-            profileImage.src = 'https://i.imgur.com/CcSWvhq.png';
-        }
-        profileImage.alt = '프로필 이미지';
-        
+        const profileImageElement = document.getElementById('live-profile-image');
+        profileImageElement.src = live.author.profile_image ? live.author.profile_image.replace(/.*\/media/, '/media') : 'https://i.imgur.com/CcSWvhq.png';
+        profileImageElement.alt = '프로필 이미지';
 
         // live_image
-        const liveImage = document.getElementById('live-image');
-        const liveImageUrl = live.live_image.split(',');
-        const cleanLiveImage = liveImageUrl[0] + liveImageUrl[1].substring(liveImageUrl[1].indexOf('/'));
-        liveImage.src = cleanLiveImage;
-        liveImage.alt = '게시글 이미지';
+        const liveImageElement = document.getElementById('live-image');
+        liveImageElement.src = live.live_image ? live.live_image.replace(/.*\/media/, '/media') : 'https://via.placeholder.com/300';
+        liveImageElement.alt = '게시글 이미지';
 
         // 좋아요, 댓글 수, 작성일
         document.getElementById('like-count').innerText = live.likes_count;

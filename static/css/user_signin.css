@@ -1,21 +1,4 @@
 /* 전체 페이지 설정 */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: left;
-    flex-direction: column; /* 세로로 정렬 */
-    height: 100vh; /* 화면 전체 높이를 사용 */
-}
-
-
-.navbar img {
-    width: 40px; /* 로고 크기 조정 */
-    margin-left: 10px;
-}
 
 /* 폼 스타일 */
 form {

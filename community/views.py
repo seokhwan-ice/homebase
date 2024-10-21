@@ -11,7 +11,7 @@ from .models import Free, Live
 from . import serializers
 from chat.models import ChatRoom
 from data.models import SportsNews, TeamRank
-from chat.serializers import ChatRoomSerializer
+from chat.serializers import ChatRoomListSerializer
 from data.serializers import SportsNewsListSerializer, TeamRankSerializer
 
 
@@ -72,7 +72,12 @@ class FreeViewSet(BaseViewSet):
 
         # 북마크 상태 확인
         user = request.user
-        is_bookmarked = self.get_bookmark_status(user, instance)
+
+        # 로그인 안했을 때 -> 북마크 상태는 False
+        if user.is_anonymous:
+            is_bookmarked = False
+        else:
+            is_bookmarked = self.get_bookmark_status(user, instance)
 
         serializer = self.get_serializer(instance)
         data = serializer.data
@@ -134,8 +139,13 @@ class LiveViewSet(BaseViewSet, LikeMixin):
         instance = self.get_object()
         user = request.user
 
-        is_liked = self.get_like_status(user, instance)
-        is_bookmarked = self.get_bookmark_status(user, instance)
+        # 로그인 안했을 때 -> 북마크 상태는 False
+        if user.is_anonymous:
+            is_liked = False
+            is_bookmarked = False
+        else:
+            is_liked = self.get_like_status(user, instance)
+            is_bookmarked = self.get_bookmark_status(user, instance)
 
         serializer = self.get_serializer(instance)
         data = serializer.data
@@ -178,7 +188,7 @@ class MainView(views.APIView):
             "top_commented_live": serializers.LiveListSerializer(
                 top_commented_live, many=True
             ).data,
-            "top_participated_chatrooms": ChatRoomSerializer(
+            "top_participated_chatrooms": ChatRoomListSerializer(
                 top_participated_chatrooms, many=True
             ).data,
             "latest_news": SportsNewsListSerializer(latest_news, many=True).data,

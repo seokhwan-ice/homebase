@@ -5,8 +5,11 @@
 // Bootstrap, FontAwesome, Google Fonts, Axios
 
 // Axios 기본 URL 설정
-axios.defaults.baseURL = 'http://3.36.120.140/api/';
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';
+if (location.hostname === 'home-base.co.kr') {
+    axios.defaults.baseURL = 'http://3.36.120.140/api/';  // 배포 환경
+} else {
+    axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';  // 로컬 환경
+}
 
 
 // Axios 요청 인터셉터: 헤더에 토큰 자동 추가
@@ -37,8 +40,7 @@ axios.interceptors.response.use(response => {
 
             const newAccessToken = response.data.access;
             if (newAccessToken) {
-                console.log("토큰 갱신 성공!! 새로운 액세스 토큰:", newAccessToken);
-                // TODO: 콘솔로그 지우기!!!!!!!!!!!!!!!
+                console.log("토큰 갱신 성공!!")
                 localStorage.setItem('token', newAccessToken);
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
                 return axios(originalRequest);
@@ -175,31 +177,73 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
 
-            // [내프로필] 버튼 클릭 이벤트 리스너 추가
+            const token = localStorage.getItem('token');
+            const signupButton = document.querySelector('a[href="user_signup.html"]');
+            const signinButton = document.querySelector('a[href="user_signin.html"]');
+            const signoutButton = document.getElementById('signout-link');
             const profileLink = document.getElementById('profile-link');
-            if (profileLink) {  // 버튼이 존재하는지 확인  >>> 로그인 여부에 따라 버튼 다르게 보이게 하쟈
+            const rightSidebar = document.querySelector('.sidebar-right');
+
+            function handleSidebarAndButtons() {
+                const screenWidth = window.innerWidth;
+                const username = localStorage.getItem('username');
+
+                if (token) {
+                    signupButton.style.display = 'none';
+                    signinButton.style.display = 'none';
+                    signoutButton.style.display = 'block';
+                    profileLink.style.display = 'block';
+                    rightSidebar.style.display = 'block';
+
+                    if (username) {
+                        // 모든 링크에 username 추가
+                        document.querySelector('a[href="user_my_profile.html"]').href = `user_my_profile.html?username=${username}`;
+                        document.querySelector('a[href="user_free_list.html"]').href = `user_free_list.html?username=${username}`;
+                        document.querySelector('a[href="user_live_list.html"]').href = `user_live_list.html?username=${username}`;
+                        document.querySelector('a[href="user_comment_list.html"]').href = `user_comment_list.html?username=${username}`;
+                        document.querySelector('a[href="user_bookmark_list.html"]').href = `user_bookmark_list.html?username=${username}`;
+                        document.querySelector('a[href="user_followerlist.html"]').href = `user_followerlist.html?username=${username}`;
+                        document.querySelector('a[href="user_followlist.html"]').href = `user_followlist.html?username=${username}`;
+
+                    } else {
+                        alert('로그인이 필요합니다.');
+                        location.href = 'user_signin.html';
+                    }
+                } else {
+                    signupButton.style.display = 'block';
+                    signinButton.style.display = 'block';
+                    signoutButton.style.display = 'none';
+                    profileLink.style.display = 'none';
+                    rightSidebar.style.display = 'none';
+                }
+            }
+
+            handleSidebarAndButtons();
+            window.addEventListener('resize', handleSidebarAndButtons);
+
+            // [내프로필]
+            if (profileLink) {
                 profileLink.addEventListener('click', (event) => {
                     event.preventDefault();  // 기본 링크 동작 막기
                     const username = localStorage.getItem('username'); // localStorage에서 username 가져오기
                     if (username) {
                         location.href = `user_my_profile.html?username=${username}`; // username 파라미터 추가
                     } else {
-                        alert('로그인이 필요합니다.');  // >>> 로그인 여부에 따라 버튼 다르게 보이게 하쟈
+                        alert('로그인이 필요합니다.');
                     }
                 });
             }
 
-            // [로그아웃] 버튼 클릭 이벤트 리스너 추가
-            const signoutButton = document.getElementById('signout-link');
-            if(signoutButton) {
+            // [로그아웃]
+            if (signoutButton) {
                 signoutButton.addEventListener('click', async function (event) {
-                    event.preventDefault();  // 기본 링크 동작 막기
+                    event.preventDefault();
 
                     // signout api 사용! 서버에 refresh token 줘서 blacklist 요청하기
                     const refreshToken = localStorage.getItem('refresh_token');
                     if (refreshToken) {
                         try {
-                            await axios.post('user/signout/', {refresh: refreshToken});
+                            await axios.post('user/signout/', { refresh: refreshToken });
                         } catch (error) {
                             console.error("로그아웃 중 실패. 서버 오류?:", error);
                         }
