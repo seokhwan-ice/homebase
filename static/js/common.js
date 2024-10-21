@@ -176,9 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
 
-            // [내프로필] 버튼 클릭 이벤트 리스너 추가
+            const token = localStorage.getItem('token');
+            const signupButton = document.querySelector('a[href="user_signup.html"]');
+            const signinButton = document.querySelector('a[href="user_signin.html"]');
+            const signoutButton = document.getElementById('signout-link');
             const profileLink = document.getElementById('profile-link');
-            if (profileLink) {  // 버튼이 존재하는지 확인  >>> 로그인 여부에 따라 버튼 다르게 보이게 하쟈
+            const rightSidebar = document.querySelector('.sidebar-right');
+
+            if (token) {
+                signupButton.style.display = 'none';
+                signinButton.style.display = 'none';
+                signoutButton.style.display = 'block';
+                profileLink.style.display = 'block';
+                rightSidebar.style.display = 'block';
+            } else {
+                signupButton.style.display = 'block';
+                signinButton.style.display = 'block';
+                signoutButton.style.display = 'none';
+                profileLink.style.display = 'none';
+                rightSidebar.style.display = 'none';
+            }
+
+            // [내프로필]
+            if (profileLink) {
                 profileLink.addEventListener('click', (event) => {
                     event.preventDefault();  // 기본 링크 동작 막기
                     const username = localStorage.getItem('username'); // localStorage에서 username 가져오기
@@ -190,8 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // [로그아웃] 버튼 클릭 이벤트 리스너 추가
-            const signoutButton = document.getElementById('signout-link');
+            // [로그아웃]
             if(signoutButton) {
                 signoutButton.addEventListener('click', async function (event) {
                     event.preventDefault();  // 기본 링크 동작 막기

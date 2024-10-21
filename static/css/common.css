@@ -75,16 +75,6 @@
     border-bottom: 1px solid black;
 }
 
-/* body */
-body {
-    height: 100%;
-    margin-top: 70px;
-    margin-left: 400px;
-    margin-right: 70px;
-    max-width: 1000px;
-    font-family: 'Gowun Dodum', sans-serif;  /* 글씨체 수정 여기서!!! */
-}
-
 /* footer */
 .footer {
     background-color: #ebeef1;
@@ -92,4 +82,67 @@ body {
     padding: 1.5rem;
     text-align: center;
     border-top: 1px solid #bdbdbd;
+}
+
+/* sidebar-right */
+.sidebar-right {
+    position: fixed;
+    right: 0;
+    width: 250px;
+    height: calc(100%);
+    padding-top: 30px;
+    background-color: #fdfdfd;
+    border-left: 1px solid black;
+    display: none;
+    transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+.sidebar-right .nav-link {
+    padding: 20px 35px;
+    color: #333;
+    font-size: 20px;
+}
+
+.sidebar-right .nav-link i {
+    margin-right: 20px;
+    font-size: 25px;
+}
+
+.sidebar-right .nav-link:hover {
+    background-color: #ebeef1;
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.sidebar-right .nav-link.active {
+    background-color: #ebeef1;
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+/* 기본 body 스타일 */
+body {
+    margin-top: 70px;
+    margin-left: 300px;
+    margin-right: 250px;
+    max-width: 860px;
+    width: 100%;
+    position: relative;
+    left: calc((100% - 860px - 550px) / 2);
+    transition: left 0.3s ease, margin-right 0.3s ease;
+    font-family: 'Gowun Dodum', sans-serif;  /* 글씨체 수정 여기서!!! */
+}
+
+/* 화면이 1500px 이하일 때 */
+@media screen and (max-width: 1500px) {
+    .sidebar-right {
+        display: none;
+    }
+
+    body {
+        margin-right: 0;
+        left: calc((100% - 860px - 300px) / 2);
+    }
 }
