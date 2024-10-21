@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from .models import TeamRecord  # 모델 import
 
 
-def fetch_team_data():
+def fetch_team_data(year=2024):
     urls = [
         (
             "2002",
@@ -88,6 +88,7 @@ def fetch_team_data():
 
                 # 중복된 데이터를 저장하려 할 때 에러 발생 방지
                 TeamRecord.objects.update_or_create(
+                    year=year,
                     team_name=team_name,
                     rival=rival,
                     team_number=team_number,

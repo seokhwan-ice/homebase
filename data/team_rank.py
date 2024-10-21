@@ -66,6 +66,7 @@ def team_rank(year=2024):
 
                 # 팀 데이터를 데이터베이스에 저장
                 team_rank = TeamRank(
+                    year=year,
                     rank=rank,
                     team_name=team_name,
                     games_played=games,
@@ -74,8 +75,8 @@ def team_rank(year=2024):
                     losses=losses,
                     games_behind=game_diff,
                     win_rate=win_rate,
-                    streak="",  # 이 필드는 크롤링하는 데이터에 맞게 수정하세요
-                    last_10_games="",  # 이 필드는 크롤링하는 데이터에 맞게 수정하세요
+                    streak="streak",  # 이 필드는 크롤링하는 데이터에 맞게 수정하세요
+                    last_10_games="last_10_games",  # 이 필드는 크롤링하는 데이터에 맞게 수정하세요
                     team_number=team_number,  # 팀 넘버 추가
                 )
 
@@ -91,6 +92,7 @@ def team_rank(year=2024):
                 # 추후 활용을 위해 리스트에도 추가
                 teams.append(
                     {
+                        "year": year,
                         "rank": rank,
                         "name": team_name,
                         "logo_url": logo_url,

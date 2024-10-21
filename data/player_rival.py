@@ -19,7 +19,7 @@ def safe_convert_to_int(value):
         return 0  # 변환할 수 없을 때 기본값
 
 
-def crawl_playerrival_data():
+def crawl_playerrival_data(year=2024):
     # 각 팀의 URL을 리스트로 저장
     base_url = "https://statiz.sporki.com"
     team_urls = [
@@ -92,6 +92,7 @@ def crawl_playerrival_data():
 
                         # 데이터베이스에 저장 (중복 확인)
                         player_record, created = PlayerRecord.objects.get_or_create(
+                            year=year,
                             name=f"{a.text}",  # 팀 로고와 선수 이름 결합
                             opponent=cols[0] if len(cols) > 0 else "",  # 상대 이름
                             defaults={
