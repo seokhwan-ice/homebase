@@ -67,7 +67,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         messages.forEach(message => addMessage(message));
     });
 
-    // 메시지 입력 엔터키
+    // 메시지 입력 엔터키 >>> MAC 엔터 이슈
+    let isComposing = false;
+    document.getElementById('chat-message-input').addEventListener('compositionstart', () => {
+        isComposing = true;
+    });
+    document.getElementById('chat-message-input').addEventListener('compositionend', () => {
+        isComposing = false;
+    });
     document.getElementById('chat-message-input').addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
