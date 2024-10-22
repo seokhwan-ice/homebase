@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Socket.IO 연결
     let socket;
     if (location.hostname === 'home-base.co.kr') {
-        socket = io('http://home-base.co.kr:3000');  // 배포 환경
+        socket = io('https://home-base.co.kr', { transports: ['websocket', 'polling'], secure: true });
     } else {
-        socket = io('http://127.0.0.1:3000');  // 로컬 환경
+        socket = io('http://127.0.0.1:3000');
     }
 
     // 채팅방 입장
