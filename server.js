@@ -1,6 +1,7 @@
 // Socket.IO 서버 (3000포트에서 실행)
 
 const environment = process.env.NODE_ENV || 'production';
+const axios = require('axios');
 
 const io = require('socket.io')(3000, {
     cors: {
@@ -62,4 +63,21 @@ io.on('connection', (socket) => {
         socket.leave(roomId);
         console.log(`${userNickname} >>> ${roomId} 방에서 나갔습니다.`);
     });
+
+    // AI 메시지 처리
+    socket.on('sendMessageToBot', async ({ userInput }) => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/chatbot/conversations/', { user_input: userInput });
+            // const response = await axios.post('https://home-base.co.kr/api/chatbot/conversations/', { user_input: userInput });
+            const aiResponse = response.data.ai_response;
+
+            // AI 응답 전송
+            socket.emit('receiveBotMessage', aiResponse);
+        } catch (error) {
+            console.error('챗봇 응답 실패:', error);
+            socket.emit('receiveBotMessage', 'AI 챗봇이 응답할 수 없습니다.');
+        }
+    });
+
+
 });
