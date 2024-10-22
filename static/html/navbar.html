@@ -16,11 +16,10 @@
                 <li class="nav-item">
                     <a class="nav-link btn-custom" href="user_signin.html">로그인</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link btn-custom" id="signout-link" href="#">로그아웃</a>
-                </li>
                 <li class="nav-item d-flex align-items-center ms-auto">
-                    <span id="navbar-username" class="navbar-username ms-2">Nickname</span>
+                    <a class="navbar-link" id="profile-link" href="#">
+                        <span id="navbar-username" class="navbar-username ms-2">Nickname</span>
+                    </a>
                     <img src="https://i.imgur.com/CcSWvhq.png" alt="프로필 사진" class="navbar-profile-img" id="navbar-profile-img">
                 </li>
             </ul>
@@ -63,9 +62,6 @@
 <div class="sidebar-right">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link" href="user_my_profile.html"><i class="fa-solid fa-user"></i> 프로필</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="user_free_list.html"><i class="fa-solid fa-pen"></i> 작성글</a>
         </li>
         <li class="nav-item">
@@ -83,5 +79,11 @@
         <li class="nav-item">
             <a class="nav-link" href="user_followlist.html"><i class="fa-solid fa-user-plus"></i> 팔로우</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-danger d-flex align-items-center" id="signout-link" href="#">
+                <i class="fas fa-sign-out-alt me-2"></i> 로그아웃
+            </a>
+        </li>
     </ul>
 </div>
+

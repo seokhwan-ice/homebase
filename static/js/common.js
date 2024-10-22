@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const signupButton = document.querySelector('a[href="user_signup.html"]');
             const signinButton = document.querySelector('a[href="user_signin.html"]');
             const signoutButton = document.getElementById('signout-link');
-            const navbarUsername = document.getElementById('navbar-username');
+            const navbarUsername = document.getElementById('profile-link');
             const navbarProfileImg = document.getElementById('navbar-profile-img');
             const rightSidebar = document.querySelector('.sidebar-right');
 
@@ -197,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (username) {
                         // 모든 링크에 username 추가
-                        document.querySelector('a[href="user_my_profile.html"]').href = `user_my_profile.html?username=${username}`;
                         document.querySelector('a[href="user_free_list.html"]').href = `user_free_list.html?username=${username}`;
                         document.querySelector('a[href="user_live_list.html"]').href = `user_live_list.html?username=${username}`;
                         document.querySelector('a[href="user_comment_list.html"]').href = `user_comment_list.html?username=${username}`;
@@ -226,6 +225,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             handleSidebarAndButtons();
             window.addEventListener('resize', handleSidebarAndButtons);
+
+            // [내프로필]
+            if (navbarUsername) {
+                navbarUsername.addEventListener('click', (event) => {
+                    event.preventDefault();  // 기본 링크 동작 막기
+                    const username = localStorage.getItem('username'); // localStorage에서 username 가져오기
+                    if (username) {
+                        location.href = `user_my_profile.html?username=${username}`; // username 파라미터 추가
+                    } else {
+                        alert('로그인이 필요합니다.');
+                    }
+                });
+            }
 
             // [로그아웃]
             if (signoutButton) {
