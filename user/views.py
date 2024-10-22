@@ -67,10 +67,13 @@ class UserLoginView(APIView):
 
         refresh = RefreshToken.for_user(user)
 
+        serializer = UserSerializer(user)
+
         return Response(
             {
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
+                "user_info": serializer.data,
             }
         )
 

@@ -180,18 +180,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const signupButton = document.querySelector('a[href="user_signup.html"]');
             const signinButton = document.querySelector('a[href="user_signin.html"]');
             const signoutButton = document.getElementById('signout-link');
-            const profileLink = document.getElementById('profile-link');
+            const navbarUsername = document.getElementById('navbar-username');
+            const navbarProfileImg = document.getElementById('navbar-profile-img');
             const rightSidebar = document.querySelector('.sidebar-right');
 
             function handleSidebarAndButtons() {
-                const screenWidth = window.innerWidth;
                 const username = localStorage.getItem('username');
 
                 if (token) {
                     signupButton.style.display = 'none';
                     signinButton.style.display = 'none';
                     signoutButton.style.display = 'block';
-                    profileLink.style.display = 'block';
+                    navbarUsername.style.display = 'block';
+                    navbarProfileImg.style.display = 'block';
                     rightSidebar.style.display = 'block';
 
                     if (username) {
@@ -203,6 +204,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.querySelector('a[href="user_bookmark_list.html"]').href = `user_bookmark_list.html?username=${username}`;
                         document.querySelector('a[href="user_followerlist.html"]').href = `user_followerlist.html?username=${username}`;
                         document.querySelector('a[href="user_followlist.html"]').href = `user_followlist.html?username=${username}`;
+                        const profileImage = localStorage.getItem('profile_image');
+                        navbarUsername.textContent = username;
+                        navbarProfileImg.src = profileImage && profileImage !== 'null'
+                            ? profileImage.replace(/.*\/media/, '/media')
+                            : 'https://i.imgur.com/CcSWvhq.png';
 
                     } else {
                         alert('로그인이 필요합니다.');
@@ -212,26 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     signupButton.style.display = 'block';
                     signinButton.style.display = 'block';
                     signoutButton.style.display = 'none';
-                    profileLink.style.display = 'none';
+                    navbarUsername.style.display = 'none';
+                    navbarProfileImg.style.display = 'none';
                     rightSidebar.style.display = 'none';
                 }
             }
 
             handleSidebarAndButtons();
             window.addEventListener('resize', handleSidebarAndButtons);
-
-            // [내프로필]
-            if (profileLink) {
-                profileLink.addEventListener('click', (event) => {
-                    event.preventDefault();  // 기본 링크 동작 막기
-                    const username = localStorage.getItem('username'); // localStorage에서 username 가져오기
-                    if (username) {
-                        location.href = `user_my_profile.html?username=${username}`; // username 파라미터 추가
-                    } else {
-                        alert('로그인이 필요합니다.');
-                    }
-                });
-            }
 
             // [로그아웃]
             if (signoutButton) {

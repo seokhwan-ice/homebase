@@ -146,3 +146,18 @@ body {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
+
+/* 네브바 오른쪽 위 프로필 */
+.navbar-profile-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.navbar-username {
+    font-weight: bold;
+    font-size: 22px;
+    color: #333;
+    margin-right: 10px;
+}
