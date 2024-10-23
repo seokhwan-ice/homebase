@@ -26,26 +26,21 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     return response;
 }, async error => {
-    console.log("응답에 에러 있음. Axios 응답 인터셉터 작동 중.");
 
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
-        console.log("401 에러 발생 -> 토큰 갱신할 준비 중.")
         originalRequest._retry = true;
 
         try {
-            console.log("401 에러 -> 토큰 갱신 시도 중.");
             const response = await refreshAccessToken();
 
             const newAccessToken = response.data.access;
             if (newAccessToken) {
-                console.log("토큰 갱신 성공!!")
                 localStorage.setItem('token', newAccessToken);
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
                 return axios(originalRequest);
             }
         } catch (e) {
-            console.error("토큰 갱신 실패. 에러:", e);
             alert('세션이 만료되었습니다. 다시 로그인해주세요.');
             localStorage.removeItem('token');
             localStorage.removeItem('refresh_token');
@@ -57,25 +52,19 @@ axios.interceptors.response.use(response => {
 
 // 토큰 갱신 함수
 async function refreshAccessToken() {
-    console.log("refreshAccessToken 함수 호출은 되고 있는거니");
 
     const refreshToken = localStorage.getItem('refresh_token');
     if (!refreshToken) {
-        console.error("리프레시 토큰 없음. 로그인 페이지로 이동함.");
         location.href = 'user_signin.html';
         return Promise.reject("리프레시 토큰 없음");
     }
 
     try {
-        console.log("리프레시 토큰으로 토큰 갱신 시도 중.");
         const response = await axios.post('user/refresh/', {
             refresh: refreshToken
         });
-
-        console.log("토큰 갱신 성공. 응답:", response.data);
         return response;
     } catch (error) {
-        console.error("토근 갱신 실패. 에러:", error);
         throw error;
     }
 }
@@ -87,8 +76,6 @@ document.addEventListener('keydown', () => userActive = true);
 
 // 유저가 사용중이면 25분마다 토큰 갱신
 setInterval(() => {
-    console.log("20초 지났다. userActive 상태:", userActive);
-
     if (userActive) {
         refreshAccessToken();
         userActive = false;
@@ -250,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         try {
                             await axios.post('user/signout/', { refresh: refreshToken });
                         } catch (error) {
-                            console.error("로그아웃 중 실패. 서버 오류?:", error);
+                            alert('로그아웃 실패')
                         }
                     }
 
