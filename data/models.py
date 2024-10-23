@@ -15,7 +15,6 @@ class SportsNews(models.Model):
 
 
 class Players(models.Model):
-    year = models.IntegerField()
     player_number = models.IntegerField()  # 선수 고유 번호 추가
     name = models.CharField(max_length=100)
     team_name = models.CharField(max_length=50)
@@ -33,7 +32,6 @@ class Players(models.Model):
 
 
 class PlayerRecord(models.Model):
-    year = models.IntegerField()
     player_number = models.IntegerField()  # 선수 고유 번호 추가
     team_logo_url = models.URLField(max_length=255)
     name = models.CharField(max_length=100)
@@ -72,7 +70,6 @@ class PlayerRecord(models.Model):
 
 
 class GameRecord(models.Model):
-    year = models.IntegerField()
     url = models.URLField()
     date = models.DateField()
     team_1 = models.CharField(max_length=100)
@@ -95,7 +92,6 @@ class GameRecord(models.Model):
 
 
 class TeamRank(models.Model):
-    year = models.IntegerField()  # 연도
     rank = models.IntegerField()  # 순위
     team_number = models.CharField(max_length=10)
     team_name = models.CharField(max_length=100)  # 팀 이름
@@ -119,7 +115,6 @@ class TeamRank(models.Model):
 
 
 class TeamRecord(models.Model):
-    year = models.IntegerField()
     team_name = models.CharField(max_length=50)
     team_number = models.CharField(max_length=10)
     rival = models.CharField(max_length=50)
@@ -171,7 +166,7 @@ class TeamDetail(models.Model):
         verbose_name_plural = "팀 통계"
 
     def __str__(self):
-        return f"{self.year} {self.team} "
+        return f"{self.year} {self.team} - {self.rank}위"
 
 
 class WeatherData(models.Model):

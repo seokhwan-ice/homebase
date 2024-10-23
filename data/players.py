@@ -105,7 +105,6 @@ def crawl_players_data(year=2024):
 
                 # 데이터베이스에 저장
                 player = Players(
-                    year=year,
                     player_number=player_number,
                     name=name,
                     team_name=team_name,
