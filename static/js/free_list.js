@@ -14,6 +14,7 @@ const getFreeList = async (query = '') => {
             freeListItem.innerHTML = `
                 <td><a href="free_detail.html?id=${free.id}">${free.title}</a></td>
                 <td>${free.views}</td>
+                <td>${free.comments_count}개</td>
                 <td>${free.author.nickname}</td>
                 <td>${new Date(free.created_at).toLocaleDateString()}</td>
             `;
