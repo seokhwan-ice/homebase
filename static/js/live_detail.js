@@ -205,6 +205,13 @@ const getLiveDetail = async () => {
 
         // 로그인한 사람 유저네임 가져와
         const loggedInUsername = localStorage.getItem('username');
+
+        // 작성자가 아니라면 수정/삭제 버튼 숨기기
+        if (live.author.username !== loggedInUsername) {
+            document.getElementById('update-button').style.display = 'none';
+            document.getElementById('delete-button').style.display = 'none';
+        }
+
         // 작성자 닉네임 클릭 -> 프로필 페이지로 이동
         const authorElement = document.getElementById('live-author');
         authorElement.onclick = () => {
@@ -228,15 +235,12 @@ getLiveDetail();
 
 // 글 수정
 document.getElementById('update-button').addEventListener('click', function() {
-
     if (!checkSignin()) return;
-
     location.href = `live_update.html?id=${liveId}`;
 });
 
 // 글 삭제
 document.getElementById('delete-button').addEventListener('click', async function() {
-
     if (!checkSignin()) return;
 
     const confirmDelete = confirm('정말 삭제하시겠습니까?');

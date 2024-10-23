@@ -70,6 +70,7 @@ class PlayerRecord(models.Model):
 
 
 class GameRecord(models.Model):
+    year = models.IntegerField()
     url = models.URLField()
     date = models.DateField()
     team_1 = models.CharField(max_length=100)

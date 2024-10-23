@@ -6,7 +6,7 @@
 
 // Axios 기본 URL 설정
 if (location.hostname === 'home-base.co.kr') {
-    axios.defaults.baseURL = 'http://3.36.120.140/api/';  // 배포 환경
+    axios.defaults.baseURL = 'https://home-base.co.kr/api/';  // 배포 환경
 } else {
     axios.defaults.baseURL = 'http://127.0.0.1:8000/api/';  // 로컬 환경
 }

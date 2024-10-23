@@ -52,11 +52,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Socket.IO 연결
+
     let socket;
     if (location.hostname === 'home-base.co.kr') {
-        socket = io('http://home-base.co.kr:3000');  // 배포 환경
+        socket = io('https://home-base.co.kr', { transports: ['websocket', 'polling'], secure: true });
     } else {
-        socket = io('http://127.0.0.1:3000');  // 로컬 환경
+        socket = io('http://127.0.0.1:3000');
     }
 
     // 채팅방 입장
@@ -67,9 +68,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         messages.forEach(message => addMessage(message));
     });
 
+    // MAC 엔터 이슈
+    let isComposing = false;
+    
+    document.getElementById('chat-message-input').addEventListener('compositionstart', () => {
+        isComposing = true;
+    });
+
+    document.getElementById('chat-message-input').addEventListener('compositionend', () => {
+        isComposing = false;
+    });
+
+
     // 메시지 입력 엔터키
     document.getElementById('chat-message-input').addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && !isComposing) {
             event.preventDefault();
             document.getElementById('send-button').click();
         }
