@@ -53,6 +53,63 @@ document.getElementById('account-form').addEventListener('submit', async (event)
     }
 });
 
+// 회원 탈퇴 버튼 및 모달
+const deleteAccountButton = document.getElementById('delete-account-button');
+const deleteModal = document.getElementById('deleteModal');
+const confirmDeleteButton = document.getElementById('confirm-delete-button');
+const cancelDeleteButton = document.getElementById('cancel-delete-button');
+const deletePasswordInput = document.getElementById('deletePassword');
+
+// [계정 탈퇴] 버튼 클릭 시 모달 열기
+if (deleteAccountButton) {
+    deleteAccountButton.addEventListener('click', () => {
+        deleteModal.style.display = 'block'; // 모달 표시
+    });
+}
+
+// [모달 - 탈퇴 취소] 버튼 클릭 시 모달 닫기
+if (cancelDeleteButton) {
+    cancelDeleteButton.addEventListener('click', () => {
+        deleteModal.style.display = 'none'; // 모달 닫기
+    });
+}
+
+// [모달 - 탈퇴 확인] 버튼 클릭 시 탈퇴 요청 처리
+if (confirmDeleteButton) {
+    confirmDeleteButton.addEventListener('click', async () => {
+        const deletePassword = deletePasswordInput.value; // 입력된 비밀번호 가져오기
+
+        if (!deletePassword) {
+            alert('비밀번호를 입력해주세요.');
+            return;
+        }
+
+        // 회원 탈퇴 API 요청 보내기
+        try {
+            const response = await axios.post('user/withdraw/', {
+                password: deletePassword
+            });
+
+            // 성공적으로 탈퇴되면 로그아웃 처리
+            alert('계정이 삭제되었습니다. 로그아웃 처리 후 메인 페이지로 이동합니다.');
+            localStorage.removeItem('token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('username');
+            location.href = 'index.html'; // 메인 페이지로 이동
+
+        } catch (error) {
+            console.error('회원 탈퇴 중 오류 발생:', error);
+            if (error.response && error.response.status === 400) {
+                alert('비밀번호가 올바르지 않습니다.');
+            } else {
+                alert('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
+            }
+        } finally {
+            deleteModal.style.display = 'none'; // 모달 닫기
+        }
+    });
+}
+
 // 취소 버튼 클릭 시 이전 페이지로 이동
 document.getElementById('cancel-button').addEventListener('click', () => {
     window.history.back();
