@@ -1,22 +1,19 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>chatbot</title>
 </head>
+
 <body>
     <div id="navbar"></div><br>
+
     <h1>AI 챗봇</h1>
-    <div id="chatbot-container">
-        <div id="chatbot-messages">
-            <!-- 이전 메시지와 새 메시지가 여기 표시됩니다 -->
-        </div>
-        <div id="chatbot-input-container">
-            <input type="text" id="chatbot-message-input" placeholder="메시지를 입력하세요...">
-            <button id="chatbot-send-button">전송</button>
-        </div>
-    </div>
+
+    <div id="chat-box"></div>
+    <input id="user-input" type="text" placeholder="질문을 입력하세요">
+    <button id="send-message-btn">전송</button>
     
     <div id="footer"></div>
     <!-- 공통 스크립트 -->

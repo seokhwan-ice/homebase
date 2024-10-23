@@ -12,15 +12,19 @@ form.addEventListener('submit', async function (event) {
     try {
         const response = await axios.post('user/signin/', { // API 요청에 전체 URL 추가
             username: username,
-            password: password
+            password: password,
         });
+
+        console.log(response.data.user_info);
 
         const accessToken = response.data.access;
         const refreshToken = response.data.refresh;
+        const profileImage = response.data.user_info.profile_image;
 
         localStorage.setItem('token', accessToken);
         localStorage.setItem('refresh_token', refreshToken);
         localStorage.setItem('username', username);
+        localStorage.setItem('profile_image', profileImage || 'https://i.imgur.com/CcSWvhq.png');
         alert('로그인 성공!');
 
         location.href = 'index.html';  // 메인 페이지로 이동

@@ -1,6 +1,4 @@
 
-// 직관인증게시판 글 상세 (live_detail)
-
 const params = new URLSearchParams(location.search);
 const liveId = params.get('id');
 
@@ -10,89 +8,111 @@ const getComments = (comments) => {
     commentsList.innerHTML = '';  // 기존 댓글 초기화
 
     comments.forEach(comment => {
-        const commentItem = document.createElement('div');
-        commentItem.classList.add('comment-item');
-        commentItem.innerHTML = `
-            <p>작성자: ${comment.author.nickname}</p>
-            <p>댓글내용: ${comment.content}</p>
-            <p>작성시간: ${new Date(comment.created_at).toLocaleString()}</p>
-            <p>좋아요수: ${comment.likes_count}</p>
-            <button class="reply-button" data-id="${comment.id}">대댓글</button>
-            <button class="update-button" data-id="${comment.id}">수정</button>
-            <button class="delete-button" data-id="${comment.id}">삭제</button>
-            <button class="like-comment-button" data-id="${comment.id}">댓글 좋아요</button>
-            <div class="reply-list" id="reply-list-${comment.id}"></div>
-            <hr>
-        `;
+        const commentItem = createCommentItem(comment);  // 댓글 생성 함수 호출
         commentsList.appendChild(commentItem);
 
         // 대댓글 표시
         if (comment.replies) {
-            getReplies(comment.replies, comment.id);
+            getReplies(comment.replies, comment.id);  // 대댓글 목록 가져오기 함수 호출
         }
     });
 
-    // 대댓글 달기 버튼 이벤트 추가
+    addReplyEvents();  // 대댓글 작성 이벤트 추가
+    addUpdateEvents();  // 댓글 수정 이벤트 추가
+    addDeleteEvents();  // 댓글 삭제 이벤트 추가
+    addLikeEvents();  // 댓글 좋아요 이벤트 추가
+};
+
+// 대댓글 목록 가져오기 함수
+const getReplies = (replies, parentId) => {
+    const replyList = document.getElementById(`reply-list-${parentId}`);
+    replies.forEach(reply => {
+        const replyItem = createCommentItem(reply);  // 대댓글 생성 함수 호출
+        replyList.appendChild(replyItem);
+
+        if (reply.replies && reply.replies.length > 0) {
+            getReplies(reply.replies, reply.id); // 재귀적으로 대대댓글 처리
+        }
+    });
+};
+
+// 댓글 아이템 생성 함수
+const createCommentItem = (comment) => {
+    const commentItem = document.createElement('div');
+    commentItem.classList.add('comment-item');
+
+    // 작성자의 프로필 이미지
+    const commentProfileImage = comment.author.profile_image
+        ? comment.author.profile_image.replace(/.*\/media/, '/media')
+        : 'https://i.imgur.com/CcSWvhq.png';  // 기본 이미지
+
+    const isAuthor = comment.author.username === localStorage.getItem('username'); // 작성자인지 여부 확인
+    const buttons = isAuthor ? `
+        <button class="reply-button" data-id="${comment.id}">답글</button>
+        <button class="update-button" data-id="${comment.id}">수정</button>
+        <button class="delete-button" data-id="${comment.id}">삭제</button>
+    ` : `
+        <button class="reply-button" data-id="${comment.id}">답글</button>
+    `;
+
+    const likeCount = comment.likes_count || 0;
+
+    commentItem.innerHTML = `
+        <div class="comment-header">
+            <div class="comment-author-info">
+                <img class="comment-profile-image" src="${commentProfileImage}" alt="프로필 이미지">
+                <span class="comment-author">${comment.author.nickname}</span>
+            </div>
+            <span class="comment-time">${new Date(comment.created_at).toLocaleString()}</span>
+        </div>
+        <div class="comment-body">
+            <div class="comment-content">${comment.content}</div>
+            <div class="comment-buttons">
+                ${buttons}
+                <button class="like-comment-button" data-id="${comment.id}">
+                    <i class="fa fa-heart"></i> <span class="like-count">${likeCount}</span> <!-- 하트 아이콘과 좋아요 수 표시 -->
+                </button>
+            </div>
+        </div>
+        <hr class="comment-hr">
+        <div class="reply-list" id="reply-list-${comment.id}"></div>
+    `;
+    return commentItem;
+};
+
+// 댓글 작성 이벤트 추가 함수
+const addReplyEvents = () => {
     document.querySelectorAll('.reply-button').forEach(button => {
         button.addEventListener('click', (event) => {
             const parentId = event.target.getAttribute('data-id');
-            const replyForm = document.createElement('form');
-            replyForm.classList.add('reply-form');
-            replyForm.innerHTML = `
-                <textarea class="reply-content" placeholder="대댓글을 입력하세요" rows="2"></textarea>
-                <button type="submit">대댓글 작성</button>
-            `;
+            const replyForm = createReplyForm(parentId);  // 대댓글 작성 폼 생성
             document.getElementById(`reply-list-${parentId}`).appendChild(replyForm);
-
-            replyForm.addEventListener('submit', async function(event) {
-                event.preventDefault();
-                const content = replyForm.querySelector('.reply-content').value;
-                const formData = { content, parent_id: parentId };
-
-                try {
-                    await axios.post(`community/live/${liveId}/create_comment/`, formData);
-                    alert('대댓글 작성 성공!');
-                    getLiveDetail();
-                } catch (error) {
-                    console.error("Error:", error);
-                    alert('대댓글 작성 실패');
-                }
-            });
         });
     });
+};
 
-    // 댓글 수정 버튼 이벤트 추가
+// 댓글 수정 이벤트 추가 함수
+const addUpdateEvents = () => {
     document.querySelectorAll('.update-button').forEach(button => {
         button.addEventListener('click', (event) => {
             const commentId = event.target.getAttribute('data-id');
-            const commentItem = event.target.parentElement;
-            const currentContent = commentItem.querySelector('p:nth-child(2)').textContent.replace('댓글내용: ', '');
-            const updateForm = document.createElement('form');
-            updateForm.classList.add('update-form');
-            updateForm.innerHTML = `
-                <textarea class="update-content" rows="2">${currentContent}</textarea>
-                <button type="submit">수정 완료</button>
-            `;
+            const commentItem = event.target.closest('.comment-item');
+
+            const existingForm = commentItem.querySelector('.update-form');
+            if (existingForm) {
+                alert("이미 수정 폼이 열려 있어요!");
+                return;
+            }
+
+            const currentContent = commentItem.querySelector('.comment-content').textContent;
+            const updateForm = createUpdateForm(commentId, currentContent);
             commentItem.appendChild(updateForm);
-
-            updateForm.addEventListener('submit', async function(event) {
-                event.preventDefault();
-                const content = updateForm.querySelector('.update-content').value;
-                const formData = { comment_id: commentId, content };
-
-                try {
-                    await axios.put(`community/live/${liveId}/update_comment/`, formData);
-                    alert('댓글 수정 성공!');
-                    getLiveDetail(); // 수정된 댓글 반영
-                } catch (error) {
-                    console.error("Error:", error);
-                    alert('댓글 수정 실패');
-                }
-            });
         });
     });
+};
 
-    // 댓글 삭제 버튼 이벤트 추가
+// 댓글 삭제 이벤트 추가 함수
+const addDeleteEvents = () => {
     document.querySelectorAll('.delete-button').forEach(button => {
         button.addEventListener('click', async (event) => {
             const commentId = event.target.getAttribute('data-id');
@@ -101,7 +121,7 @@ const getComments = (comments) => {
                 try {
                     await axios.delete(`community/live/${liveId}/delete_comment/`, { data: { comment_id: commentId } });
                     alert('댓글 삭제 성공!');
-                    getLiveDetail(); // 삭제된 댓글 반영
+                    getLiveDetail();  // 댓글 삭제 후 갱신
                 } catch (error) {
                     console.error("Error:", error);
                     alert('댓글 삭제 실패');
@@ -109,12 +129,15 @@ const getComments = (comments) => {
             }
         });
     });
+};
 
-    // 댓글 좋아요 버튼 이벤트 추가
+// 댓글 좋아요 이벤트 추가 함수
+const addLikeEvents = () => {
     document.querySelectorAll('.like-comment-button').forEach(button => {
         button.addEventListener('click', async (event) => {
             const commentId = event.target.getAttribute('data-id');
-
+            const likeButton = event.target.closest('.like-comment-button');
+            const likeCountElement = likeButton.querySelector('.like-count');
             try {
                 const response = await axios.post(`community/live/${liveId}/toggle_like_comment/`, { comment_id: commentId });
                 if (response.status === 201) {
@@ -122,7 +145,7 @@ const getComments = (comments) => {
                 } else if (response.status === 204) {
                     alert('댓글 좋아요 취소!');
                 }
-                getLiveDetail(); // 좋아요 수 업데이트
+                getLiveDetail();  // 좋아요 상태 갱신
             } catch (error) {
                 console.error("Error:", error);
                 alert('댓글 좋아요 실패');
@@ -131,24 +154,57 @@ const getComments = (comments) => {
     });
 };
 
-// 대댓글 목록 가져오기 함수
-const getReplies = (replies, parentId) => {
-    const replyList = document.getElementById(`reply-list-${parentId}`);
-    replies.forEach(reply => {
-        const replyItem = document.createElement('div');
-        replyItem.classList.add('reply-item');
-        replyItem.innerHTML = `
-            <p>작성자: ${reply.author.nickname}</p>
-            <p>대댓글내용: ${reply.content}</p>
-            <p>작성시간: ${new Date(reply.created_at).toLocaleString()}</p>
-            <p>좋아요수: ${reply.likes_count}</p>
-            <button class="update-button" data-id="${reply.id}">수정</button>
-            <button class="delete-button" data-id="${reply.id}">삭제</button>
-            <button class="like-comment-button" data-id="${reply.id}">댓글 좋아요</button>
-            <hr>
-        `;
-        replyList.appendChild(replyItem);
+// 대댓글 작성 폼 생성 함수
+const createReplyForm = (parentId) => {
+    const replyForm = document.createElement('form');
+    replyForm.classList.add('reply-form');
+    replyForm.innerHTML = `
+        <textarea class="reply-content" placeholder="대댓글을 입력하세요" rows="2"></textarea>
+        <button type="submit">대댓글 작성</button>
+    `;
+    replyForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const content = replyForm.querySelector('.reply-content').value;
+        try {
+            await axios.post(`community/live/${liveId}/create_comment/`, { content, parent_id: parentId });
+            alert('대댓글 작성 성공!');
+            getLiveDetail();  // 대댓글 작성 후 갱신
+        } catch (error) {
+            console.error("Error:", error);
+            alert('대댓글 작성 실패');
+        }
     });
+    return replyForm;
+};
+
+// 댓글 수정 폼 생성 함수
+const createUpdateForm = (commentId, currentContent) => {
+    const updateForm = document.createElement('form');
+    updateForm.classList.add('update-form');
+    updateForm.innerHTML = `
+        <textarea class="update-content" rows="2">${currentContent}</textarea>
+        <button type="submit">수정 완료</button>
+        <button type="button" class="cancel-button">취소</button>
+    `;
+    updateForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const content = updateForm.querySelector('.update-content').value;
+        try {
+            await axios.put(`community/live/${liveId}/update_comment/`, { comment_id: commentId, content });
+            alert('댓글 수정 성공!');
+            getLiveDetail();  // 댓글 수정 후 갱신
+        } catch (error) {
+            console.error("Error:", error);
+            alert('댓글 수정 실패');
+        }
+    });
+
+    // 취소 버튼 이벤트 처리
+    updateForm.querySelector('.cancel-button').addEventListener('click', function() {
+        updateForm.remove();  // 수정 폼 제거
+    });
+
+    return updateForm;
 };
 
 // 글 상세 (+ 댓글) 가져오기 함수
@@ -215,6 +271,14 @@ const getLiveDetail = async () => {
         // 작성자 닉네임 클릭 -> 프로필 페이지로 이동
         const authorElement = document.getElementById('live-author');
         authorElement.onclick = () => {
+
+        // Username = null (로그인 안된경우)
+        if (!loggedInUsername) {
+        location.href = `user_other_profile.html?username=${free.author.username}`;
+        return;  // 남의 프로필
+        }
+
+        // 로그인 되어있는 경우
             if (live.author.username === loggedInUsername) {
                 // 내 프로필
                 location.href = `user_my_profile.html?username=${live.author.username}`;

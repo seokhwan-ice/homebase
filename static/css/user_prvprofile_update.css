@@ -78,3 +78,51 @@ textarea {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+/* 회원 탈퇴 섹션 스타일 */
+.withdrawal-section {
+    background-color: #f9f9f9; /* 배경 색상 */
+    border: 2px solid #ff0000; /* 경고 강조를 위한 붉은 테두리 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px; /* 상단과의 간격 */
+}
+
+/* 탈퇴 경고 메시지 스타일 */
+.withdrawal-message {
+    font-size: 16px; /* 폰트 크기 */
+    color: #333; /* 글자 색상 */
+    margin-bottom: 15px; /* 아래쪽 여백 */
+}
+
+/* 확인 및 취소 버튼 스타일 */
+.withdrawal-buttons {
+    display: flex; /* 버튼들을 가로로 배치 */
+    justify-content: space-between; /* 버튼 간격 조정 */
+    margin-top: 10px; /* 상단 여백 */
+}
+
+.withdrawal-buttons button {
+    background-color: #ff4d4d; /* 탈퇴 버튼 색상 */
+    color: white; /* 텍스트 색상 */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px 15px; /* 패딩 조정 */
+    font-size: 14px; /* 폰트 크기 */
+    transition: background-color 0.3s; /* 배경색 변화 시 전환 효과 */
+}
+
+.withdrawal-buttons button:hover {
+    background-color: #ff1a1a; /* 호버 시 색상 변경 */
+}
+
+/* 취소 버튼 스타일 */
+.cancel-button {
+    background-color: #cccccc; /* 취소 버튼 색상 */
+}
+
+.cancel-button:hover {
+    background-color: #b3b3b3; /* 취소 버튼 호버 시 색상 */
+}

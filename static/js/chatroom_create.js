@@ -14,7 +14,6 @@ document.getElementById('chatroom-form').addEventListener('submit', async (event
         alert('채팅방을 만들었습니다!');
         location.href = 'chatroom_list.html';
     } catch (error) {
-        console.error('채팅방 생성 실패:', error);
         alert('채팅방 생성 실패');
     }
 });
