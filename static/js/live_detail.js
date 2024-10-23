@@ -55,6 +55,8 @@ const createCommentItem = (comment) => {
         <button class="reply-button" data-id="${comment.id}">답글</button>
     `;
 
+    const likeCount = comment.likes_count || 0;
+
     commentItem.innerHTML = `
         <div class="comment-header">
             <div class="comment-author-info">
@@ -67,7 +69,9 @@ const createCommentItem = (comment) => {
             <div class="comment-content">${comment.content}</div>
             <div class="comment-buttons">
                 ${buttons}
-                <button class="like-comment-button" data-id="${comment.id}">좋아요</button>
+                <button class="like-comment-button" data-id="${comment.id}">
+                    <i class="fa fa-heart"></i> <span class="like-count">${likeCount}</span> <!-- 하트 아이콘과 좋아요 수 표시 -->
+                </button>
             </div>
         </div>
         <hr class="comment-hr">
@@ -93,8 +97,15 @@ const addUpdateEvents = () => {
         button.addEventListener('click', (event) => {
             const commentId = event.target.getAttribute('data-id');
             const commentItem = event.target.closest('.comment-item');
+
+            const existingForm = commentItem.querySelector('.update-form');
+            if (existingForm) {
+                alert("이미 수정 폼이 열려 있어요!");
+                return;
+            }
+
             const currentContent = commentItem.querySelector('.comment-content').textContent;
-            const updateForm = createUpdateForm(commentId, currentContent);  // 댓글 수정 폼 생성
+            const updateForm = createUpdateForm(commentId, currentContent);
             commentItem.appendChild(updateForm);
         });
     });
@@ -125,6 +136,8 @@ const addLikeEvents = () => {
     document.querySelectorAll('.like-comment-button').forEach(button => {
         button.addEventListener('click', async (event) => {
             const commentId = event.target.getAttribute('data-id');
+            const likeButton = event.target.closest('.like-comment-button');
+            const likeCountElement = likeButton.querySelector('.like-count');
             try {
                 const response = await axios.post(`community/live/${liveId}/toggle_like_comment/`, { comment_id: commentId });
                 if (response.status === 201) {
