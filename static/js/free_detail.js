@@ -41,10 +41,21 @@ const createCommentItem = (comment) => {
     const commentItem = document.createElement('div');
     commentItem.classList.add('comment-item');
 
+    const loggedInUsername = localStorage.getItem('username');
+
     // comment_profile_image
     const commentProfileImage = comment.author.profile_image
         ? comment.author.profile_image.replace(/.*\/media/, '/media')
         : 'https://i.imgur.com/CcSWvhq.png';
+
+    const isAuthor = comment.author.username === loggedInUsername;
+    const updateDeleteButtons = isAuthor ? `
+        <button class="reply-button" data-id="${comment.id}">답글</button>
+        <button class="update-button" data-id="${comment.id}">수정</button>
+        <button class="delete-button" data-id="${comment.id}">삭제</button>
+    ` : `
+        <button class="reply-button" data-id="${comment.id}">답글</button>
+    `;
 
     commentItem.innerHTML = `
         <div class="comment-header">
@@ -57,9 +68,7 @@ const createCommentItem = (comment) => {
         <div class="comment-body">
             <div class="comment-content">${comment.content}</div>
             <div class="comment-buttons">
-                <button class="reply-button" data-id="${comment.id}">답글</button>
-                <button class="update-button" data-id="${comment.id}">수정</button>
-                <button class="delete-button" data-id="${comment.id}">삭제</button>
+                ${updateDeleteButtons}
             </div>
         </div>
         <hr class="comment-hr">
@@ -84,9 +93,14 @@ const addUpdateEvents = () => {
     document.querySelectorAll('.update-button').forEach(button => {
         button.addEventListener('click', (event) => {
             const commentId = event.target.getAttribute('data-id');
-            const commentItem = event.target.parentElement;
-            const currentContent = commentItem.querySelector('p').textContent;
-            const updateForm = createUpdateForm(commentId, currentContent); // 수정 폼 생성 함수호출
+            const commentItem = event.target.closest('.comment-item');
+            const currentContent = commentItem.querySelector('.comment-content').textContent;
+            const existingForm = commentItem.querySelector('.update-form');
+            if (existingForm) {
+                alert("이미 수정 폼이 열려 있어요!");
+                return;
+            }
+            const updateForm = createUpdateForm(commentId, currentContent);
             commentItem.appendChild(updateForm);
         });
     });
@@ -142,6 +156,7 @@ const createUpdateForm = (commentId, currentContent) => {
     updateForm.innerHTML = `
         <textarea class="update-content" rows="2">${currentContent}</textarea>
         <button type="submit">수정 완료</button>
+        <button type="button" class="cancel-button">취소</button>
     `;
     updateForm.addEventListener('submit', async function(event) {
         event.preventDefault();
@@ -156,6 +171,11 @@ const createUpdateForm = (commentId, currentContent) => {
             alert('댓글 수정 실패');
         }
     });
+
+    updateForm.querySelector('.cancel-button').addEventListener('click', function() {
+        updateForm.remove(); // 수정 폼 제거
+    });
+
     return updateForm;
 };
 

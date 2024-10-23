@@ -181,7 +181,7 @@
 }
 
 .comment-author {
-    font-size: 15px;
+    font-size: 17px;
     color: #333;
 }
 
@@ -201,7 +201,7 @@
 .comment-content {
     margin-top: 10px;
     padding-right: 5px;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 /* 버튼 */

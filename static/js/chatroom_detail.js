@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         isComposing = false;
     });
     document.getElementById('chat-message-input').addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && !isComposing) {
             event.preventDefault();
             document.getElementById('send-button').click();
         }
