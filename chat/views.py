@@ -68,7 +68,7 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
             status=200,
         )
 
-    # 채팅방 나가는 API (하.. 이렇게 하는게 맞나..)
+    # 채팅방 나가는 API
     @action(detail=True, methods=["post"])
     def leave(self, request, pk=None):
         room = self.get_object()

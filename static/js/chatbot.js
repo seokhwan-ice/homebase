@@ -1,6 +1,6 @@
 // AI 챗봇 기능 처리
-const socket = io.connect('http://localhost:3000');
-// const socket = io.connect('https://home-base.co.kr');
+// const socket = io.connect('http://localhost:3000');
+const socket = io.connect('https://home-base.co.kr');
 
 // 메시지 전송 버튼 클릭 시 동작
 document.getElementById('send-message-btn').addEventListener('click', () => {
