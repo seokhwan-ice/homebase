@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>free_detail</title>
+    <link rel="stylesheet" href="/static/css/free_detail.css">
+</head>
+
+<body>
+    <div id="navbar"></div><br>
+
+    <h1>자유게시판</h1>
+    <section class="content-section">
+        <div class="detail-actions">
+            <div class="action-buttons">
+                <button onclick="location.href='free_list.html'">목록으로</button>
+                <button id="update-button">수정하기</button>
+                <button id="delete-button">삭제하기</button>
+            </div>
+
+            <hr><br>
+
+            <div class="author-and-bookmark">
+                <div class="author-section">
+                    <img id="free-profile-image" alt="프로필 이미지">
+                    <span id="free-author"></span>
+                </div>
+                <div class="bookmark-section">
+                    <i id="bookmark-icon" class="fa-solid fa-bookmark bookmark-icon"></i>
+                    <span id="bookmark-text">붘맠</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="free-detail">
+            <h2 id="free-title"></h2>
+            <img id="free-image" alt="게시글 이미지">
+            <p id="free-content"></p>
+        </div>
+
+        <div class="meta-info">
+            <div class="left-info">
+                <span><i class="fa-solid fa-eye"></i><span id="free-views"></span></span>
+                <span><i class="fa-solid fa-comment"></i><span id="free-comments-count"></span></span>
+            </div>
+            <div class="right-info">
+                <p>등록: <span id="free-created-at"></span></p>
+                <p>수정: <span id="free-updated-at"></span></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <h4>댓글</h4><br>
+        <div id="comments-list"></div>
+        <form id="comment-form">
+            <textarea id="comment-content" placeholder="댓글을 입력하세요" rows="2"></textarea>
+            <button type="submit">댓글 작성</button>
+        </form>
+    </section>
+
+    <div id="footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/free_detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>chatroom_list</title>
+    <link rel="stylesheet" href="/static/css/chatroom_list.css">
+</head>
+
+<body>
+    <div id="navbar"></div><br>
+    <h1>실시간 채팅방 목록</h1>
+
+    <section class="content-section">
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" class="search-input" placeholder="키워드로 채팅방 검색하기!">
+                <button id="search-button" class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
+            <button id="create-chatroom-button" class="create-button">채팅방 만들기!</button>
+        </div>
+
+        <p id="rooms-count" class="rooms-count"></p>
+
+        <ul id="chatroom-list" class="chatroom-list"></ul>
+    </section>
+
+    <div id="footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/chatroom_list.js"></script>
+</body>
+</html>

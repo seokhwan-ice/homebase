@@ -1,0 +1,89 @@
+<!-- navbar.html -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+            <img src="https://i.imgur.com/CcSWvhq.png" alt="Logo" class="navbar-logo">
+            HomeBase
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link btn-custom" href="user_signup.html">회원가입</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-custom" href="user_signin.html">로그인</a>
+                </li>
+                <li class="nav-item d-flex align-items-center ms-auto">
+                    <a class="navbar-link" id="profile-link" href="#">
+                        <span id="navbar-username" class="navbar-username ms-2">Nickname</span>
+                    </a>
+                    <img src="https://i.imgur.com/CcSWvhq.png" alt="프로필 사진" class="navbar-profile-img" id="navbar-profile-img">
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 사이드바 -->
+<div class="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="data_news.html"><i class="fa-solid fa-newspaper"></i>KBO News</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="data_youtube.html"><i class="fa-solid fa-video"></i>팀별 응원가</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="data_teammain.html"><i class="fa-solid fa-users"></i>Team</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="data_playermain.html"><i class="fa-solid fa-address-card"></i>Player</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="free_list.html"><i class="fa-solid fa-pen"></i>자유게시판</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="live_list.html"><i class="fa-solid fa-camera"></i>직관게시판</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="chatroom_list.html"><i class="fa-solid fa-comments"></i>실시간 채팅방</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="chatbot.html"><i class="fa-solid fa-robot"></i>AI 챗봇</a>
+        </li>
+    </ul>
+</div>
+
+<!-- 유저 사이드바 -->
+<div class="sidebar-right">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="user_free_list.html"><i class="fa-solid fa-pen"></i> 작성글</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="user_live_list.html"><i class="fa-solid fa-camera"></i> 작성글</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="user_comment_list.html"><i class="fas fa-comment-dots"></i> 작성댓글</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="user_bookmark_list.html"><i class="fa-solid fa-bookmark"></i> 북마크</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="user_followerlist.html"><i class="fa-solid fa-user-friends"></i> 팔로워</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="user_followlist.html"><i class="fa-solid fa-user-plus"></i> 팔로우</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-danger d-flex align-items-center" id="signout-link" href="#">
+                <i class="fas fa-sign-out-alt me-2"></i> 로그아웃
+            </a>
+        </li>
+    </ul>
+</div>
+

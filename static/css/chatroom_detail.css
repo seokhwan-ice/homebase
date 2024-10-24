@@ -1,0 +1,163 @@
+/* -----------제목------------- */
+.chatroom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.chatroom-info {
+    display: flex;
+    align-items: center;
+}
+
+#chatroom-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 1px solid #6a6a6a;
+}
+
+#chatroom-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#chatroom-description {
+    color: #4c4c4c;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+#chatroom-participants {
+    font-size: 1rem;
+}
+
+.back-button, .delete-button {
+    background-color: #606060;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover, .delete-button:hover {
+    background-color: #333;
+}
+
+/* -----------내용 네모------------- */
+.content-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-window {
+    height: 500px;
+    margin-bottom: 10px;
+    padding: 20px;
+    overflow-y: scroll;
+    background-color: #ffffff;
+}
+
+/* -----------메시지------------- */
+.messages {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.message-item {
+    margin-bottom: 10px;
+    position: relative;
+    display: flex;
+    max-width: 95%;
+}
+
+.message-profile-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid #7a7a7a;
+}
+
+.message-content {
+    background-color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    border-radius: 5px;
+    border: 1px solid #959595;
+    max-width: 80%;
+}
+
+.message-nickname {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.message-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #323232;
+    margin-bottom: 5px;
+    margin-top: 3px;
+}
+
+.message-time {
+    font-size: 0.8rem;
+    color: #737373;
+    margin-left: 10px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+/* -----------메시지 입력------------- */
+.chat-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #cacaca;
+}
+
+.input-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#chat-message-input {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* -----------버튼------------- */
+#send-button, #leave-chatroom-button {
+    padding: 10px 20px;
+    background-color: #606060;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#send-button:hover, #leave-chatroom-button:hover {
+    background-color: #333;
+}
+
+#leave-chatroom-button {
+    margin-left: auto;
+}

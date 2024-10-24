@@ -244,7 +244,7 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
 ### Python Patch ###
 # Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
 poetry.toml
@@ -264,7 +264,7 @@ pyrightconfig.json
 pyvenv.cfg
 pip-selfcheck.json
 ### VisualStudioCode ###
-.vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -309,6 +309,10 @@ $RECYCLE.BIN/
 chromedriver.exe
 
 #config
-config.py
+homebase/config.py
 
-#
+# image
+media/
+
+# node.js
+node_modules/

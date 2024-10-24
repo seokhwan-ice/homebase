@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계정 설정</title>
+    <link rel="stylesheet" href="/static/css/user_prvprofile_update.css">
+</head>
+<body>
+    <div id="navbar"></div>
+        <!-- 계정 설정 페이지 -->
+        <h2>계정</h2>
+                <!-- 프로필/계정 버튼 -->
+                <div class="top buttons">
+                    <button id="profile-button">프로필</button><!-- JS에서 동적 링크 처리 -->
+                    <button disabled style="background-color: lightgray;">계정</button> <!-- 계정 버튼 비활성화 -->
+                </div>
+        <form id="account-form">
+            <!-- 기존 이메일 표시 -->
+            <label for="current-email">email</label>
+            <span id="current-email">등록된 이메일이 없습니다</span> <!-- 기존 이메일 표시 -->
+            <br><br>
+
+            <!-- 새로운 이메일 입력 -->
+            <label for="email">새로운 이메일</label>
+            <input type="email" id="email" placeholder="새로운 이메일을 입력하세요"><br><br>
+
+            <!-- 기존 전화번호 표시 -->
+            <label for="current-phone_number"> Phone Number</label>
+            <span id="current-phone_number">등록된 전화번호가 없습니다</span> <!-- 기존 전화번호 표시 -->
+            <br><br>
+
+            <!-- 새로운 전화번호 입력 -->
+            <label for="phone_number">변경하실 폰번호</label>
+            <input type="text" id="phone_number" placeholder="010-1234-5678"><br><br>
+
+            <label for="old-password">현재 비밀번호</label>
+            <input type="password" id="old-password"><br><br>
+
+            <label for="new-password">뉴 비밀번호</label>
+            <input type="password" id="new-password" required><br><br>
+
+            <button type="submit">변경사항 저장</button>
+            <button type="button" id="cancel-button">취소</button>
+            <button type="button" id="delete-account-button">계정 탈퇴</button>
+            
+            <div id="deleteModal" style="display:none;">
+                <div class="modal-content">
+                    <h2>회원 탈퇴</h2>
+                    <p>비밀번호를 입력하세요:</p>
+                    <input type="password" id="deletePassword" placeholder="비밀번호">
+                    <button id="confirm-delete-button">탈퇴</button>
+                    <button id="cancel-delete-button">취소</button>
+                </div>
+            </div>
+        </form>
+
+        <div id="footer"></div>
+
+        <!-- 외부 스크립트 추가 -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="/static/js/common.js"></script>
+        <script src="/static/js/user_prvprofile_update.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>live_detail</title>
+    <link rel="stylesheet" href="/static/css/live_detail.css">
+</head>
+
+<body>
+    <div id="navbar"></div><br><br>
+    <h1>직관인증 게시판</h1>
+
+    <section class="content-section">
+        <div class="button-group">
+            <button onclick="location.href='live_list.html'">목록으로</button>
+            <button id="update-button">수정하기</button>
+            <button id="delete-button">삭제하기</button>
+        </div>
+
+        <hr><br>
+
+        <div class="profile-section">
+            <div>
+                <img id="live-profile-image" alt="프로필 이미지" class="profile-img">
+                <p id="live-author"></p> <!-- 닉네임 -->
+            </div>
+            <span>
+                <i class="fa-solid fa-bookmark bookmark-icon"></i>
+                <span id="bookmark-text">붘맠</span>
+            </span>
+        </div>
+
+        <div class="main-content">
+            <img id="live-image" alt="경기 이미지" class="live-img">
+            <div class="game-info">
+                <p>팀 <span id="game-teams"></span></p>
+                <p>경기장 <span id="live-stadium"></span></p>
+                <p>일자 <span id="live-game-date"></span></p>
+                <p>좌석 <span id="live-seat"></span></p>
+                <p><span id="live-review"></span></p>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <span class="icon">
+                <i class="fa-solid fa-comment comment"></i>
+                <span id="comment-count"></span>
+            </span>
+            <span class="icon">
+                <i class="fa-solid fa-heart heart" id="like-button"></i>
+                <span id="like-text">좋아요</span>
+                <span id="like-count"></span>
+            </span>
+            <p class="creation-date">작성: <span id="live-created-at"></span></p>
+        </div>
+
+        <hr>
+
+        <!-- 댓글 -->
+        <h4>댓글</h4><br>
+        <div id="comments-list"></div>
+        <form id="comment-form">
+            <textarea id="comment-content" placeholder="댓글을 입력하세요" rows="2"></textarea>
+            <button type="submit">댓글 작성</button>
+        </form>
+    </section>
+
+    <div id="footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/live_detail.js"></script>
+</body>
+</html>

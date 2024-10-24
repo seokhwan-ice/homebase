@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="/static/css/user_other_profile.css">
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <div class="container">
+        <!-- Left side profile section -->
+        <div class="profile-left">
+            <img src="https://via.placeholder.com/150" class="profile-image" alt="User Profile Image" id="profileImage">
+            <div class="nickname">user_nickname</div>
+            
+            <!-- 팔로워 및 팔로잉 수 클릭 시 해당 페이지로 이동 -->
+            <div class="follower-info">
+                <a id="followers-link" href="#"> followers</a> · <a id="following-link" href="#"> following</a>
+            </div>
+
+
+            <button id="follow-button">팔로우하기</button>
+        </div>
+
+
+
+        <!-- Right side profile details -->
+        <div class="profile-right">
+            <div class="bio">
+                <h2>소개글(bio)</h2>
+                <p id="bio">소개글 내용</p>
+            </div>
+
+            <!-- 6칸 갤러리 (3x2) -->
+            <div class="gallery"></div>
+
+            <!-- Pagination buttons -->
+            <div class="pagination-buttons">
+                <button id="prev-button">이전</button>
+                <button id="next-button">다음</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/user_other_profile.js"></script>
+</body>
+</html>
+

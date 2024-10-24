@@ -1,0 +1,106 @@
+/* styles.css */
+
+h1 {
+    margin-top: 40px; /* 상단과의 간격 */
+    text-align: center; /* 중앙 정렬 */
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    font-size: 36px; /* 글씨 크기 */
+    color: #333; /* 글씨 색상 */
+}
+
+
+/* 팀 로고 스타일 */
+#team-logos {
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: center; /* 중앙 정렬 */
+    gap: 20px; /* 로고 간의 간격 */
+    padding: 20px 0; /* 상하 패딩 */
+}
+
+/* 팀 로고 이미지 스타일 */
+#team-logos img {
+    width: 80px; /* 기본 로고 크기 */
+    cursor: pointer; /* 클릭 가능한 포인터 표시 */
+    transition: transform 0.3s; /* 부드러운 트랜지션 효과 */
+}
+
+/* 마우스를 올렸을 때 로고 크기 증가 */
+#team-logos img:hover {
+    transform: scale(1.2); /* 로고 크기 증가 */
+}
+
+/* 선수 카드 컨테이너 스타일 */
+#players-container {
+    margin: 20px;
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* 선수 카드 간격 */
+}
+
+/* 선수 카드 스타일 */
+.player {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 8px;
+    width: 150px; /* 카드 너비 */
+    text-align: center;
+}
+
+/* 선수 이미지 스타일 */
+.player img {
+    max-width: 100%;
+    height: auto; /* 이미지 자동 조정 */
+    border-radius: 50%; /* 프로필 이미지 원형 처리 */
+}
+
+/* 선수 이름 스타일 */
+.player h2 {
+    font-family: 'Gowun Dodum', sans-serif; /* 폰트 설정 */
+    font-size: 1em;
+    cursor: pointer; /* 클릭 가능 표시 */
+    margin: 10px;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: inherit; /* 링크의 색상을 상속받아 기본 텍스트 색상 유지 */
+}
+
+/* 페이지네이션 컨테이너 스타일 */
+#pagination-container {
+    margin-top: 20px;
+}
+
+/* 페이지네이션 컨테이너 스타일 */
+#pagination-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px;
+}
+
+/* 페이지네이션 링크 스타일 */
+#pagination-container a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #070202; /* 기본 글씨 색상 */
+    background-color: #f8eaf7; /* 기본 배경 색상 */
+    padding: 10px 15px; /* 내부 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s, transform 0.3s; /* 부드러운 변환 효과 */
+}
+
+/* 페이지네이션 링크 호버 스타일 */
+#pagination-container a:hover {
+    background-color: #0056b3; /* 호버 시 배경 색상 */
+    transform: scale(1.05); /* 약간 커지게 */
+}
+
+/* 현재 페이지 강조 스타일 */
+#pagination-container a.active {
+    background-color: #28a745; /* 활성 페이지 배경 색상 */
+    color: white; /* 활성 페이지 글씨 색상 */
+    font-weight: bold; /* 글씨 두껍게 */
+}
+
+#pagination-container a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}

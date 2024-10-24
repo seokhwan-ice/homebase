@@ -1,0 +1,152 @@
+/* 네브바 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    margin-bottom: 0;
+    padding-left: 20px;
+    padding-right: 30px;
+    z-index: 1000;
+    background-color: #edf0f3;
+    border-bottom: 1px solid black;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    vertical-align: text-bottom;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.navbar .navbar-brand {
+    font-weight: 600;
+    font-size: 27px;
+}
+
+.navbar-nav .btn-custom {
+    border: 1px solid black;
+    border-radius: 5px;
+    color: #2e2e2e;
+    margin-left: 20px;
+}
+
+.navbar-nav .btn-custom:hover {
+    background-color: #d7dbdf;
+    color: black;
+}
+
+
+/* 사이드바 */
+.sidebar {
+    position: fixed;
+    left: 0;
+    width: 270px;
+    height: calc(100%);
+    padding-top: 30px;
+    background-color: #fdfdfd;
+    border-right: 1px solid black;
+}
+
+.sidebar .nav-link {
+    padding: 20px 35px;
+    color: #333;
+    font-size: 20px;
+}
+
+.sidebar .nav-link i {
+    margin-right: 20px;
+    font-size: 25px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #ebeef1;
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.sidebar .nav-link.active {
+    background-color: #ebeef1;
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+/* footer */
+.footer {
+    background-color: #ebeef1;
+    color: #343a40;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid #bdbdbd;
+}
+
+/* 기본 body 스타일 */
+body {
+    margin-top: 70px;
+    margin-left: 270px;
+    margin-right: 240px;
+    max-width: 950px;
+    width: 100%;
+    position: relative;
+    left: calc((100% - 950px - 510px) / 2);
+    font-family: 'Gowun Dodum', sans-serif;  /* 글씨체 수정 여기서!!! */
+}
+
+/* sidebar-right */
+.sidebar-right {
+    position: fixed;
+    right: 0;
+    width: 240px;
+    height: calc(100%);
+    padding-top: 30px;
+    background-color: #fdfdfd;
+    border-left: 1px solid black;
+    display: block;
+}
+
+.sidebar-right .nav-link {
+    padding: 20px 35px;
+    color: #333;
+    font-size: 20px;
+}
+
+.sidebar-right .nav-link i {
+    margin-right: 20px;
+    font-size: 25px;
+}
+
+.sidebar-right .nav-link:hover {
+    background-color: #ebeef1;
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.sidebar-right .nav-link.active {
+    background-color: #ebeef1;
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+/* 네브바 오른쪽 위 프로필 */
+.navbar-profile-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid black;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.navbar-link {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 27px;
+    color: #333;
+    margin-right: 10px;
+}

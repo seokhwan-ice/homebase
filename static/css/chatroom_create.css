@@ -1,0 +1,81 @@
+.content-section {
+    margin: 20px auto;
+    padding: 50px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #a5a5a5;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* ----------이미지------------ */
+.upload-hint {
+    font-size: 15px;
+    color: #4c4c4c;
+    margin-bottom: 10px;
+}
+
+#image-preview {
+    margin-top: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.preview-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #9e9e9e;
+}
+.preview-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #777;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+/* ----------버튼------------ */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-button, .back-button {
+    padding: 10px 20px;
+    background-color: #707070;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-button:hover, .back-button:hover {
+    background-color: #333333;
+}

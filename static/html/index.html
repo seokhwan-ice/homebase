@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>index_page</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <div class="container">
+        <br>
+
+        <!-- data -->
+        <h2>최신 뉴스</h2>
+        <section id="latest-news">
+            <ul id="news-list"></ul>
+        </section>
+
+        <h2>팀 랭킹</h2>
+        <section id="team-rank">
+            <table class="rank-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>구단</th>
+                        <th>승률</th>
+                        <th>기록</th>
+                        <th>경기수</th>
+                        <th>승차</th>
+                    </tr>
+                </thead>
+                <tbody id="team-rank-list"></tbody>
+            </table>
+        </section>
+
+        <!-- community(free) -->
+        <h2>자유 게시판</h2>
+        <section id="main-free" class="free-board">
+            <div class="free-section">
+                <h5>조회수 TOP 3</h5>
+                <ul id="top-viewed-free" class="free-list"></ul>
+            </div>
+            <div class="free-section">
+                <h5>댓글수 TOP 3</h5>
+                <ul id="top-commented-free" class="free-list"></ul>
+            </div>
+        </section>
+
+        <!-- community(live) -->
+        <h2>직관 게시판</h2>
+        <section id="main-live">
+            <h5>좋아요 TOP 3</h5>
+            <ul id="top-liked-live" class="live-list"></ul>
+            <h5>댓글수 TOP 3</h5>
+            <ul id="top-commented-live" class="live-list"></ul>
+        </section>
+
+        <!-- chat -->
+        <h2>실시간 채팅방 TOP</h2>
+        <section id="main-chat">
+            <ul id="top-participated-chatrooms" class="chatroom-list"></ul>
+        </section>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/index.js"></script>
+</body>
+</html>
