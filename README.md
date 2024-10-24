@@ -1,14 +1,15 @@
 <br>
 
-# ⚾ HOME BASE 함께 야구를 즐기자! ⚾
+# ⚾ HOME BASE : 함께 야구를 즐기자! ⚾
 
 
-### [ 야구팬들을 위한 정보 및 커뮤니티 플랫폼 ](https://home-base.co.kr/)
+### [ 야구팬들을 위한 정보 및 커뮤니티 플랫폼 HomeBase 바로가기 ](https://home-base.co.kr/)
 
-이미지 크기 어케 키움...
 ![HomeBase](https://github.com/user-attachments/assets/2450df11-34f6-4c48-a8b5-5551c9e4dc96)
 
+
 <br><br>
+
 
 ## 🚩 프로젝트 소개
 
@@ -16,10 +17,15 @@
 
 2024년 프로야구는 말 그대로 붐 그 자체였습니다. ‘1,000만 관중 시대’ 로 접어들면서 누적 시청자 수 증가, 유니폼 굿즈 마케팅, SNS 활성화 등 다양한 방면에서 성장을 이루게 되었고, 이제는 많은 사람들의 '취미' 로 자리잡게 되었습니다.
 
-야구 팬으로서 '우리 팀은 왜 이 팀한테 약하지?',  '우리 팀/다른 팀의 선수 전력을 한 번에 볼 수 있었으면 좋겠다.' 라는 생각과 함께 ‘HomeBase’ 를 계획하게 되었습니다.
-프로야구의 인기가 늘고 있는 만큼 야구를 좋아하는 사람들이 모일 수 있었으면 좋겠다는 생각이 들어 다양한 정보를 담을 수 있도록 커뮤니티를 구성했습니다.
+야구를 좋아하는 사람들을 위한 야구 정보 및 커뮤니티 플랫폼 Home Base
+
+최신 야구 뉴스, 선수 및 팀 정보, 각 팀의 응원가 등 야구 관련 정보를 편리하게 얻을 수 있을 뿐 아니라, 경기 관람 인증 게시판 및 실시간 채팅 기능 등을 통해 야구 팬들이 자유롭게 소통하고 취미를 공유할 수 있는 공간을 제공합니다.
+
+Home Base 플랫폼은 단순한 정보 제공을 넘어, 팬들 간의 활발한 교류와 참여를 촉진하는 커뮤니티로 자리 잡는 것을 목표로 하고 있습니다!
+
 
 <br><br>
+
 
 ## 🔥 팀 소개
 
@@ -29,10 +35,12 @@
 |[@sh-traveler](https://sh-traveler.tistory.com/)|[@kinggoddino](https://kinggoddino.tistory.com/manage/posts)|[@alsk9624](https://velog.io/@alsk9624/posts)|[@junoblog](https://junoblog.tistory.com/manage/posts)|
 |BE / FE|BE / FE|BE / FE|BE / FE|
 
+
 <br>
 
-### [📌 TEAM 노션 바로가기](https://teamsparta.notion.site/HomeBase-fff2dc3ef51481daa2addec78dfe0e0d)
-### [📌 SA 문서 바로가기](https://teamsparta.notion.site/SA-388eaf03add34e519780630df9e7729b)
+
+### [📌 HomeBase TEAM 노션 바로가기](https://teamsparta.notion.site/HomeBase-fff2dc3ef51481daa2addec78dfe0e0d)
+### [📌 HomeBase SA 문서 바로가기](https://teamsparta.notion.site/SA-388eaf03add34e519780630df9e7729b)
 
 
 <br><br>
@@ -46,9 +54,9 @@
 
 
 
-## 프로젝트 기능 (말투랑 글은 수정할게 일단 내용만 적을게 임티도 수정하께)
+## 프로젝트 기능
 
-### ⚾ MAIN: 흥미로운 데이터 한눈에 확인 가능
+### ⚾ MAIN Page: 흥미로운 데이터 한눈에 확인 가능
 
 > * 야구와 관련된 가장 최신 뉴스 3 바로가기 가능
 > * 업데이트된 팀 랭킹 바로 확인 가능
@@ -70,7 +78,7 @@
 
 <br>
 
-### ⚾ DATA: 크롤링된 데이터 조회
+### 📊 DATA: 크롤링된 데이터 조회
 
 > * 야구와 관련된 가장 최신 뉴스들 조회할 수 있고 링크를 통해 이동 가능
 > * 응원가 유투브 목록을 조회할 수 있으며 링크를 통해 바로 이동할 수 있고 검색도 가능하다는 내용
@@ -95,7 +103,7 @@
 
 <br>
 
-### 🦕 USER: 세분화ㅣ된 마이페이지 기능
+### 👤 USER: 세분화ㅣ된 마이페이지 기능
  
 > * 로그인 시 본인의 프로필사진과 닉네임이 상단 nevbar 에 표시됨
 > * 상단 nev 닉네임 or 오른쪽 사이드바 메뉴를 통해 마이페이지 기능 사용 가능
@@ -118,10 +126,13 @@
 
 <br>
 
-### 🦕 COMMUNITY: 
+### 🦕 COMMUNITY: 취미를 공유할 수 있는 소통공간
  
-> * 쓰기 귀찮다 이따쓸래
->
+> * 자유게시판에서 자유로운 글 쓰기 질문 등 가능
+> * 직관인증게시판에서 관람한 경기를 공유하고 온라인상에 경험을 기록할 수 있우
+> * 인기있는 글조회 및 필터링 검색으로 원하는 경기장, 팀, 날짜의 경기만 검색 가능
+> * 좋아요, 댓글, 북마크 기능등을 통해 다양한 소통 가능
+> * 게시글 작성자 링크를 통해 타유저와 커뮤니티 형성
 
 <details>
 <summary>미리보기</summary>
@@ -138,14 +149,14 @@
 
 <br>
 
-### 🦕 실시간채팅: Websocket 활용한 그룹채팅
+### 💬 실시간채팅: Websocket 활용한 그룹채팅
 
-> * 회원은 실시간 채팅 서비스를 통해 단체채팅방 형식으로 타 유저들과 실시간으로 소통할 수 있음.
-> * 유저는 채팅방을 개설할 수 있고 본인이 개설한 채팅방은 삭제 가능
-> * 메시지는 데이터베이스에 저장되면 방 참여 시 이전의 대화 기록까지 조회 가능
-> * 최신에 개설된 순서대로 채팅방 목록 확인 가능 , 키워드를 통해 채팅방 검색 가능
-> * 최근에 대화가 발생한 시각과 현재 참여 인원수를 목록에서 확인할 수 있음
-> * 채팅입력시 본인의 프로필사진과 닉네임이 표시됨
+> * 회원은 실시간 채팅 서비스를 통해 단체채팅방 형식으로 타 유저들과 실시간으로 소통할 수 있습니다.
+> * 유저는 채팅방을 직접 개설할 수 있고 본인이 개설한 채팅방은 삭제 가능합니다.
+> * 메시지는 데이터베이스에 저장되며 방 참여 시 이전의 대화 기록까지 조회 가능합니다.
+> * 최신에 개설된 순서대로 채팅방 목록을 확인할 수 있고, 키워드를 통해 채팅방 검색을 할 수 있습니다.
+> * 최근에 대화가 발생한 시각과 현재 참여 인원수를 목록에서 확인할 수 있습니다.
+> * 채팅입력시 본인의 프로필사진과 닉네임이 표시됩니다.
 
 <details>
 <summary>미리보기</summary>
@@ -159,13 +170,12 @@
 </div>
 </details>
 
-
 <br>
     
-### 🦕 AI ChatBot
+### 👽 AI ChatBot
 
-> * 회원은 AI 챗봇 서비스를 통해 1:1로 궁금한 점을 질문하고 응답을 받을 수 있음.
-> * 찾아보기 귀찮은 내용에 대해 빠르고 쉽게 답변을 얻을 수 있음.
+> * 회원은 AI 챗봇 서비스를 통해 1:1로 궁금한 점을 질문할 수 있습니다.
+> * 찾아보기 귀찮은 내용에 대해 빠르고 쉽게 답변을 얻을 수 있습니다.
 > * 크롤링된 우리 데이터베이스 기반으로 내용 찾아서 대답해준다는 말을 넣자.
 
 <details>
@@ -202,7 +212,7 @@
 
 ## 🚨 Trouble Shooting
 
-### [📌 트러블슈팅 바로가기](https://www.notion.so/teamsparta/Trouble-Shooting-7b2f153222b2491bb253f1bb07d40cde)
+### [📌 HomeBase 트러블슈팅 바로가기](https://www.notion.so/teamsparta/Trouble-Shooting-7b2f153222b2491bb253f1bb07d40cde)
 
 
 <br><br>
@@ -210,7 +220,7 @@
 
 ## 🎨 Wireframe
 
-### [📌 와이어프레임_바로가기](https://www.figma.com/board/EXXGmowQJDaa2qfTEWxI4v/HomeBase?node-id=0-1&node-type=canvas&t=1hxOU49yLHl8qZmy-0)
+### [📌 HomeBase 와이어프레임_바로가기](https://www.figma.com/board/EXXGmowQJDaa2qfTEWxI4v/HomeBase?node-id=0-1&node-type=canvas&t=1hxOU49yLHl8qZmy-0)
 
 
 <br><br>
@@ -232,7 +242,7 @@
 
 ## 📋 ER Diagram
 
-### [📌 ER Diagram 바로가기](https://www.notion.so/teamsparta/ER-Diagram-e56cd331c0074be79b671beae5879922)
+### [📌 HomeBase ERD 바로가기](https://www.notion.so/teamsparta/ER-Diagram-e56cd331c0074be79b671beae5879922)
 
 <br>
 
@@ -250,31 +260,99 @@
 
 ## 📜 API 명세서
 
-### [📌 API 명세서 바로가기](https://www.notion.so/teamsparta/API-8f01afa9c1614f6584700a655e30d3f8)
+### [📌 HomeBase API 명세서 바로가기](https://www.notion.so/teamsparta/API-8f01afa9c1614f6584700a655e30d3f8)
 
 <br>
 
 ### API - USER
-|Index|기능|method type|API Path|
+|Index|기능|Method type|API Path|
 |---|---|---|------|
 |1|회원가입|POST|/api/user/signup/|
 |2|로그인|POST|/api/user/signin/|
-|3|로그아웃|POST|/api/users/signout/|
+|3|로그아웃|POST|/api/user/signout/|
+|4|비밀번호 변경|PUT|/api/user/password/|
+|5|회원탈퇴|POST|/api/user/withdraw/|
+|6|프로필 조회|GET|/api/user/{str:username}/|
+|7|프로필 수정|POST|/api/user/{str:username}/|
+|8|계정 수정|PATCH|/api/user/{str:username}/|
+|9|팔로우 on/off|POST|/api/user/{str:username}/follow/|
+|10|팔로워 조회|GET|/api/user/{str:username}/followerlist/|
+|11|팔로잉 조회|GET|/api/user/{str:username}/followinglist/|
+|12|내가쓴 글(free)조회|GET|/api/user/{str:username}/free/|
+|13|내가쓴 글(live)조회|GET|/api/user/{str:username}/live/|
+|14|내가쓴 댓글조회|GET|/api/user/{str:username}/commentlist/|
+|15|내 북마크 글조회|GET|/api/user/{str:username}/bookmark/|
+
+<br>
 
 ### API - DATA
-|Index|기능|method type|API Path|
+|Index|기능|Method type|API Path|
 |---|---|---|------|
-|1|회원가입|POST|/api/user/signup/|
+|1|야구뉴스 크롤링|POST|/api/data/news/crawl/|
+|2|야구뉴스 조회|GET|/api/data/news/|
+|3|선수프로필 크롤링|POST|/api/data/players/crawl/|
+|4|선수프로필 조회|GET|/api/data/players/|
+|5|선수상대전적 크롤링|POST|/api/data/players_rival/crawl/|
+|6|선수상대전적 목록 조회|GET|/api/data/players_rival/|
+|7|선수상대전적 특정 조회|GET|/api/data/players/{str:player_number}/|
+|8|팀순위 크롤링|POST|/api/data/teamrank/crawl/|
+|9|팀순위 목록 조회|GET|/api/data/teamrank/|
+|10|팀순위 특정 조회|GET|/api/data/teamrank/{str:team_number}/|
+|11|팀상세 크롤링|POST|/api/data/teamdetail/crawl/|
+|12|팀상세 목록 조회|GET|/api/data/teamdetail/|
+|13|팀상세 특정 조회|GET|/api/data/teamdetail/{str:team_number}/|
+|14|팀상대전적 크롤링|POST|/api/data/teamrival/crawl/|
+|15|팀상대전적 목록 조회|GET|/api/data/teamrival/|
+|16|팀상대전적 특정 조회|GET|/api/data/teamrival/{str:team_number}/|
+|17|유투브 크롤링|POST|/api/data/youtube/crawl/|
+
+<br>
 
 ### API - COMMUNITY
-|Index|기능|method type|API Path|
+|Index|기능|Method type|API Path|
 |---|---|---|------|
-|1|회원가입|POST|/api/user/signup/|
+|1|메인페이지|GET|/api/community/main/|
+|2|자유게시판 등록|POST|/api/community/free/|
+|3|자유게시판 목록 조회|GET|/api/community/free/|
+|4|자유게시판 상세 조회|GET|/api/community/free/{int:pk}|
+|5|자유게시판 수정|PUT|/api/community/free/{int:pk}|
+|6|자유게시판 삭제|DELETE|/api/community/free/{int:pk}|
+|7|직관인증게시판 등록|POST|/api/community/live/|
+|8|직관인증게시판 목록 조회|GET|/api/community/live/|
+|9|직관인증게시판 상세 조회|GET|/api/community/live/{int:pk}|
+|10|직관인증게시판 수정|PUT|/api/community/live/{int:pk}|
+|11|직관인증게시판 삭제|DELETE|/api/community/live/{int:pk}|
+|12|자유게시판 대/댓글 등록|POST|/api/community/free/{int:pk}/create_comment/|
+|13|자유게시판 대/댓글 수정|PUT|/api/community/free/{int:pk}/update_comment/|
+|14|자유게시판 대/댓글 삭제|DELETE|/api/community/free/{int:pk}/delete_comment/|
+|15|직관인증게시판 대/댓글 등록|POST|/api/community/live/{int:pk}/create_comment/|
+|16|직관인증게시판 대/댓글 수정|PUT|/api/community/live/{int:pk}/update_comment/|
+|17|직관인증게시판 대/댓글 삭제|DELETE|/api/community/live/{int:pk}/delete_comment/|
+|18|자유게시판 글좋아 on/off|POST|/api/community/free/{int:pk}/toggle_like_article/|
+|19|자유게시판 댓글좋아 on/off|POST|/api/community/free/{int:pk}/toggle_like_comment/|
+|20|자유게시판 북마크 on/off|POST|/api/community/free/{int:pk}/toggle_bookmark/|
+|21|직관인증게시판 좋아요 on/off|POST|/api/community/live/{int:pk}/toggle_like_article/|
+|22|직관인증게시판 댓글좋아 on/off|POST|/api/community/live/{int:pk}/toggle_like_comment/|
+|23|직관인증게시판 북마크 on/off|POST|/api/community/live/{int:pk}/toggle_bookmark/|
+|24|자유게시판 검색|GET|/api/community/free/?q=keyword/|
+|25|자유게시판 인기조회|GET|/api/community/free/?sort=hot/|
+|26|직관인증게시판 필터링 검색|GET|/api/community/live/?game_date,team,stadium=.../|
+|27|직관인증게시판 인기조회|GET|/api/community/live/?sort=hot/|
+
+<br>
 
 ### API - CHAT
-|Index|기능|method type|API Path|
+|Index|기능|Method type|API Path|
 |---|---|---|------|
-|1|회원가입|POST|/api/user/signup/|
+|1|채팅방 만들기|POST|/api/chat/chatrooms/|
+|2|채팅방 목록 조회|GET|/api/chat/chatrooms/|
+|3|채팅방 특정 조회|GET|/api/chat/chatrooms/{int:pk}/|
+|4|채팅방 삭제|DELETE|/api/chat/chatrooms/{int:pk}/|
+|5|채팅방 참여|POST|/api/chat/chatrooms/join/|
+|6|채팅방 나가기|POST|/api/chat/chatrooms/leave/|
+|7|메시지 보내기|POST|/api/chat/messages/|
+|8|AI 챗봇|POST|/api/chat/conversations/|
+
 
 
 
