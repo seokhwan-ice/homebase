@@ -43,6 +43,16 @@
             <button type="submit">변경사항 저장</button>
             <button type="button" id="cancel-button">취소</button>
             <button type="button" id="delete-account-button">계정 탈퇴</button>
+            
+            <div id="deleteModal" style="display:none;">
+                <div class="modal-content">
+                    <h2>회원 탈퇴</h2>
+                    <p>비밀번호를 입력하세요:</p>
+                    <input type="password" id="deletePassword" placeholder="비밀번호">
+                    <button id="confirm-delete-button">탈퇴</button>
+                    <button id="cancel-delete-button">취소</button>
+                </div>
+            </div>
         </form>
 
         <div id="footer"></div>

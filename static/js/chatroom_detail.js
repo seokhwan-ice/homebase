@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await axios.get(`chat/chatrooms/${roomId}/`);
         const chatroom = response.data;
-        console.log('채팅방 정보:', chatroom);
 
         // chatroom_image
         const chatroomImage = chatroom.image
@@ -21,15 +20,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // 현재 유저 === 방장 >>>>> 방 삭제 버튼 표시
         const userId = response.data.user_id;
-        console.log('현재 유저 ID:', userId);
-        console.log('방장 ID:', chatroom.creator_id);
 
         if (chatroom.creator_id === userId) {
             document.getElementById('delete-chatroom-button').style.display = 'block';
         }
 
     } catch (error) {
-        console.error('채팅방 정보 불러오기 실패:', error);
         alert('채팅방 정보 불러오기 실패..');
         return;
     }
@@ -39,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const response = await axios.post(`chat/chatrooms/${roomId}/join/`);
         userNickname = response.data.nickname;
         userProfileImage = response.data.profile_image;
-        console.log('참여자 닉네임:', userNickname);
 
         // 참여자 수 바로 업데이트
         const roomResponse = await axios.get(`chat/chatrooms/${roomId}/`);
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('participants-count').textContent = participantsCount;
 
     } catch (error) {
-        console.error('참여자 등록 실패:', error);
         return;
     }
 
@@ -68,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         messages.forEach(message => addMessage(message));
     });
 
+
     // MAC 엔터 이슈
     let isComposing = false;
     
@@ -80,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
 
-    // 메시지 입력 엔터키
     document.getElementById('chat-message-input').addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && !isComposing) {
             event.preventDefault();
@@ -107,9 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     room: roomId,
                     content: message
                 });
-                console.log('메시지 데이터베이스 저장 성공!:', response.data);
             } catch (error) {
-                console.error('메시지 데이터베이스 저장 실패:', error);
             }
 
             // 3. 입력 필드 비우기
@@ -119,7 +111,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 메시지 수신
     socket.on('receiveMessage', function(message) {
-        console.log('메시지 수신 어떻게 생겼는지 확인:', message);
         addMessage(message);
     });
 
@@ -131,7 +122,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 alert('채팅방 삭제 완료!');
                 location.href = 'chatroom_list.html';
             } catch (error) {
-                console.error('채팅방 삭제 실패:', error);
                 alert('채팅방 삭제 실패.');
             }
         }
@@ -146,7 +136,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 alert('채팅방에서 나갔습니다!');
                 location.href = 'chatroom_list.html';
             } catch (error) {
-                console.error('채팅방 나가기 실패:', error);
                 alert('채팅방 나가기 실패.');
             }
         }

@@ -70,7 +70,6 @@ async function getUserProfile() {
 
     } catch (error) {
         console.error('프로필 정보를 가져오는 중 오류 발생:', error);
-        alert('프로필 정보를 불러오는 중 오류가 발생했습니다.');
     }
 }
 

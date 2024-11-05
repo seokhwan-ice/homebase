@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from .models import TeamRecord  # 모델 import
 
 
-def fetch_team_data(year=2024):
+def fetch_team_data():
     urls = [
         (
             "2002",

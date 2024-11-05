@@ -70,7 +70,6 @@ class PlayerRecord(models.Model):
 
 
 class GameRecord(models.Model):
-    year = models.IntegerField()
     url = models.URLField()
     date = models.DateField()
     team_1 = models.CharField(max_length=100)
@@ -167,7 +166,7 @@ class TeamDetail(models.Model):
         verbose_name_plural = "팀 통계"
 
     def __str__(self):
-        return f"{self.year} {self.team} "
+        return f"{self.year} {self.team} - {self.rank}위"
 
 
 class WeatherData(models.Model):

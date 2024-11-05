@@ -67,6 +67,8 @@ io.on('connection', (socket) => {
     // AI 메시지 처리
     socket.on('sendMessageToBot', async ({ userInput }) => {
         try {
+
+            // const response = await axios.post('http://localhost:8000/api/chatbot/conversations/', { user_input: userInput });
             const response = await axios.post('https://home-base.co.kr/api/chatbot/conversations/', { user_input: userInput });
             const aiResponse = response.data.ai_response;
 

@@ -23,7 +23,7 @@ team_numbers = {
 }
 
 
-def team_rank(year=2024):
+def team_rank(year):
     # 크롤링할 URL
     base_url = "https://statiz.sporki.com/season/"
     url = f"{base_url}?m=teamoverall&year={year}"
@@ -90,7 +90,9 @@ def team_rank(year=2024):
 
                 # 추후 활용을 위해 리스트에도 추가
                 teams.append(
-                    {                        
+
+                    {
+
                         "rank": rank,
                         "name": team_name,
                         "logo_url": logo_url,

@@ -27,26 +27,21 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     return response;
 }, async error => {
-    console.log("응답에 에러 있음. Axios 응답 인터셉터 작동 중.");
 
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
-        console.log("401 에러 발생 -> 토큰 갱신할 준비 중.")
         originalRequest._retry = true;
 
         try {
-            console.log("401 에러 -> 토큰 갱신 시도 중.");
             const response = await refreshAccessToken();
 
             const newAccessToken = response.data.access;
             if (newAccessToken) {
-                console.log("토큰 갱신 성공!!")
                 localStorage.setItem('token', newAccessToken);
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
                 return axios(originalRequest);
             }
         } catch (e) {
-            console.error("토큰 갱신 실패. 에러:", e);
             alert('세션이 만료되었습니다. 다시 로그인해주세요.');
             localStorage.removeItem('token');
             localStorage.removeItem('refresh_token');
@@ -58,25 +53,19 @@ axios.interceptors.response.use(response => {
 
 // 토큰 갱신 함수
 async function refreshAccessToken() {
-    console.log("refreshAccessToken 함수 호출은 되고 있는거니");
 
     const refreshToken = localStorage.getItem('refresh_token');
     if (!refreshToken) {
-        console.error("리프레시 토큰 없음. 로그인 페이지로 이동함.");
         location.href = 'user_signin.html';
         return Promise.reject("리프레시 토큰 없음");
     }
 
     try {
-        console.log("리프레시 토큰으로 토큰 갱신 시도 중.");
         const response = await axios.post('user/refresh/', {
             refresh: refreshToken
         });
-
-        console.log("토큰 갱신 성공. 응답:", response.data);
         return response;
     } catch (error) {
-        console.error("토근 갱신 실패. 에러:", error);
         throw error;
     }
 }
@@ -88,8 +77,6 @@ document.addEventListener('keydown', () => userActive = true);
 
 // 유저가 사용중이면 25분마다 토큰 갱신
 setInterval(() => {
-    console.log("20초 지났다. userActive 상태:", userActive);
-
     if (userActive) {
         refreshAccessToken();
         userActive = false;
@@ -181,29 +168,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const signupButton = document.querySelector('a[href="user_signup.html"]');
             const signinButton = document.querySelector('a[href="user_signin.html"]');
             const signoutButton = document.getElementById('signout-link');
-            const profileLink = document.getElementById('profile-link');
+            const navbarUsername = document.getElementById('profile-link');
+            const navbarProfileImg = document.getElementById('navbar-profile-img');
             const rightSidebar = document.querySelector('.sidebar-right');
 
             function handleSidebarAndButtons() {
-                const screenWidth = window.innerWidth;
                 const username = localStorage.getItem('username');
 
                 if (token) {
                     signupButton.style.display = 'none';
                     signinButton.style.display = 'none';
                     signoutButton.style.display = 'block';
-                    profileLink.style.display = 'block';
+                    navbarUsername.style.display = 'block';
+                    navbarProfileImg.style.display = 'block';
                     rightSidebar.style.display = 'block';
 
                     if (username) {
                         // 모든 링크에 username 추가
-                        document.querySelector('a[href="user_my_profile.html"]').href = `user_my_profile.html?username=${username}`;
                         document.querySelector('a[href="user_free_list.html"]').href = `user_free_list.html?username=${username}`;
                         document.querySelector('a[href="user_live_list.html"]').href = `user_live_list.html?username=${username}`;
                         document.querySelector('a[href="user_comment_list.html"]').href = `user_comment_list.html?username=${username}`;
                         document.querySelector('a[href="user_bookmark_list.html"]').href = `user_bookmark_list.html?username=${username}`;
                         document.querySelector('a[href="user_followerlist.html"]').href = `user_followerlist.html?username=${username}`;
                         document.querySelector('a[href="user_followlist.html"]').href = `user_followlist.html?username=${username}`;
+                        const profileImage = localStorage.getItem('profile_image');
+                        navbarUsername.textContent = username;
+                        navbarProfileImg.src = profileImage && profileImage !== 'null'
+                            ? profileImage.replace(/.*\/media/, '/media')
+                            : 'https://i.imgur.com/CcSWvhq.png';
 
                     } else {
                         alert('로그인이 필요합니다.');
@@ -213,7 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     signupButton.style.display = 'block';
                     signinButton.style.display = 'block';
                     signoutButton.style.display = 'none';
-                    profileLink.style.display = 'none';
+                    navbarUsername.style.display = 'none';
+                    navbarProfileImg.style.display = 'none';
                     rightSidebar.style.display = 'none';
                 }
             }
@@ -222,8 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('resize', handleSidebarAndButtons);
 
             // [내프로필]
-            if (profileLink) {
-                profileLink.addEventListener('click', (event) => {
+            if (navbarUsername) {
+                navbarUsername.addEventListener('click', (event) => {
                     event.preventDefault();  // 기본 링크 동작 막기
                     const username = localStorage.getItem('username'); // localStorage에서 username 가져오기
                     if (username) {
@@ -245,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         try {
                             await axios.post('user/signout/', { refresh: refreshToken });
                         } catch (error) {
-                            console.error("로그아웃 중 실패. 서버 오류?:", error);
+                            alert('로그아웃 실패')
                         }
                     }
 
